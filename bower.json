@@ -1,0 +1,30 @@
+{
+  "name": "jack-ketch-4-flow",
+  "version": "0.0.1",
+  "authors": [
+    "Alejo Ceballos <alejoceballos75@gmail.com>"
+  ],
+  "description": "A flow executor based on a JSON structured file",
+  "main": "jack-ketch-4-flow.js",
+  "moduleType": [
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "flow",
+    "execution",
+    "javascript"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/alejoceballos/jack-ketch-4-flow",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "q": "~1.0.1"
+  }
+}
