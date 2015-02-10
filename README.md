@@ -53,11 +53,11 @@ var TestAction = function() {
         context.result = 1 + 1;
     };
     
-    this.sum = displayRight() {
+    this.displayRight = function() {
         alert('Right');
     };
 
-    this.sum = displayWrong() {
+    this.displayWrong = function() {
         alert('Wrong');
     };
 }
@@ -88,7 +88,7 @@ One thing that was absolutely impressive was the capability of our stakeholder t
 #### Why "Jack Ketch"?
 Well, I wanted something that meant "to execute", after all, this engine will be executing a flow. But "executor" or "runner" seemed too lame. So I remembered that an "executioner" executes people (of course, in another way) and then came the idea to call it [Jack Ketch](http://en.wikipedia.org/wiki/Jack_Ketch ""). Still lame? Well... Whatever man, maybe I'll change it in the future.
 
-## The Flow
+## The Flow Structure
 The main idea of this library is to:
 
 1. Allow the execution of a workflow binding operations to its "executable" nodes;
@@ -128,3 +128,12 @@ For that I will use a limited set of UML's Activity Diagram elements, such as:
 I'm not going to explain any of these nodes in details, for that I would refer to [Visual Paradigm's Activity Diagram](http://www.visual-paradigm.com/VPGallery/diagrams/Activity.html "Activity Diagram Explanation") explanation.
 
 **NOTE:** I did not included the **merge node** on purpose. In my opinion it will not be necessary in this initial versions.
+
+## JSON Representation
+TBD
+
+## The Context Object
+TBD
+
+# The Visual Diagram
+TBD
