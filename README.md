@@ -1,10 +1,10 @@
 # Jack Ketch for JS Flows
-A flow executor for javascript code.
+A flow executor for javascript code. Hopefully it will work in both client and server side.
 
-**NOTE:** This document was created on February 9, 2015. Last update was on *February 10, 2015*.
+**NOTE:** This document was created on February 9, 2015. Last update was on *February 11, 2015*.
 
 ## Goal
-Get a JSON data structure representing something similar to an [Activity Diagram](http://en.wikipedia.org/wiki/Activity_diagram "Activity Diagram") and execute it!
+Get a JSON data structure representing something similar to an [Activity Diagram](http://en.wikipedia.org/wiki/Activity_diagram "Activity Diagram") and **execute it**!
 
 Mainly get something like the diagram below:
 
@@ -97,33 +97,86 @@ The main idea of this library is to:
 
 For that I will use a limited set of UML's Activity Diagram elements, such as:
 
-1. Initial Node
+#### 1. Initial Node
 
- ![initial-node.jpg](README/initial-node.jpg "Initial Node")
+![initial-node.jpg](README/initial-node.jpg "Initial Node")
+ 
+It is only a kickstart point to let the engine know where to begin processing.
 
-2. Action Node
+**Rules:**
++ No flow coming into;
++ Only one flow going out;
++ Its outgoing flow must target an Action Node.
+
+#### 2. Action Node
 
  ![action-node.jpg](README/action-node.jpg "Action Node")
 
-3. Decision Node
+Where the magic happens! Each action node corresponds to a programming unit responsible for some real processing of the workflow. It is done by associating one callback (function/method) to it. 
+
+Any callback will always receive one object as argument, this object correspons to the flow context, where all data is passed by.
+
+**Rules:**
++ Many as possible flows coming into;
++ Only one flow going out;
++ Its outgoing flow may target another Action Node, a Final Node, a Decision Node, a Fork Node and even a Join Node, but only if it is part of an asynchronous flow started by a previous Fork Node.
+
+#### 3. Decision Node
 
  ![decision-node.jpg](README/decision-node.jpg "Decision Node")
 
-4. Fork Node
+Will take the decision of which will be the next alue expected tostep of the workflow. 
+
+This node must be set with the context object's attribute value corresponding to the next node to be processed.
+
+**Rules:**
++ Many as possible flows coming into;
++ Many as possible flows going out.
++ Its outgoing flow may target an Action Node, a Final Node, another Decision Node or a Fork Node. To prevent unexpected behaviours I discourage targeting a join node.
+
+#### 4. Fork Node
 
  ![fork-node.jpg](README/fork-node.jpg "Fork Node")
 
-5. Join Node
+Starts an asynchronous process.
+
+All flows going out a Fork Node will be treated asynchronously until they found a Join Node, where processing becomes synchronous again.
+
+**Rules:**
++ Many as possible flows coming into;
++ Many as possible flows going out.
++ Its outgoing flow may target an Action Node or a Decision Node. Do not terminate an asynchronous process without joining it again, please.
+
+#### 5. Join Node
 
  ![join-node.jpg](README/join-node.jpg "Join Node")
+
+Responsible for gathering all asynchronous processes started by a Fork Node.
  
-6. Control Flow
+**Rules:**
++ Many as possible flows coming into;
++ Only one flow going out;
++ Its outgoing flow may target an Action Node, Decision Node, a Final Node or another Fork Node. Think about it! I could only start a set of asynchronous processes to speed up data gathering. After having all data needed, start another to speed up its use.
 
- ![control-flow.jpg](README/control-flow.jpg "Control Flow")
-
-7. Final Node
+#### 6. Final Node
 
  ![final-node.jpg](README/final-node.jpg "Final Node")
+ 
+Stablishes the end of the flow.]
+
+Actually, this node isn't really necessary, for example, if I just reach a last Action Node, the flow is terminated too. But the Final Node, besides stablishing a formal end to our workflow, should allow the return of the context flow object to the programming structure that started it.
+
+**Rules:**
++ Many as possible flows coming into;
++ No flow going out;
+
+#### 7. Control Flow
+
+ ![control-flow.jpg](README/control-flow.jpg "Control Flow")
+ 
+Links two (and only two) nodes together. Indicates from where to where the flow goes.
+
+#### NOTES
 
 I'm not going to explain any of these nodes in details, for that I would refer to [Visual Paradigm's Activity Diagram](http://www.visual-paradigm.com/VPGallery/diagrams/Activity.html "Activity Diagram Explanation") explanation.
 
@@ -133,7 +186,20 @@ I'm not going to explain any of these nodes in details, for that I would refer t
 TBD
 
 ## The Context Object
-TBD
+The context object is just a regular Javascript object that will be passed on to each Action Node so each part of the flow can make use of previous processing information.
 
-# The Visual Diagram
-TBD
+# Modules
+
+## JSON Flow Parser
++ Transforms the JSON flow structure in connected object instances;
++ Relates each Action Node object to a callback function.
+
+## Workflow Engine
++ Executes the connected object instances by "traveling" through each dependency tree;
++ Action Nodes must execute the callback;
++ Decision Nodes must check for context attributes to drive the flow;
++ Fork Nodes must start a set of promises to be called asynchronously;
++ Join Nodes must gather all this asynchronous promises;
+
+# Visually Drawing
+Will be addressed in another OSS project using [Raphaël - JavaScript Library](http://raphaeljs.com/ "Raphael").
