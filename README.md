@@ -180,7 +180,7 @@ Links two (and only two) nodes together. Indicates from where to where the flow 
 
 I'm not going to explain any of these nodes in details, for that I would refer to [Visual Paradigm's Activity Diagram](http://www.visual-paradigm.com/VPGallery/diagrams/Activity.html "Activity Diagram Explanation") explanation.
 
-**NOTE:** I did not included the **merge node** on purpose. In my opinion it will not be necessary in this initial versions.
+I did not included the **merge node** on purpose. In my opinion it will not be necessary in this initial versions.
 
 ## JSON Representation
 TBD
