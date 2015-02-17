@@ -1,7 +1,7 @@
 # Jack Ketch for JS Flows
 A flow executor for javascript code. Hopefully it will work in both client and server side.
 
-**NOTE:** This document was created on February 9, 2015. Last update was on *February 11, 2015*.
+**NOTE:** This document was created on February 9, 2015. Last update was on *February 17, 2015*.
 
 ## Goal
 To get a JSON data structure representing something similar to an [Activity Diagram](http://en.wikipedia.org/wiki/Activity_diagram "Activity Diagram") and **execute it**!
