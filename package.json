@@ -13,6 +13,7 @@
     "grunt-contrib-watch": "~0.6.1",
     "grunt-karma": "~0.9.0",
     "jasmine-core": "~2.0.4",
+    "jasmine-node": "~1.14.5",
     "karma-jasmine": "~0.2.3",
     "karma-chrome-launcher": "~0.1.5",
     "karma-firefox-launcher": "~0.1.3"

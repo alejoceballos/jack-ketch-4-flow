@@ -1,64 +1,93 @@
-# Jack Ketch for JS Flows
+﻿# Jack Ketch for JS Flows
 A flow executor for javascript code. Hopefully it will work in both client and server side.
 
-**NOTE:** This document was created on February 9, 2015. Last update was on *February 17, 2015*.
+**NOTES:** 
+
+1. At this moment, only the documentation can be validated. No code was developed (besides some tests to check the better structure to work with);
+2. This document was created on **February 9, 2015**. Last update was on ***February 20, 2015***.
 
 ## Goal
 To get a JSON data structure representing something similar to an [Activity Diagram](http://en.wikipedia.org/wiki/Activity_diagram "Activity Diagram") and **execute it**!
 
 In other words, the main goal is to get something like the diagram below...
 
-![One Plus One Flow](README/one-plus-one-flow.jpg "One Plus One")
+![Activity Diagram](README/async-plus-operation-flow.jpg "Activity Diagram")
 
-... That would be transformed into a JSON data structure similar to the one below...
+... And transform into a set of data structures similar to the ones below...
 
 ```javascript
-{
-    "initial-node": { "id": "#1", "to-node": "#2" },
-    "action-nodes": [
-        { "id": "#2", "to-node": "#3", "callback": "TestAction::sum" },
-        { "id": "#4", "to-node": "#6", "callback": "TestAction::displayRight" },
-        { "id": "#5", "to-node": "#6", "callback": "TestAction::displayWrong" }
-    ],
-    "decision-nodes": [
-        {
-            "id": "#3",
-            "to-nodes": [
-                {
-                    "to-node": "#4",
-                    "context": {
-                        "attribute": "result",
-                        "value": "false"
-                    }
-                },
-                {
-                    "to-node": "#5",
-                    "context": {
-                        "attribute": "result",
-                        "value": "true"
-                    }
-                }
-            ]
-        }
-    ],
-    "final-node": { "id": "#6" }
-}
+var initialNodes = [ 
+    { id: '#IN:0001' } 
+];
+
+var forkNodes = [ 
+    { id: '#FN:0003' } 
+];
+
+var actionNodes = [ 
+    { id: '#AN:0006', callback: 'SimpleDiagram::sumOnePlusOne' },
+    { id: '#AN:0007', callback: 'SimpleDiagram::sumTwoPlusTwo' },
+    { id: '#AN:0012', callback: 'SimpleDiagram::sumXPlusY' },
+    { id: '#AN:0017', callback: 'SimpleDiagram::showOk' },
+    { id: '#AN:0018', callback: 'SimpleDiagram::showNotOk' }
+];
+
+var joinNodes = [
+    { id: '#JN:0010' } 
+];
+
+var decisionNodes = [
+    { 
+        id: '#DN:0014', 
+        context: [ 
+            { attribute: 'v', condition: '=', value: '6', controlFlows: '#CF:0015' }
+        ],
+        otherwise: { controlFlow: '#CF:0016' }
+    } 
+];
+
+var finalNodes = [ 
+    { id: '#FN:0021' } 
+];
+
+var controlFlows = [
+    { id: '#CF:0002', from: '#IF:0001', to: '#FN:0003' },
+    { id: '#CF:0004', from: '#FN:0003', to: '#AN:0006' },
+    { id: '#CF:0005', from: '#FN:0003', to: '#AN:0007' },
+    { id: '#CF:0008', from: '#AN:0006', to: '#JN:0010' },
+    { id: '#CF:0009', from: '#AN:0007', to: '#JN:0010' },
+    { id: '#CF:0011', from: '#JN:0010', to: '#AN:0012' },
+    { id: '#CF:0013', from: '#AN:0012', to: '#DN:0014' },
+    { id: '#CF:0015', from: '#DN:0014', to: '#AN:0017' },
+    { id: '#CF:0016', from: '#DN:0014', to: '#AN:0018' },
+    { id: '#CF:0019', from: '#AN:0017', to: '#FN:0021' },
+    { id: '#CF:0020', from: '#AN:0018', to: '#FN:0021' }
+];
+
 ```
 
-... That would be bound to the structure below...
+... That would be bound to some (object's) callbacks similar to the ones below...
 
 ```javascript
-var TestAction = function() {
-    this.sum = function(context) {
-        context.result = 1 + 1;
+var SimpleDiagram = function() {
+    this.sumOnePlusOne = function(context) {
+        context.x = 1 + 1;
     };
     
-    this.displayRight = function() {
-        alert('Right');
+    this.sumTwoPlusTwo = function(context) {
+        context.y = 2 + 2;
+    };
+    
+    this.sumXPlusY = function(context) {
+        context.v = context.x + context.y;
     };
 
-    this.displayWrong = function() {
-        alert('Wrong');
+    this.showOk = function() {
+        alert('Ok');
+    };
+
+    this.showNotOk = function() {
+        alert('Not Ok');
     };
 }
 ```
@@ -68,6 +97,13 @@ var TestAction = function() {
 This way the requirements provided by the stakeholder **can** be easily translated to an execution flow, easy to visualize, therefore easier to understand.
 
 The developer role is to provide programming structures that can be bound to the flow and executed by an external engine.
+
+## Special Note
+I intend to split this project in 3 (three) parts. So this one can focus on the metadata structures and execution engine.
+
+The possibility to draw the diagram will be addressed in another project called **Jack Ketch for Draw** (or something similar), using [Raphaël - JavaScript Library](http://raphaeljs.com/ "Raphael"). I haven't decided yet what will be the JSON format the drawing structure will save the diagrams, but there is some possibility that I will have to provide some model transformation between the drawing structure and the executable one.
+
+A third project is an HTML 5 application (probably called **Jack Ketch App**) that will allow plotting the diagram and setting each nodes attributes (something similar to an IDE).
 
 ## History
 The previous goal may sound familiar to some, and sometimes you may call it [BPM](http://en.wikipedia.org/wiki/Business_process_management "Business process management"), but this project is not that ambitious.
@@ -178,7 +214,7 @@ Links two (and only two) nodes together. Indicates from where to where the flow 
 
 **Basic Rules:**
 + Link one node to another;
-+ The start node cannot be the end node.
++ The start node cannot be the same as the end node.
 
 #### NOTES
 
@@ -186,49 +222,31 @@ I'm not going to explain any of these elements in details, for that I would refe
 
 I did not included the **merge node** on purpose. In my opinion it will not be necessary in this initial versions. As for all the other elements existing in UML 2.0 Activity Diagram, once again: "too much sometimes is too much".
 
-## JSON Representation
-TBD
-
 ## The Flow Context Object
-The *flow context* object is just a regular Javascript object that will be passed on to each Action Node so each part of the flow can make use of previous processing information.
+The *flow context* object is just a regular Javascript object that will be passed on to each node in the diagram so each part of the flow can make use of previous processed information.
 
 One good use for this context object is, for instance, start a transaction before starting the flow, put the transaction object inside the context object and then start the flow execution passing the context object to it. Once the flow is finished, commit the transaction (or roll it back).
 
 # Modules
 
 ## JSON Flow Parser & Transformer
-The JK4Flow parsing and transformation takes a 3 step process to create a flow structure from a JSON string.
+The JK4Flow parsing and transformation takes a 2 step process to create a flow structure possible of being executed.
 
-#### Step 1: JSON to Javascript object (basic validation)
-The first step is a basic transformation from a JSON string to an identical structured Javascript object. This javascript native object operation is part of the ECMAScript5 and also provides validation during the trasnformation process that checks if the string being trasnformed is a valid JSON structure.
+#### Step 1: Basic Validation
+The first step is a basic validation of the arrays. All rules (previously described) must be followed or the process will not be continued.
 
-```javascript
-    try {
-        var workflow = JSON.parse(json);
-    } catch (err) {
-        ...
-    }
-```
+For example: it checks for the existence of an initial (and one outgoing flow), a final node (with no outgoing flows) and at least one action node (also with only one outgoing flow). If there are decision nodes, or fork and join nodes, its basic structure is also validated.
 
-#### Step 2: Middleware Transformation and validation
-The second step goes through the Javascript object structure to assure that the main objects of the flow diagram are there. In other words: 
+#### Step 2: Object Transformation
+The second step goes through the array structures creating a "tree-like" object structure. It also relates each Action Node object to its callback function.s
 
-1. It checks for the existence of an initial (and one outgoing flow), a final node (with no outgoing flows) and at leat one action node (also with only one outgoing flow). If there are decision nodes, or fork and join nodes, its basic structure is also validated;
-
-
-2. Creates an intermediate "mapped" structure that will hold all objects for a third validation phase of the complete parsing process. With mapped structure I mean a set of indexed arrays. One indexed by the type of the node it holds and the other one indexed by their ids.
-
-
-## JSON Flow Trasnformer
-+ Transforms the JSON flow structure in connected object instances;
-+ Relates each Action Node object to a callback function.
+### Note about the 2 step process
+Just a reminder, to get to the arrays structure a previous transformation may be needed. It will depend on the source of the diagram. For example, if I use [ArgoUML](http://argouml.tigris.org/ "") for drawing and exporting Activity Diagrams to XMI I would have to provide a transformation engine from this format to my metadata format (the JS arrays), so the 2 step process may be possible of execution.
 
 ## Workflow Engine
 + Executes the connected object instances by "traveling" through each dependency tree;
++ The *flow context* "travels along", node by node;
 + Action Nodes must execute the callback;
 + Decision Nodes must check for context attributes to drive the flow;
 + Fork Nodes must start a set of promises to be called asynchronously;
 + Join Nodes must gather all this asynchronous promises;
-
-# Visually Drawing
-Will be addressed in another OSS project using [Raphaël - JavaScript Library](http://raphaeljs.com/ "Raphael").

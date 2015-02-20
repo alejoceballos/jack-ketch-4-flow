@@ -2,13 +2,13 @@
 
 var FLOW_ATTRS = {
     INITIAL: 'initial-node',
-    FINAL: 'final-node',
     ACTIONS: 'action-nodes',
     DECISIONS: 'decision-nodes',
+    FINAL: 'final-node',
+    CONTROL_FLOW: 'control-flow',
     ID: 'id',
     CALLBACK: 'callback',
-    TO_NODE: 'to-node',
-    TO_NODES: 'to-nodes',
+    TO_NODE: 'to',
     CONTEXT: 'context',
     ATTRIBUTE: 'attribute',
     VALUE: 'value'
@@ -46,29 +46,10 @@ var ERROR_MESSAGES = {
 // * * *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
 // * * *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
 
-var validateInitialNode = function(initialNode) {
-    if (!initialNode) {
-        return {
-            success: false,
-            message: ERROR_MESSAGES.INITIAL_NODE.NONE
-        };
-    }
+var currentUUID = 0;
 
-    if (!initialNode.id) {
-        return {
-            success: false,
-            message: ERROR_MESSAGES.INITIAL_NODE.NO_ID
-        };
-    }
-
-    if (!initialNode[FLOW_ATTRS.TO_NODE]) {
-        return {
-            success: false,
-            message: ERROR_MESSAGES.INITIAL_NODE.NO_OUTGOING
-        };
-    }
-
-    return { success: true };
+var getUUID = function() {
+    return '#' + (currentUUID++)
 };
 
 // * * *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
@@ -95,7 +76,7 @@ var validateFinalNode = function(finalNode) {
 // * * *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
 // * * *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
 
-var validateActionNode = function(actionNode) {
+var getActionNode = function(actionNode) {
     if (!actionNode) {
         return {
             success: false,
@@ -103,31 +84,36 @@ var validateActionNode = function(actionNode) {
         };
     }
 
-    if (!actionNode.id) {
+    if (!actionNode[FLOW_ATTRS.ID]) {
         return {
             success: false,
             message: ERROR_MESSAGES.ACTION_NODE.NO_ID
         };
     }
 
-    if (!actionNode[FLOW_ATTRS.TO_NODE]) {
-        return {
-            success: false,
-            message: ERROR_MESSAGES.ACTION_NODE.NO_OUTGOING
-        };
-    }
-
-    if (!actionNode.callback) {
+    if (!actionNode[FLOW_ATTRS.CALLBACK]) {
         return {
             success: false,
             message: ERROR_MESSAGES.ACTION_NODE.NO_CALLBACK
         };
     }
 
+    var result = getControlFlow(actionNode[FLOW_ATTRS.CONTROL_FLOW], ERROR_MESSAGES.ACTION_NODE);
+
+    if (!result.success) return result;
+
+    result.controlFlow.from = actionNode[FLOW_ATTRS.ID];
+
+    return {
+        success: true,
+        actionNode: [ { id: actionNode[FLOW_ATTRS.ID], callback: actionNode[FLOW_ATTRS.CALLBACK] } ],
+        controlFlow: [ result.controlFlow ]
+    };
+
     return { success: true };
 };
 
-var validateActionNodes = function(actionNodes) {
+var getActionNodes = function(actionNodes) {
     if (!actionNodes || !(actionNodes instanceof Array) || actionNodes.length === 0) {
         return {
             success: false,
@@ -136,7 +122,7 @@ var validateActionNodes = function(actionNodes) {
     }
 
     for (var i = 0; i < actionNodes.length; i++) {
-        var result = validateActionNode(actionNodes[i]);
+        var result = getActionNode(actionNodes[i]);
         if (!result.success) return result;
     }
 
@@ -250,16 +236,76 @@ var validateWorkflow = function(workflow) {
         };
     }
 
-    if (result.success) result = validateInitialNode(workflow[FLOW_ATTRS.INITIAL]);
-    if (result.success) result = validateActionNodes(workflow[FLOW_ATTRS.ACTIONS]);
+    var ids = { };
+
+    if (result.success) {
+        result = getInitialNode(workflow[FLOW_ATTRS.INITIAL]);
+    }
+    if (result.success) result = getActionNodes(workflow[FLOW_ATTRS.ACTIONS]);
     if (result.success) result = validateDecisionNodes(workflow[FLOW_ATTRS.DECISIONS]);
 
     return result;
 };
 
-var parse = function(json) {
+// * * *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+// * * *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+
+var getInitialNode = function(initialNode) {
+    if (!initialNode) {
+        return {
+            success: false,
+            message: ERROR_MESSAGES.INITIAL_NODE.NONE
+        };
+    }
+
+    if (!initialNode[FLOW_ATTRS.ID]) {
+        return {
+            success: false,
+            message: ERROR_MESSAGES.INITIAL_NODE.NO_ID
+        };
+    }
+
+    var result = getControlFlow(initialNode[FLOW_ATTRS.CONTROL_FLOW], ERROR_MESSAGES.INITIAL_NODE);
+
+    if (!result.success) return result;
+
+    result.controlFlow.from = initialNode[FLOW_ATTRS.ID];
+
+    return {
+        success: true,
+        initialNode: [ { id: initialNode[FLOW_ATTRS.ID] } ],
+        controlFlow: [ result.controlFlow ]
+    };
+};
+
+// * * *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+// * * *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+
+var getControlFlow = function(controlFlow, ERR_NODE_MSG) {
+
+    if (!controlFlow || !controlFlow[FLOW_ATTRS.ID] || !controlFlow[FLOW_ATTRS.TO_NODE]) {
+        return {
+            success: false,
+            message: (ERR_NODE_MSG) ? ERR_NODE_MSG.NO_OUTGOING : 'No outgoing control flow'
+        };
+    }
+
+    return {
+        success: true,
+        controlFlow: {
+            id: controlFlow[FLOW_ATTRS.ID],
+            to: controlFlow[FLOW_ATTRS.TO_NODE]
+        }
+    };
+};
+
+// * * *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+// * * *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+
+var getWorkflowFromJson = function(json) {
     try {
         var workflow = JSON.parse(json);
+
     } catch (err) {
         return {
             success: false,
@@ -267,15 +313,32 @@ var parse = function(json) {
         }
     }
 
-    var result = validateWorkflow(workflow);
-    if (!result.success) return result;
-
     return {
         success: true,
         workflow: workflow
-    };
+    }
+};
+
+// * * *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+// * * *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+
+var parse = function(json) {
+    var result = getWorkflowFromJson(json);
+
+    if (result.success) {
+        var workflow = result.workflow;
+    }
+
+    return result;
 };
 
 module.exports = {
+    FLOW_ATTRS: FLOW_ATTRS,
+    ERROR_MESSAGES: ERROR_MESSAGES,
+    getWorkflowFromJson: getWorkflowFromJson,
+    getControlFlow: getControlFlow,
+    getInitialNode: getInitialNode,
+    getActionNode: getActionNode,
+    getActionNodes: getActionNodes,
     parse: parse
 };
