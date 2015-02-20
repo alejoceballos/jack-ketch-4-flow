@@ -1,4 +1,4 @@
-﻿# Jack Ketch for JS Flows
+﻿# **Jack Ketch for JS Flows**
 A flow executor for javascript code. Hopefully it will work in both client and server side.
 
 **NOTES:** 
@@ -250,3 +250,16 @@ Just a reminder, to get to the arrays structure a previous transformation may be
 + Decision Nodes must check for context attributes to drive the flow;
 + Fork Nodes must start a set of promises to be called asynchronously;
 + Join Nodes must gather all this asynchronous promises;
+
+#Thanks to...
+The development team and supporters of the applications below, without them I could not even start this project at such low cost (I'm $upporting some of them, just to let you know):
++ Astah Community - [http://astah.net/editions/community](http://astah.net/editions/community "http://astah.net/editions/community")
++ Gimp - [http://www.gimp.org/](http://www.gimp.org/ "http://www.gimp.org/")
++ Git - [http://git-scm.com/](http://git-scm.com/ "http://git-scm.com/")
++ GitHub - [https://github.com/](https://github.com/ "https://github.com/")
++ Node.js - [http://nodejs.org/](http://nodejs.org/ "http://nodejs.org/")
++ MdCharm - [http://www.mdcharm.com/](http://www.mdcharm.com/ "http://www.mdcharm.com/")
++ Ubuntu Desktop - [http://www.ubuntu.com/desktop](http://www.ubuntu.com/desktop "http://www.ubuntu.com/desktop")
+
+
+I could thank to [WebStorm](https://www.jetbrains.com/webstorm/ "WebStorm") team and all the guys in JetBrains, but since I'm paying for their software, I won't.
