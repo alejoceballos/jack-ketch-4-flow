@@ -54,7 +54,7 @@ I intend to split this project in 4 (four) parts. So this one can focus on the e
 
 The possibility to draw the diagram will be addressed in another project called **Jack Ketch for Draw** (or something similar), using [Raphaël - JavaScript Library](http://raphaeljs.com/ "Raphael"). I haven't decided yet what will be the JSON format the drawing structure will save the diagrams.
 
-Another project ("**Jack Ketch for Transformation**"?) will provide some model transformation between drawing structures and the executable one. The main goal is to achieve a common model metadata that can be easily transformed from different sources. The current (possible) metadata structures are defined below:
+Another project ("**Jack Ketch for Transformation**"?) will provide some model transformation between drawing structures and the executable one. The main goal is to achieve a common model metadata that can be easily transformed from different sources. The current (possible) metadata structures are defined below (based on the previous diagram):
 
 ```javascript
 var initialNodes = [ 
@@ -129,7 +129,7 @@ One thing that impressed me in the project using jBPM was the capability of our 
 #### Why "Jack Ketch"?
 Well, I wanted something that meant "to execute", after all, this engine will be executing a flow. But "executor" or "runner" seemed too lame. So I remembered that an "executioner" executes people (of course, in a different way) and then came the idea to call it [Jack Ketch](http://en.wikipedia.org/wiki/Jack_Ketch ""). Still lame? Well... Whatever, maybe I'll change it in the future.
 
-## The Flow Structure
+## [ The Flow Structure ]
 The main idea of this library is to:
 
 1. Allow the execution of a workflow binding operations to its "executable" nodes;
