@@ -17,6 +17,7 @@
 
     /**
      * Abstract Node is the template class for all nodes in the Activity diagram
+     *
      * @param {string} id The node identification
      * @param {NODE_TYPE} type Defines the type of the node being created using this constructor
      * @constructor
@@ -289,6 +290,11 @@
         }
     });
 
+    /**
+     * All condition types currently accepted by JK4Flow engine.
+     *
+     * @type {{EQ: string, NEQ: string, GT: string, GEQT: string, LT: string, LEQT: string, IN: string, ENDS: string, STARTS: string}}
+     */
     var CONDITION_TYPE = {
         EQ: 'equals',
         NEQ: 'not equals',
@@ -338,6 +344,8 @@
         });
 
         /**
+         * Checks if the current instance of the Context Output satisfies the condition. It must
+         * be used by the engine to drive the workflow to thenext node.
          *
          * @param {object} context The flow context object is just a regular Javascript object that will
          * be passed on to each node in the diagram so each part of the flow can make use of previous
