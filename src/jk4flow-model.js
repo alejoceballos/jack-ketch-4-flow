@@ -277,7 +277,7 @@
      * @param {string} id The node identification
      * @constructor
      */
-    var FinalNode = function(id) {
+    var ForkNode = function(id) {
         AbstractNode.call(this, id, NODE_TYPE.FINAL);
     };
 

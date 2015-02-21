@@ -15,8 +15,9 @@ In other words, the main goal is to get something like the diagram below...
 
 ... And transform into a set of data structures similar to the ones below...
 
+![Class Diagram](README/model-class-diagram.jpg "Class Diagram")
 ```
-NOTE: The set of arrays that were here before is going to replaced by a UML's Class Diagram. The reason is that the previous data structures were out of this project's scope as explained in the "Special Notes" topic belows.
+Note: since Javascript is not purely OO, this diagram does not strictly reflects the implementation
 ```
 ... That would be bound to some (object's) callbacks similar to the ones below...
 
