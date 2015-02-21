@@ -4,9 +4,9 @@ A flow executor for javascript code. Hopefully it will work in both client and s
 **NOTES:** 
 
 1. At this moment, only the documentation can be validated. No code was developed (besides some tests to check the better structure to work with);
-2. This document was created on **February 9, 2015**. Last update was on ***February 20, 2015***.
+2. This document was created on **February 9, 2015**. Last update was on ***February 21, 2015***.
 
-## Goal
+## [ Goal ]
 To get a JSON data structure representing something similar to an [Activity Diagram](http://en.wikipedia.org/wiki/Activity_diagram "Activity Diagram") and **execute it**!
 
 In other words, the main goal is to get something like the diagram below...
@@ -14,6 +14,47 @@ In other words, the main goal is to get something like the diagram below...
 ![Activity Diagram](README/async-plus-operation-flow.jpg "Activity Diagram")
 
 ... And transform into a set of data structures similar to the ones below...
+
+```
+NOTE: The set of arrays that were here before is going to replaced by a UML's Class Diagram. The reason is that the previous data structures were out of this project's scope as explained in the "Special Notes" topic belows.
+```
+... That would be bound to some (object's) callbacks similar to the ones below...
+
+```javascript
+var SimpleDiagram = function() {
+    this.sumOnePlusOne = function(context) {
+        context.x = 1 + 1;
+    };
+    
+    this.sumTwoPlusTwo = function(context) {
+        context.y = 2 + 2;
+    };
+    
+    this.sumXPlusY = function(context) {
+        context.v = context.x + context.y;
+    };
+
+    this.showOk = function() {
+        alert('Ok');
+    };
+
+    this.showNotOk = function() {
+        alert('Not Ok');
+    };
+}
+```
+... And execute them.
+
+This way the requirements provided by the stakeholder **can** be easily translated to an execution flow, easy to visualize, therefore easier to understand.
+
+The developer role is to provide programming structures that can be bound to the flow and executed by an external engine.
+
+## [ Special Notes ]
+I intend to split this project in 4 (four) parts. So this one can focus on the execution engine.
+
+The possibility to draw the diagram will be addressed in another project called **Jack Ketch for Draw** (or something similar), using [Raphaël - JavaScript Library](http://raphaeljs.com/ "Raphael"). I haven't decided yet what will be the JSON format the drawing structure will save the diagrams.
+
+Another project ("**Jack Ketch for Transformation**"?) will provide some model transformation between drawing structures and the executable one. The main goal is to achieve a common model metadata that can be easily transformed from different sources. The current (possible) metadata structures are defined below:
 
 ```javascript
 var initialNodes = [ 
@@ -63,49 +104,11 @@ var controlFlows = [
     { id: '#CF:0019', from: '#AN:0017', to: '#FN:0021' },
     { id: '#CF:0020', from: '#AN:0018', to: '#FN:0021' }
 ];
-
 ```
 
-... That would be bound to some (object's) callbacks similar to the ones below...
+The last project is an HTML 5 application (probably called **Jack Ketch App**) that will allow plotting the diagram and setting each nodes attributes (something similar to an IDE). It should also be able to save the diagram in some text format (JSON?) to be transformed in an executable workflow.
 
-```javascript
-var SimpleDiagram = function() {
-    this.sumOnePlusOne = function(context) {
-        context.x = 1 + 1;
-    };
-    
-    this.sumTwoPlusTwo = function(context) {
-        context.y = 2 + 2;
-    };
-    
-    this.sumXPlusY = function(context) {
-        context.v = context.x + context.y;
-    };
-
-    this.showOk = function() {
-        alert('Ok');
-    };
-
-    this.showNotOk = function() {
-        alert('Not Ok');
-    };
-}
-```
-
-... And execute it.
-
-This way the requirements provided by the stakeholder **can** be easily translated to an execution flow, easy to visualize, therefore easier to understand.
-
-The developer role is to provide programming structures that can be bound to the flow and executed by an external engine.
-
-## Special Note
-I intend to split this project in 3 (three) parts. So this one can focus on the metadata structures and execution engine.
-
-The possibility to draw the diagram will be addressed in another project called **Jack Ketch for Draw** (or something similar), using [Raphaël - JavaScript Library](http://raphaeljs.com/ "Raphael"). I haven't decided yet what will be the JSON format the drawing structure will save the diagrams, but there is some possibility that I will have to provide some model transformation between the drawing structure and the executable one.
-
-A third project is an HTML 5 application (probably called **Jack Ketch App**) that will allow plotting the diagram and setting each nodes attributes (something similar to an IDE).
-
-## History
+## [ History ]
 The previous goal may sound familiar to some, and sometimes you may call it [BPM](http://en.wikipedia.org/wiki/Business_process_management "Business process management"), but this project is not that ambitious.
 
 #### 2012, what a year!
@@ -115,7 +118,7 @@ In 2012 I was lucky to participate in a project that involved a technology calle
 In fact, the complete set of tools that is provided along jBPM allows much more. For example, it allowed the dev team to draw workflows using the IDE and reference java code within this diagrams, then the jBPM engine would be started and each part of the workflow would be executed. Summarizing, we bound classes and its methods to processes in the diagram, started a database transaction, put objects inside an in-memory context and the engine ran all the flow from the beginning to the end.
 
 #### Too much sometimes is too much
-The "problem" is that jBPM does much more, it works with an "on-the-fly" state persistence, using in-memory or filesystem databases with history logging for querying and monitoring and lots of integrations with other technologies. It was too much! And even being faster than we expected, sometimes was too "heavy" when all we wanted was a simple *flow executor* (specially when some flows should execute within miliseconds).
+The "problem" is that jBPM does much more, it works with an "on-the-fly" state persistence, using in-memory or file system databases with history logging for querying and monitoring and lots of integrations with other technologies. It was too much! And even being faster than we expected, sometimes was too "heavy" when all we wanted was a simple *flow executor* (specially when some flows should execute within miliseconds).
 
 #### The rise and fall of my first OSS Project
 That's when I had the idea to implement a much simpler engine without all the overhead jBPM offered. In fact, an alfa, limited version (without asynchronous execution) was implemented but never went to production, mostly because I lost interest on it, but the difficulty to find a good UML tool that could export its diagram structure as files didn't burst my motivation either. The alfa version used [ArgoUML](http://argouml.tigris.org/ "") for exporting Activity Diagrams to XMI so, basically, the link between visual diagrams and the executing engine was XML.
@@ -165,8 +168,8 @@ Will take the decision of which will be the next step of the workflow. It will c
 
 **Basic Rules:**
 + Many as possible flows coming into;
-+ Many as possible flows going out.
-+ Its outgoing flow may target an Action Node, a Final Node, another Decision Node or a Fork Node. To prevent unexpected behaviours I discourage targeting a join node.
++ Two or more flows going out. Actually, there must be at least one flow to match to the context attribute and one flow otherwise. There must always be an outgoing *otherwise* flow;
++ Its outgoing flow may target an Action Node, a Final Node, another Decision Node or a Fork Node. To prevent unexpected behaviors I discourage targeting a join node.
 
 #### 4. Fork Node
 
@@ -176,12 +179,12 @@ Starts an asynchronous process.
 
 All flows going out a Fork Node will be treated asynchronously until they find a Join Node, where processing becomes synchronous again.
 
-Be aware that starting many asynchronous flows may be hard to manage, it also may happen if an asynchronous flow drives back to some node in the flow that was previously synchronous. Pay attention when diagraming complex workflows.
+Be aware that starting many asynchronous flows may be hard to manage, it also may happen if an asynchronous flow drives back to some node in the flow that was previously synchronous. Pay attention when diagramming complex workflows.
 
 **Basic Rules:**
 + Many as possible flows coming into;
-+ Many as possible flows going out.
-+ Its outgoing flow may target an Action Node or a Decision Node. Do not terminate an asynchronous process without joining it again, please.
++ Two or more flows going out.
++ Its outgoing flows may target an Action Node or a Decision Node. Do not terminate an asynchronous process without joining it again, please.
 
 #### 5. Join Node
 
@@ -198,9 +201,9 @@ Responsible for gathering all asynchronous processes started by a Fork Node.
 
  ![final-node.jpg](README/final-node.jpg "Final Node")
  
-Stablishes the end of the flow.]
+Establishes the end of the flow.
 
-At first I thought this node wasn't really necessary, for example, if I just reach a last Action Node (without outgoing control flow) the flow should be terminated too. But the Final Node, besides stablishing a formal end to our workflow, should allow the return of the context flow object to the programming structure that started it. So I decided to make it mandatory, and to simplify (my life, of course) I also insist that it shall be unique (*there can be only one!*).
+At first I thought this node wasn't really necessary, for example, if I just reach a last Action Node (without outgoing control flow) the flow should be terminated too. But the Final Node, besides establishing a formal end to our workflow, should allow the return of the context flow object to the programming structure that started it. So I decided to make it mandatory, and to simplify (my life, of course) I also insist that it shall be unique (*there can be only one!*).
 
 **Basic Rules:**
 + Many as possible flows coming into;
@@ -210,7 +213,7 @@ At first I thought this node wasn't really necessary, for example, if I just rea
 
  ![control-flow.jpg](README/control-flow.jpg "Control Flow")
  
-Links two (and only two) nodes together. Indicates from where to where the flow goes and it is not allowed to link a node to istself (cyclic dependency).
+Links two (and only two) nodes together. Indicates from where to where the flow goes and it is not allowed to link a node to itself (cyclic dependency).
 
 **Basic Rules:**
 + Link one node to another;
@@ -222,37 +225,32 @@ I'm not going to explain any of these elements in details, for that I would refe
 
 I did not included the **merge node** on purpose. In my opinion it will not be necessary in this initial versions. As for all the other elements existing in UML 2.0 Activity Diagram, once again: "too much sometimes is too much".
 
-## The Flow Context Object
+## [ The Flow Context Object ]
 The *flow context* object is just a regular Javascript object that will be passed on to each node in the diagram so each part of the flow can make use of previous processed information.
 
 One good use for this context object is, for instance, start a transaction before starting the flow, put the transaction object inside the context object and then start the flow execution passing the context object to it. Once the flow is finished, commit the transaction (or roll it back).
 
-# Modules
+## [ Modules ]
 
-## JSON Flow Parser & Transformer
-The JK4Flow parsing and transformation takes a 2 step process to create a flow structure possible of being executed.
+### JSON Flow Parser & Transformer
+```
+NOTE: The set of arrays that were explained before is going to be part of another project. The reason is that the previous data structures were out of this project's scope as explained in the "Special Notes" topic at the beginning of this document.
+```
 
-#### Step 1: Basic Validation
-The first step is a basic validation of the arrays. All rules (previously described) must be followed or the process will not be continued.
+## [ Workflow Engine ]
+The main goal of the engine is very simple:
 
-For example: it checks for the existence of an initial (and one outgoing flow), a final node (with no outgoing flows) and at least one action node (also with only one outgoing flow). If there are decision nodes, or fork and join nodes, its basic structure is also validated.
-
-#### Step 2: Object Transformation
-The second step goes through the array structures creating a "tree-like" object structure. It also relates each Action Node object to its callback function.s
-
-### Note about the 2 step process
-Just a reminder, to get to the arrays structure a previous transformation may be needed. It will depend on the source of the diagram. For example, if I use [ArgoUML](http://argouml.tigris.org/ "") for drawing and exporting Activity Diagrams to XMI I would have to provide a transformation engine from this format to my metadata format (the JS arrays), so the 2 step process may be possible of execution.
-
-## Workflow Engine
 + Executes the connected object instances by "traveling" through each dependency tree;
-+ The *flow context* "travels along", node by node;
-+ Action Nodes must execute the callback;
++ The *flow context* object "travels along", node by node;
++ Action Nodes must execute related callbacks;
 + Decision Nodes must check for context attributes to drive the flow;
 + Fork Nodes must start a set of promises to be called asynchronously;
-+ Join Nodes must gather all this asynchronous promises;
++ Join Nodes must gather all this asynchronous promises.s
 
-#Thanks to...
-The development team and supporters of the applications below, without them I could not even start this project at such low cost (I'm $upporting some of them, just to let you know):
+In the next days (weeks?) I'll update this document with proposed implementation of the workflow engine.
+
+# **Thanks to...**
+... The development team and supporters of the applications below, without them I could not even start this project at such low cost (I'm $upporting some of them, just to let you know):
 + Astah Community - [http://astah.net/editions/community](http://astah.net/editions/community "http://astah.net/editions/community")
 + Gimp - [http://www.gimp.org/](http://www.gimp.org/ "http://www.gimp.org/")
 + Git - [http://git-scm.com/](http://git-scm.com/ "http://git-scm.com/")
@@ -260,6 +258,33 @@ The development team and supporters of the applications below, without them I co
 + Node.js - [http://nodejs.org/](http://nodejs.org/ "http://nodejs.org/")
 + MdCharm - [http://www.mdcharm.com/](http://www.mdcharm.com/ "http://www.mdcharm.com/")
 + Ubuntu Desktop - [http://www.ubuntu.com/desktop](http://www.ubuntu.com/desktop "http://www.ubuntu.com/desktop")
-
++ Google Chrome - [http://www.google.com/chrome/](http://www.google.com/chrome/ "http://www.google.com/chrome/")
++ Mozilla Firefox - [https://www.mozilla.org/en-US/firefox/new/](https://www.mozilla.org/en-US/firefox/new/ "https://www.mozilla.org/en-US/firefox/new/")
++ All the guys that create Javascript libraries that are commonly (or not that commonly) used!
 
 I could thank to [WebStorm](https://www.jetbrains.com/webstorm/ "WebStorm") team and all the guys in JetBrains, but since I'm paying for their software, I won't.
+
+# **License**
+```
+The MIT License (MIT)
+
+Copyright (c) 2015 Alejo Ceballos
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
