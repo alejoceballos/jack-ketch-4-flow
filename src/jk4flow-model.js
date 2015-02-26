@@ -15,6 +15,56 @@
         FINAL: 'FINAL'
     };
 
+    function isValidNode(node) {
+        var aNode = new AbstractNode('DUMMY_ID', NODE_TYPE.ACTION);
+        if (!node || !(node instanceof AbstractNode) || aNode.constructor === node.constructor) {
+            return false;
+        }
+
+        return true
+    }
+
+    function isNodeTypeOf(node, types) {
+        for (var idx in types) {
+            if (types[idx] === node.type) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    function areValidNodes(nodes) {
+        if (!nodes || !(nodes instanceof Array)) {
+            return false;
+        }
+
+        for (var idx in nodes) {
+            if (!isValidNode(nodes[idx])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    function areNodesTypesOf(nodes, types) {
+        for (var nIdx in nodes) {
+            var result = false;
+
+            for (var tIdx in types) {
+                if (types[tIdx] === nodes[nIdx].type) {
+                    result = true;
+                    break;
+                }
+            }
+
+            if (!result) return false;
+        }
+
+        return true;
+    }
+
     /**
      * Abstract Node is the template class for all nodes in the Activity diagram
      *
@@ -53,7 +103,7 @@
     };
 
     /**
-     * It is only a kickstart point to let the engine know where to begin processing.
+     * It is only a kick start point to let the engine know where to begin processing.
      *
      * Basic Rules: (1) No flow coming into; (2) Only one flow going out; (3) Its outgoing flow
      * must target an Action Node, a Decision Node or a Fork Node.
@@ -70,10 +120,11 @@
                 return _outgoing;
             },
             set: function(val) {
-                if (!val || !val.type ||
-                    (val.type !== NODE_TYPE.ACTION &&
-                     val.type !== NODE_TYPE.DECISION &&
-                     val.type !== NODE_TYPE.FORK)) {
+                if (!isValidNode(val) ||
+                    !isNodeTypeOf(val, [
+                        NODE_TYPE.ACTION,
+                        NODE_TYPE.DECISION,
+                        NODE_TYPE.FORK])) {
                     throw 'Initial Node should redirect to an Action, Decision or Fork Node';
                 }
 
@@ -104,7 +155,7 @@
      * Basic Rules: (1) Many as possible flows coming into; (2) Only one flow going out; (3) Its
      * outgoing flow may target another Action Node, a Final Node, a Decision Node, a Fork Node
      * and even a Join Node, but only if it is part of an asynchronous flow started by a previous
-     * Fork Node.
+     * Fork Node. (4) Its outgoing flow cannot target itself.
      *
      * @param {string} id The node identification
      * @constructor
@@ -118,16 +169,16 @@
                 return _outgoing;
             },
             set: function(val) {
-                if (!val || !val.type ||
-                    (val.type !== NODE_TYPE.ACTION &&
-                     val.type !== NODE_TYPE.DECISION &&
-                     val.type !== NODE_TYPE.FORK &&
-                     val.type !== NODE_TYPE.FINAL &&
-                     val.type !== NODE_TYPE.JOIN)) {
-
+                if (!isValidNode(val) ||
+                    !isNodeTypeOf(val, [
+                        NODE_TYPE.ACTION,
+                        NODE_TYPE.DECISION,
+                        NODE_TYPE.FORK,
+                        NODE_TYPE.FINAL,
+                        NODE_TYPE.JOIN])) {
                     throw 'Action Node should redirect to an Action, Decision, Fork Node, Join or Final Node';
 
-                } else if (val.type === NODE_TYPE.ACTION && val.id === this.id) {
+                } else if (val instanceof ActionNode && val.id === this.id) {
                     throw 'Action Node should not redirect to itself';
                 }
 
@@ -193,11 +244,11 @@
                     throw 'A Fork Node should redirect to at least two asynchronous processes';
                 }
 
-                for (var idx in val) {
-                    if (val[idx].type !== NODE_TYPE.ACTION &&
-                        val[idx].type !== NODE_TYPE.DECISION) {
-                        throw 'Fork Node should redirect to an Action or Decision Node';
-                    }
+                if (!areValidNodes(val) ||
+                    !areNodesTypesOf(val, [
+                        NODE_TYPE.ACTION,
+                        NODE_TYPE.DECISION])) {
+                    throw 'Fork Node should redirect to an Action or Decision Node';
                 }
 
                 _outgoings = val;
@@ -237,12 +288,12 @@
                 return _outgoing;
             },
             set: function(val) {
-                if (!val || !val.type ||
-                    (val.type !== NODE_TYPE.ACTION &&
-                    val.type !== NODE_TYPE.DECISION &&
-                    val.type !== NODE_TYPE.FORK &&
-                    val.type !== NODE_TYPE.FINAL)) {
-
+                if (!isValidNode(val) ||
+                    !isNodeTypeOf(val, [
+                        NODE_TYPE.ACTION,
+                        NODE_TYPE.DECISION,
+                        NODE_TYPE.FORK,
+                        NODE_TYPE.FINAL])) {
                     throw 'Join Node should redirect to an Action, Decision, Fork Node or Final Node';
                 }
 
@@ -277,7 +328,7 @@
      * @param {string} id The node identification
      * @constructor
      */
-    var ForkNode = function(id) {
+    var FinalNode = function(id) {
         AbstractNode.call(this, id, NODE_TYPE.FINAL);
     };
 
@@ -296,15 +347,15 @@
      * @type {{EQ: string, NEQ: string, GT: string, GEQT: string, LT: string, LEQT: string, IN: string, ENDS: string, STARTS: string}}
      */
     var CONDITION_TYPE = {
-        EQ: 'equals',
-        NEQ: 'not equals',
-        GT: 'greater than',
-        GEQT: 'greater or equals than',
-        LT: 'lower than',
-        LEQT: 'lower or equals than',
-        IN: 'in',
-        ENDS: 'ends with',
-        STARTS: 'starts with'
+        EQ: 'EQ',
+        NEQ: 'NEQ',
+        GT: 'GT',
+        GEQT: 'GEQT',
+        LT: 'LT',
+        LEQT: 'LEQT',
+        IN: 'IN',
+        ENDS: 'ENDS',
+        STARTS: 'STARTS'
     };
 
     /**
@@ -315,18 +366,21 @@
      * The flow context object is just a regular Javascript object that will be passed on to each
      * node in the diagram so each part of the flow can make use of previous processed information.
      *
+     * @param {DecisionNode} fromNode The attribute that must exist in the flow context object
      * @param {string} attribute The attribute that must exist in the flow context object
      * @param {CONDITION_TYPE} condition The condition type to verify if this is the outgoing flow
      * to be taken by the workflow
-     * @param {string} value The value to be compared against the flow context attribute
+     * @param value The value to be compared against the flow context attribute
      * @constructor
      */
-    var ContextOutgoing = function(attribute, condition, value) {
-        if (!attribute) throw '';
-        if (!condition) throw '';
+    var ContextOutgoing = function(fromNode, attribute, condition, value) {
+        if (!fromNode || (!fromNode instanceof AbstractNode) || fromNode.type !== NODE_TYPE.DECISION) throw 'A "from" Abstract Node subclass object with type DECISION must be provided';
+        if (!attribute) throw 'A defined value for attribute parameter must be provided';
+        if (!condition) throw 'A defined value for condition parameter must be provided';
 
-        if (!CONDITION_TYPE[condition]) throw '';
+        if (!CONDITION_TYPE[condition]) throw 'Invalid condition. Check for CONDITION_TYPE possible values';
 
+        var _fromNode = fromNode;
         var _attribute = attribute;
         var _condition = condition;
         var _value = value;
@@ -337,6 +391,20 @@
                 return _target;
             },
             set: function(val) {
+                isValidNode(val);
+
+                if (!isValidNode(val) ||
+                    !isNodeTypeOf(val, [
+                        NODE_TYPE.ACTION,
+                        NODE_TYPE.DECISION,
+                        NODE_TYPE.FORK,
+                        NODE_TYPE.FINAL])) {
+                    throw 'Context Outgoings should redirect to an Action, Decision, Fork or Final Node';
+
+                } else if (val instanceof DecisionNode && val.id === _fromNode.id) {
+                    throw 'Decision Node should not redirect to itself';
+                }
+
                 _target = val;
             },
             enumerable: true,
@@ -353,11 +421,11 @@
          * @returns {boolean}
          */
         this.isConditionSatisfied = function(context) {
-            if (!context) throw '';
-            if (!context[_attribute]) throw '';
+            if (!context) throw 'Cannot evaluate a condition without a flow context object';
+            if (!context[_attribute] && context[_attribute] !== 0 && typeof context[_attribute] !== 'boolean') throw 'No attribute match between this Context Outgoing and the flow context object';
 
-            var ctx = context[_attribute].toLowerCase() || context[_attribute];
-            var val = _value.toLowerCase() || _value;
+            var ctx = context[_attribute].toString().toLowerCase();
+            var val = !_value && _value !== 0 && typeof _value !== 'boolean' ? _value : _value.toString().toLowerCase();
 
             switch(_condition) {
                 case CONDITION_TYPE.EQ:
@@ -402,23 +470,13 @@
      * Basic Rules: (1) Many as possible flows coming into; (2) Two or more flows going out.
      * Actually, there must be at least one flow to match to the context attribute and one
      * flow otherwise. There must always be an outgoing otherwise flow; (3) Its outgoing flow
-     * may target an Action Node, a Final Node, another Decision Node or a Fork Node.
+     * may target an Action Node, a Final Node, another Decision Node or a Fork Node. (4) Its
+     * outgoing flow cannot target itself.
 
      * @param {string} id The node identification
      * @constructor
      */
     var DecisionNode = function(id) {
-        function validateOutgoing(val) {
-            if (!val || !val.type ||
-                (val.type !== NODE_TYPE.ACTION &&
-                val.type !== NODE_TYPE.DECISION &&
-                val.type !== NODE_TYPE.FORK &&
-                val.type !== NODE_TYPE.FINAL)) {
-
-                throw 'Decision Node should redirect to an Action, Decision, Fork Node or Final Node. Context and default outgoing flows (a.k.a. otherwise flow) must follow this rule';
-            }
-        }
-
         AbstractNode.call(this, id, NODE_TYPE.DECISION);
 
         var _outgoings;
@@ -427,12 +485,14 @@
                 return _outgoings;
             },
             set: function(val) {
-                if (!val || !(val instanceof Array) || val.length > 0) {
+                if (!val || !(val instanceof Array) || val.length === 0) {
                     throw 'A Decision Node should redirect to at least one outgoing flow besides the default one (a.k.a otherwise flow)';
                 }
 
                 for (var idx in val) {
-                    validateOutgoing(val[idx]);
+                    if (!(val[idx] instanceof ContextOutgoing) && !val[idx].target) {
+                        throw 'A Decision Node\'s outgoing must be of Context Outgoing type with a valid node as target';
+                    }
                 }
 
                 _outgoings = val;
@@ -447,7 +507,18 @@
                 return _otherwise;
             },
             set: function(val) {
-                validateOutgoing(val);
+                if (!isValidNode(val) ||
+                    !isNodeTypeOf(val, [
+                        NODE_TYPE.ACTION,
+                        NODE_TYPE.DECISION,
+                        NODE_TYPE.FORK,
+                        NODE_TYPE.FINAL])) {
+                    throw 'Decision Node default outgoing (otherwise condition) should redirect to an Action, Decision, Fork Node or Final Node';
+
+                } else if (val instanceof DecisionNode && val.id === this.id) {
+                    throw 'Decision Node should not redirect to itself';
+                }
+
                 _otherwise = val;
             },
             enumerable: true,
@@ -468,21 +539,18 @@
      * Externalization
      */
     var result = {
-        org: {
-            somossuinos: {
-                jk4flow: {
-                    model: {
-                        NODE_TYPE: NODE_TYPE,
-                        CONDITION_TYPE: CONDITION_TYPE,
-                        InitialNode: InitialNode,
-                        ActionNode: ActionNode,
-                        ForkNode: ForkNode,
-                        JoinNode: JoinNode,
-                        FinalNode: FinalNode,
-                        ContextOutgoing: ContextOutgoing,
-                        DecisionNode: DecisionNode
-                    }
-                }
+        jk4flow: {
+            model: {
+                NODE_TYPE: NODE_TYPE,
+                CONDITION_TYPE: CONDITION_TYPE,
+                AbstractNode: AbstractNode,
+                InitialNode: InitialNode,
+                ActionNode: ActionNode,
+                ForkNode: ForkNode,
+                JoinNode: JoinNode,
+                FinalNode: FinalNode,
+                ContextOutgoing: ContextOutgoing,
+                DecisionNode: DecisionNode
             }
         }
     };

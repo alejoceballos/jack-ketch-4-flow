@@ -160,6 +160,7 @@ Where the magic happens! Each action node corresponds to a programming unit resp
 + Many as possible flows coming into;
 + Only one flow going out;
 + Its outgoing flow may target another Action Node, a Final Node, a Decision Node, a Fork Node and even a Join Node, but only if it is part of an asynchronous flow started by a previous Fork Node.
++ Its outgoing flow cannot target itself.
 
 #### 3. Decision Node
 
@@ -171,6 +172,7 @@ Will take the decision of which will be the next step of the workflow. It will c
 + Many as possible flows coming into;
 + Two or more flows going out. Actually, there must be at least one flow to match to the context attribute and one flow otherwise. There must always be an outgoing *otherwise* flow;
 + Its outgoing flow may target an Action Node, a Final Node, another Decision Node or a Fork Node. To prevent unexpected behaviors I discourage targeting a join node.
++ Its outgoing flow cannot target itself.
 
 #### 4. Fork Node
 
