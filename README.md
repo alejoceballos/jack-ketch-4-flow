@@ -4,7 +4,7 @@ A flow executor for javascript code. Hopefully it will work in both client and s
 **NOTES:** 
 
 1. At this moment, only the documentation can be validated. No code was developed (besides some tests to check the better structure to work with);
-2. This document was created on **February 9, 2015**. Last update was on ***February 21, 2015***.
+2. This document was created on **February 9, 2015**. Last update was on ***February 26, 2015***.
 
 ## [ Goal ]
 To get a JSON data structure representing something similar to an [Activity Diagram](http://en.wikipedia.org/wiki/Activity_diagram "Activity Diagram") and **execute it**!
