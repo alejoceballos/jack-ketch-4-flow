@@ -1,4 +1,8 @@
-(function() {
+if (!jk4flow) {
+    var jk4flow = { };
+}
+
+jk4flow.model = (function() {
     "use strict";
 
     /**
@@ -535,29 +539,72 @@
         }
     });
 
+
+    /**
+     *
+     */
+    var Workflow = function(initialNode) {
+
+        if (!(initialNode instanceof InitialNode)) {
+            throw '"Initial node" argument must be an instance of InitialNode';
+        }
+
+        var _initialNode = initialNode;
+        Object.defineProperty(this, 'initialNode', {
+            get: function() {
+                return _initialNode;
+            },
+            configurable: false,
+            enumerable: true
+        });
+
+        var _context = { };
+        Object.defineProperty(this, 'context', {
+            get: function() {
+                return _context;
+            },
+            set: function(val) {
+                if (val === undefined || val === null) {
+                    val = { };
+
+                } else if (typeof val !== 'object') {
+                    throw 'Context must be of type "object"';
+                }
+
+                _context = val;
+            },
+            enumerable: true,
+            configurable: false
+        });
+
+    };
+
+
+
     /**
      * Externalization
      */
     var result = {
-        jk4flow: {
-            model: {
-                NODE_TYPE: NODE_TYPE,
-                CONDITION_TYPE: CONDITION_TYPE,
-                AbstractNode: AbstractNode,
-                InitialNode: InitialNode,
-                ActionNode: ActionNode,
-                ForkNode: ForkNode,
-                JoinNode: JoinNode,
-                FinalNode: FinalNode,
-                ContextOutgoing: ContextOutgoing,
-                DecisionNode: DecisionNode
-            }
-        }
+        NODE_TYPE: NODE_TYPE,
+        CONDITION_TYPE: CONDITION_TYPE,
+        AbstractNode: AbstractNode,
+        InitialNode: InitialNode,
+        ActionNode: ActionNode,
+        ForkNode: ForkNode,
+        JoinNode: JoinNode,
+        FinalNode: FinalNode,
+        ContextOutgoing: ContextOutgoing,
+        DecisionNode: DecisionNode,
+        Workflow: Workflow
     };
 
     if (module && module.exports) {
-        module.exports = result;
     }
+    module.exports = {
+        jk4flow: {
+            model: result
+        }
+    };
 
     return result;
 })();

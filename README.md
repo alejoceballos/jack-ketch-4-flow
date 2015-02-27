@@ -233,6 +233,9 @@ The *flow context* object is just a regular Javascript object that will be passe
 
 One good use for this context object is, for instance, start a transaction before starting the flow, put the transaction object inside the context object and then start the flow execution passing the context object to it. Once the flow is finished, commit the transaction (or roll it back).
 
+## [ The Workflow Object ]
+The workflow object is responsible for encapsulating all the objects that define the activity diagram to be executed.
+
 ## [ Modules ]
 
 ### JSON Flow Parser & Transformer
