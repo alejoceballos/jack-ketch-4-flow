@@ -546,7 +546,7 @@ jk4flow.model = (function() {
     var Workflow = function(initialNode) {
 
         if (!(initialNode instanceof InitialNode)) {
-            throw '"Initial node" argument must be an instance of InitialNode';
+            throw 'First argument must be an instance of InitialNode';
         }
 
         var _initialNode = initialNode;
@@ -578,8 +578,6 @@ jk4flow.model = (function() {
         });
 
     };
-
-
 
     /**
      * Externalization

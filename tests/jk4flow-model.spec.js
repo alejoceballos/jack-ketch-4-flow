@@ -2019,86 +2019,166 @@ describe('JSON Workflow Model', function() {
 
     describe('Workflow', function () {
 
+        var FIRST_ARG_ERR_MSG = 'First argument must be an instance of InitialNode';
+
         describe('Creation', function () {
             it('+ Should not allow an empty argument', function() {
-                // TODO: Gotta test something here
+                expect(
+                    function() {
+                        new jk4flow.model.Workflow();
+                    }
+                ).toThrow(FIRST_ARG_ERR_MSG);
+            });
+
+            it('+ Should not allow null as argument', function() {
+                expect(
+                    function() {
+                        new jk4flow.model.Workflow(null);
+                    }
+                ).toThrow(FIRST_ARG_ERR_MSG);
             });
 
             it('+ Should not allow a number as argument', function() {
-                // TODO: Gotta test something here
+                expect(
+                    function() {
+                        new jk4flow.model.Workflow(1);
+                    }
+                ).toThrow(FIRST_ARG_ERR_MSG);
             });
 
             it('+ Should not allow a boolean as argument', function() {
-                // TODO: Gotta test something here
+                expect(
+                    function() {
+                        new jk4flow.model.Workflow(true);
+                    }
+                ).toThrow(FIRST_ARG_ERR_MSG);
             });
 
             it('+ Should not allow a string as argument', function() {
-                // TODO: Gotta test something here
+                expect(
+                    function() {
+                        new jk4flow.model.Workflow('I\'m a string!');
+                    }
+                ).toThrow(FIRST_ARG_ERR_MSG);
             });
 
             it('+ Should not allow an ordinary object as argument', function() {
-                // TODO: Gotta test something here
+                expect(
+                    function() {
+                        new jk4flow.model.Workflow( { type: jk4flow.model.NODE_TYPE.INITIAL } );
+                    }
+                ).toThrow(FIRST_ARG_ERR_MSG);
             });
 
             it('+ Should only allow an Initial Node as argument', function() {
-                // TODO: Gotta test something here
+                var iNode = new jk4flow.model.InitialNode(DUMMY_ID);
+                var wf = new jk4flow.model.Workflow(iNode);
+
+                expect(wf.initialNode).toBe(iNode);
             });
 
-            it('+ Should create a default empty object as Flow Context property', function() {
-                // TODO: Gotta test something here
+            it('+ Should be created with a default empty object as context property', function() {
+                var iNode = new jk4flow.model.InitialNode(DUMMY_ID);
+                var wf = new jk4flow.model.Workflow(iNode);
+
+                expect(typeof wf.context).toBe('object');
             });
 
         });
 
         describe('Flow Context property', function () {
 
+            var CTX_MUST_BE_OBJ_ERR_MSG = 'Context must be of type "object"';
+
+            var iNode = new jk4flow.model.InitialNode(DUMMY_ID);
+            var wf;
+
+            beforeEach(function() {
+                wf = new jk4flow.model.Workflow(iNode);
+            });
+
             it('+ Should not allow a number', function() {
-                // TODO: Gotta test something here
+                expect(
+                    function() {
+                        wf.context = 1;
+                    }
+                ).toThrow(CTX_MUST_BE_OBJ_ERR_MSG);
             });
 
             it('+ Should not allow a boolean', function() {
-                // TODO: Gotta test something here
+                expect(
+                    function() {
+                        wf.context = true;
+                    }
+                ).toThrow(CTX_MUST_BE_OBJ_ERR_MSG);
             });
 
             it('+ Should not allow a string', function() {
-                // TODO: Gotta test something here
+                expect(
+                    function() {
+                        wf.context = 'I\'m a string!';
+                    }
+                ).toThrow(CTX_MUST_BE_OBJ_ERR_MSG);
             });
 
             it('+ Should not allow a function', function() {
-                // TODO: Gotta test something here
-            });
-
-            it('+ Setting to undefined will reset the context', function() {
-                // TODO: Gotta test something here
-            });
-
-            it('+ Setting to null will reset the context', function() {
-                // TODO: Gotta test something here
+                expect(
+                    function() {
+                        wf.context = function() { return DUMMY_VAL };
+                    }
+                ).toThrow(CTX_MUST_BE_OBJ_ERR_MSG);
             });
 
             it('+ Should allow an empty object', function() {
-                // TODO: Gotta test something here
+                var obj = {};
+                wf.context = obj;
+
+                expect(wf.context).toBe(obj);
             });
 
             it('+ Should allow an existent object with number properties', function() {
-                // TODO: Gotta test something here
+                var obj = { attr: 1 };
+                wf.context = obj;
+
+                expect(wf.context).toBe(obj);
             });
 
             it('+ Should allow an existent object with string properties', function() {
-                // TODO: Gotta test something here
+                var obj = { attr: DUMMY_VAL };
+                wf.context = obj;
+
+                expect(wf.context).toBe(obj);
             });
 
             it('+ Should allow an existent object with boolean properties', function() {
-                // TODO: Gotta test something here
+                var obj = { attr: true };
+                wf.context = obj;
+
+                expect(wf.context).toBe(obj);
             });
 
             it('+ Should allow an existent object with function properties', function() {
-                // TODO: Gotta test something here
+                var obj = { attr: function() { return DUMMY_VAL } };
+                wf.context = obj;
+
+                expect(wf.context).toBe(obj);
+            });
+
+            it('+ Setting to undefined will reset the context', function() {
+                wf.context = { attr: DUMMY_VAL };
+                wf.context = undefined;
+
+                expect(typeof wf.context === 'object' && wf.context.attr === undefined).toBe(true);
+            });
+
+            it('+ Setting to null will reset the context', function() {
+                wf.context = { attr: DUMMY_VAL };
+                wf.context = null;
+
+                expect(typeof wf.context === 'object' && wf.context.attr === undefined).toBe(true);
             });
 
         });
-
-
 
     });
 
