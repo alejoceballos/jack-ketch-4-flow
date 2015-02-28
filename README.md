@@ -157,7 +157,7 @@ It is only a kickstart point to let the engine know where to begin processing.
 **Usage**
 ```javascript
 
-    var iNode = new jk4flow.model.InitialNode('#ID');
+    var iNode = new InitialNode('#ID');
     iNode.outgoing = ... // some subclass of AbstractNode;
 
 ```
@@ -166,7 +166,7 @@ It is only a kickstart point to let the engine know where to begin processing.
 
  ![action-node.jpg](README/action-node.jpg "Action Node")
 
-Where the magic happens! Each action node corresponds to a programming unit responsible for some real processing of the workflow. It is done by associating one callback (function/method) to it. Any callback will always receive one *flow context* object as first argument, this object wraps all data that mst be passed by through the flow execution. If the action node needs to pass along some information, just put it into the flow context object, no need to return anything.
+Where the magic happens! Each action node corresponds to a programming unit responsible for some real processing of the workflow. It is done by associating one callback (function/method) to it. Any callback will always receive one *flow context* object as first argument, this object wraps all data that must be passed by through the flow execution. If the action node needs to pass along some information, just put it into the flow context object, no need to return anything.
 
 **Basic Rules:**
 + Many as possible flows coming into;
@@ -177,7 +177,7 @@ Where the magic happens! Each action node corresponds to a programming unit resp
 **Usage**
 ```javascript
 
-    var aNode = new jk4flow.model.ActionNode('#ID');
+    var aNode = new ActionNode('#ID');
     aNode.outgoing = ... // some subclass of AbstractNode;
     aNode.callback = function() { 
         // Do something here
@@ -200,7 +200,7 @@ Will take the decision of which will be the next step of the workflow. It will c
 **Usage**
 ```javascript
 
-    var dNode = new jk4flow.model.DecisionNode('#ID');
+    var dNode = new DecisionNode('#ID');
     dNode.outgoings = [ ctxOut1, ctxOut2, ... , ctxOutN ]; // ContextOutgoing objects;
     dNode.otherwise = ... // some subclass of AbstractNode
 
@@ -229,12 +229,12 @@ The operators accepted by a context outgoing are:
 **Usage**
 ```javascript
 
-    var ctxOut = new jk4flow.model.ContextOutgoing(
-        decisionNodeOwner,               // The decision that holds this outgoing
-        'attr',                          // The flow context's attribute being evaluated
-        jk4flow.model.CONDITION_TYPE.EQ, // The evaluating operator
-        s'1');                           // The expected value
-    ctxOut.target = ...                  // some subclass of AbstractNode
+    var ctxOut = new ContextOutgoing(
+        decisionNodeOwner, // The decision that holds this outgoing
+        'attr',            // The flow context's attribute being evaluated
+        CONDITION_TYPE.EQ, // The evaluating operator
+        s'1');             // The expected value
+    ctxOut.target = ...    // some subclass of AbstractNode
 
 ```
 
@@ -244,9 +244,9 @@ The operators accepted by a context outgoing are:
 
 Starts an asynchronous process.
 
-All flows going out a Fork Node will be treated asynchronously until they find a Join Node, where processing becomes synchronous again.
+All flows going out a Fork Node will be handled asynchronously until they find a Join Node, where processing becomes synchronous again.
 
-Be aware that starting many asynchronous flows may be hard to manage, it also may happen if an asynchronous flow drives back to some node in the flow that was previously synchronous. Pay attention when diagramming complex workflows.
+Be aware that starting many asynchronous flows may be hard to manage, it may also tough to handle if an asynchronous flow drives back to some node in the flow that was previously synchronous. Pay attention when diagramming complex workflows.
 
 **Basic Rules:**
 + Many as possible flows coming into;
@@ -256,7 +256,7 @@ Be aware that starting many asynchronous flows may be hard to manage, it also ma
 **Usage**
 ```javascript
 
-    var fNode = new jk4flow.model.ForkNode('#ID');
+    var fNode = new ForkNode('#ID');
     fNode.outgoings = [ node1, node2, ... , nodeN ]; // subclasses of AbstractNode
 
 ```
@@ -275,7 +275,7 @@ Responsible for gathering all asynchronous processes started by a Fork Node.
 **Usage**
 ```javascript
 
-    var jNode = new jk4flow.model.JoinNode('#ID');
+    var jNode = new JoinNode('#ID');
     jNode.outgoing = ... // some subclass of AbstractNode;
 
 ```
@@ -295,7 +295,7 @@ At first I thought this node wasn't really necessary, for example, if I just rea
 **Usage**
 ```javascript
 
-    var fNode = new jk4flow.model.FinalNode('#ID');
+    var fNode = new FinalNode('#ID');
 
 ```
 
@@ -318,56 +318,56 @@ I'm not going to explain any of these elements in details, for that I would refe
 I did not included the **merge node** on purpose. In my opinion it will not be necessary in this initial versions. As for all the other elements existing in UML 2.0 Activity Diagram, once again: "too much sometimes is too much".
 
 #### 9. A Complete Example
-To show a complete example of a workflow, quite similar to the diagram previously exposed in "**[ GOAL ]**" section (and also can be found in the unit tests suite):s
+To show a complete example of a workflow, quite similar to the diagram previously exposed in "**[ GOAL ]**" section (and also can be found in the unit tests suite):
 
 ```javascript
 
-    var fin10 = new jk4flow.model.FinalNode('#FN:0010');
+    var fin10 = new FinalNode('#FN:0010');
 
-    var act9 = new jk4flow.model.ActionNode('#AN:0009');
+    var act9 = new ActionNode('#AN:0009');
     act9.outgoing = fin10;
     act9.callback = function(context) {
         context.result = NOT_OK;
     };
 
-    var act8 = new jk4flow.model.ActionNode('#AN:0008');
+    var act8 = new ActionNode('#AN:0008');
     act8.outgoing = fin10;
     act8.callback = function(context) {
         context.result = OK;
     };
 
-    var dec7 = new jk4flow.model.DecisionNode('#DN:0007');
-    var ctxOut = new jk4flow.model.ContextOutgoing(
-            dec7, 'v', jk4flow.model.CONDITION_TYPE.LEQT, 3);
+    var dec7 = new DecisionNode('#DN:0007');
+    var ctxOut = new ContextOutgoing(
+            dec7, 'v', CONDITION_TYPE.LEQT, 3);
     ctxOut.target = act8;
     dec7.outgoings = [ ctxOut ];
     dec7.otherwise = act9;
 
-    var act6 = new jk4flow.model.ActionNode('#AN:0006');
+    var act6 = new ActionNode('#AN:0006');
     act6.outgoing = dec7;
     act6.callback = function(context) {
         context.v = context.x + context.y;
     };
 
-    var join5 = new jk4flow.model.JoinNode('#AN:0005');
+    var join5 = new JoinNode('#AN:0005');
     join5.outgoing = act6;
 
-    var act4 = new jk4flow.model.ActionNode('#AN:0004');
+    var act4 = new ActionNode('#AN:0004');
     act4.outgoing = join5;
     act4.callback = function(context) {
         context.y = context.val1 * context.val2;
     };
 
-    var act3 = new jk4flow.model.ActionNode('#AN:0003');
+    var act3 = new ActionNode('#AN:0003');
     act3.outgoing = join5;
     act3.callback = function(context) {
         context.x = context.val1 + context.val2;
     };
 
-    var fork2 = new jk4flow.model.ForkNode('#AN:0002');
+    var fork2 = new ForkNode('#AN:0002');
     fork2.outgoings = [ act3, act4 ];
 
-    var ini1 = new jk4flow.model.InitialNode('#IN:0001');
+    var ini1 = new InitialNode('#IN:0001');
     ini1.outgoing = fork2;
 
 ```
@@ -385,7 +385,7 @@ When a brand new workflow object is created it will also create a new empty flow
 **Usage**
 ```javascript
 
-    var wf = new jk4flow.model.Workflow(someInitialNode);
+    var wf = new Workflow(someInitialNode);
     wf.context = { someAttr: 1 };
 
 ```
@@ -394,7 +394,7 @@ When a brand new workflow object is created it will also create a new empty flow
 
 ### JSON Flow Parser & Transformer
 ```
-NOTE: The set of arrays that were explained before is going to be part of another project. The reason is that the previous data structures were out of this project's scope as explained in the "Special Notes" topic at the beginning of this document.
+NOTE: The set of arrays that were explained in previous versions of this document are going to be part of another project. The reason is that the previous data structures were out of this project's scope as explained in the "Special Notes" topic at the beginning of this document.
 ```
 
 ## [ Workflow Engine ]
@@ -416,6 +416,23 @@ The executor object is the core of the executing engine! Its goals are:
 
 All **jk4flow** executor implementation strongly depends on **Q** library for asynchronous execution. It means that it will return a **promise** that must be correctly handled (if you don't know about promises or the **Q** library, I suggest start reading about).
 
+**Usage**
+```javascript
+
+    var executor = engine.createExecutor(workflow);
+
+    Q.try(executor.run()).then(
+        function() {
+            // Use "workflow.context" attributess
+        }
+    ).catch(
+        function(err) {
+            /// Some error handling
+        }
+    ).finally(done);
+
+```
+
 # **Thanks to...**
 ... The development team and supporters of the applications below, without them I could not even start this project at such low cost (I'm $upporting some of them, just to let you know):
 + Astah Community - [http://astah.net/editions/community](http://astah.net/editions/community "http://astah.net/editions/community")
@@ -427,8 +444,7 @@ All **jk4flow** executor implementation strongly depends on **Q** library for as
 + Mozilla Firefox - [https://www.mozilla.org/en-US/firefox/new/](https://www.mozilla.org/en-US/firefox/new/ "https://www.mozilla.org/en-US/firefox/new/")
 + Node.js - [http://nodejs.org/](http://nodejs.org/ "http://nodejs.org/")
 + Ubuntu Desktop - [http://www.ubuntu.com/desktop](http://www.ubuntu.com/desktop "http://www.ubuntu.com/desktop")
-
-+ All the guys that have created all these wonderful Javascript libraries (like "[Q](http://documentup.com/kriskowal/q/ "Q")") that are commonly (or not that commonly) used!
++ All the guys that have created all these wonderful Javascript libraries (like "[Q](http://documentup.com/kriskowal/q/ "Q")" and "[Underscore.js](http://underscorejs.org/ "Underscore.js")") that are commonly (or not that commonly) used!
 
 I could thank to [WebStorm](https://www.jetbrains.com/webstorm/ "WebStorm") team and all the guys in JetBrains, but since I'm paying for their software, I won't.
 
