@@ -1,10 +1,10 @@
 ﻿# **Jack Ketch for JS Flows**
+(by Alejo Ceballos)
+
 A flow executor for javascript code. Hopefully it will work in both client and server side.
 
-**NOTES:** 
-
-1. At this moment, only the documentation can be validated. No code was developed (besides some tests to check the better structure to work with);
-2. This document was created on **February 9, 2015**. Last update was on ***February 26, 2015***.
+**NOTE:** 
++ This document was created on **February 9, 2015**. Last update was on ***February 28, 2015***.
 
 ## [ Goal ]
 To get a JSON data structure representing something similar to an [Activity Diagram](http://en.wikipedia.org/wiki/Activity_diagram "Activity Diagram") and **execute it**!
@@ -17,32 +17,34 @@ In other words, the main goal is to get something like the diagram below...
 
 ![Class Diagram](README/model-class-diagram.jpg "Class Diagram")
 ```
-Note: since Javascript is not purely OO, this diagram does not strictly reflects the implementation
+ Note: since Javascript is not purely OO, this diagram does not strictly reflects the implementation
 ```
 ... That would be bound to some (object's) callbacks similar to the ones below...
 
 ```javascript
-var SimpleDiagram = function() {
-    this.sumOnePlusOne = function(context) {
-        context.x = 1 + 1;
-    };
-    
-    this.sumTwoPlusTwo = function(context) {
-        context.y = 2 + 2;
-    };
-    
-    this.sumXPlusY = function(context) {
-        context.v = context.x + context.y;
-    };
 
-    this.showOk = function() {
-        alert('Ok');
-    };
+    var SimpleDiagram = function() {s
+        this.sumValues = function(context) {
+            context.x = context.val1 + context.val2;
+        };
+        
+        this.multiplyValues = function(context) {
+            context.y = context.val1 * context.val2;
+        };
+        
+        this.sumXPlusY = function(context) {
+            context.v = context.x + context.y;
+        };
+    
+        this.showOk = function() {
+            alert('Ok');
+        };
+    
+        this.showNotOk = function() {
+            alert('Not Ok');
+        };
+    }
 
-    this.showNotOk = function() {
-        alert('Not Ok');
-    };
-}
 ```
 ... And execute them.
 
@@ -58,53 +60,55 @@ The possibility to draw the diagram will be addressed in another project called 
 Another project ("**Jack Ketch for Transformation**"?) will provide some model transformation between drawing structures and the executable one. The main goal is to achieve a common model metadata that can be easily transformed from different sources. The current (possible) metadata structures are defined below (based on the previous diagram):
 
 ```javascript
-var initialNodes = [ 
-    { id: '#IN:0001' } 
-];
 
-var forkNodes = [ 
-    { id: '#FN:0003' } 
-];
+    var initialNodes = [ 
+        { id: '#IN:0001' } 
+    ];
+    
+    var forkNodes = [ 
+        { id: '#FN:0003' } 
+    ];
+    
+    var actionNodes = [ 
+        { id: '#AN:0006', callback: 'SimpleDiagram::sumOnePlusOne' },
+        { id: '#AN:0007', callback: 'SimpleDiagram::sumTwoPlusTwo' },
+        { id: '#AN:0012', callback: 'SimpleDiagram::sumXPlusY' },
+        { id: '#AN:0017', callback: 'SimpleDiagram::showOk' },
+        { id: '#AN:0018', callback: 'SimpleDiagram::showNotOk' }
+    ];
+    
+    var joinNodes = [
+        { id: '#JN:0010' } 
+    ];
+    
+    var decisionNodes = [
+        { 
+            id: '#DN:0014', 
+            context: [ 
+                { attribute: 'v', condition: '=', value: '6', controlFlows: '#CF:0015' }
+            ],
+            otherwise: { controlFlow: '#CF:0016' }
+        } 
+    ];
+    
+    var finalNodes = [ 
+        { id: '#FN:0021' } 
+    ];
+    
+    var controlFlows = [
+        { id: '#CF:0002', from: '#IF:0001', to: '#FN:0003' },
+        { id: '#CF:0004', from: '#FN:0003', to: '#AN:0006' },
+        { id: '#CF:0005', from: '#FN:0003', to: '#AN:0007' },
+        { id: '#CF:0008', from: '#AN:0006', to: '#JN:0010' },
+        { id: '#CF:0009', from: '#AN:0007', to: '#JN:0010' },
+        { id: '#CF:0011', from: '#JN:0010', to: '#AN:0012' },
+        { id: '#CF:0013', from: '#AN:0012', to: '#DN:0014' },
+        { id: '#CF:0015', from: '#DN:0014', to: '#AN:0017' },
+        { id: '#CF:0016', from: '#DN:0014', to: '#AN:0018' },
+        { id: '#CF:0019', from: '#AN:0017', to: '#FN:0021' },
+        { id: '#CF:0020', from: '#AN:0018', to: '#FN:0021' }
+    ];
 
-var actionNodes = [ 
-    { id: '#AN:0006', callback: 'SimpleDiagram::sumOnePlusOne' },
-    { id: '#AN:0007', callback: 'SimpleDiagram::sumTwoPlusTwo' },
-    { id: '#AN:0012', callback: 'SimpleDiagram::sumXPlusY' },
-    { id: '#AN:0017', callback: 'SimpleDiagram::showOk' },
-    { id: '#AN:0018', callback: 'SimpleDiagram::showNotOk' }
-];
-
-var joinNodes = [
-    { id: '#JN:0010' } 
-];
-
-var decisionNodes = [
-    { 
-        id: '#DN:0014', 
-        context: [ 
-            { attribute: 'v', condition: '=', value: '6', controlFlows: '#CF:0015' }
-        ],
-        otherwise: { controlFlow: '#CF:0016' }
-    } 
-];
-
-var finalNodes = [ 
-    { id: '#FN:0021' } 
-];
-
-var controlFlows = [
-    { id: '#CF:0002', from: '#IF:0001', to: '#FN:0003' },
-    { id: '#CF:0004', from: '#FN:0003', to: '#AN:0006' },
-    { id: '#CF:0005', from: '#FN:0003', to: '#AN:0007' },
-    { id: '#CF:0008', from: '#AN:0006', to: '#JN:0010' },
-    { id: '#CF:0009', from: '#AN:0007', to: '#JN:0010' },
-    { id: '#CF:0011', from: '#JN:0010', to: '#AN:0012' },
-    { id: '#CF:0013', from: '#AN:0012', to: '#DN:0014' },
-    { id: '#CF:0015', from: '#DN:0014', to: '#AN:0017' },
-    { id: '#CF:0016', from: '#DN:0014', to: '#AN:0018' },
-    { id: '#CF:0019', from: '#AN:0017', to: '#FN:0021' },
-    { id: '#CF:0020', from: '#AN:0018', to: '#FN:0021' }
-];
 ```
 
 The last project is an HTML 5 application (probably called **Jack Ketch App**) that will allow plotting the diagram and setting each nodes attributes (something similar to an IDE). It should also be able to save the diagram in some text format (JSON?) to be transformed in an executable workflow.
@@ -150,6 +154,14 @@ It is only a kickstart point to let the engine know where to begin processing.
 + Only one flow going out;
 + Its outgoing flow must target an Action Node, a Decision Node or a Fork Node.
 
+**Usage**
+```javascript
+
+    var iNode = new jk4flow.model.InitialNode('#ID');
+    iNode.outgoing = ... // some subclass of AbstractNode;
+
+```
+
 #### 2. Action Node
 
  ![action-node.jpg](README/action-node.jpg "Action Node")
@@ -162,6 +174,17 @@ Where the magic happens! Each action node corresponds to a programming unit resp
 + Its outgoing flow may target another Action Node, a Final Node, a Decision Node, a Fork Node and even a Join Node, but only if it is part of an asynchronous flow started by a previous Fork Node.
 + Its outgoing flow cannot target itself.
 
+**Usage**
+```javascript
+
+    var aNode = new jk4flow.model.ActionNode('#ID');
+    aNode.outgoing = ... // some subclass of AbstractNode;
+    aNode.callback = function() { 
+        // Do something here
+    };
+    
+```
+
 #### 3. Decision Node
 
  ![decision-node.jpg](README/decision-node.jpg "Decision Node")
@@ -173,6 +196,47 @@ Will take the decision of which will be the next step of the workflow. It will c
 + Two or more flows going out. Actually, there must be at least one flow to match to the context attribute and one flow otherwise. There must always be an outgoing *otherwise* flow;
 + Its outgoing flow may target an Action Node, a Final Node, another Decision Node or a Fork Node. To prevent unexpected behaviors I discourage targeting a join node.
 + Its outgoing flow cannot target itself.
+
+**Usage**
+```javascript
+
+    var dNode = new jk4flow.model.DecisionNode('#ID');
+    dNode.outgoings = [ ctxOut1, ctxOut2, ... , ctxOutN ]; // ContextOutgoing objects;
+    dNode.otherwise = ... // some subclass of AbstractNode
+
+```
+##### 3.1. The Context Outgoing Object
+A Context Outgoing object is a special type of object used by decision nodes to check what is the next node to be executed.
+
+A decision node's outgoing flow is not just a pointer to another node. It needs to be able to validate a condition that will inform the executing engine what is the next step to be taken in the running workflow. This special type of object must encapsulate the attribute of the flow context being evaluated, the evaluation operator and the expected value (or set of values).
+
+The operators accepted by a context outgoing are:
+
+```javascript
+
+    EQ     // equals
+    NEQ    // not equals
+    GT     // greater than
+    GEQT   // greater or equals than
+    LT     // lower than
+    LEQT   // lower or equals than
+    IN     // contains
+    ENDS   // ends with,
+    STARTS // starts with
+    
+```
+
+**Usage**
+```javascript
+
+    var ctxOut = new jk4flow.model.ContextOutgoing(
+        decisionNodeOwner,               // The decision that holds this outgoing
+        'attr',                          // The flow context's attribute being evaluated
+        jk4flow.model.CONDITION_TYPE.EQ, // The evaluating operator
+        s'1');                           // The expected value
+    ctxOut.target = ...                  // some subclass of AbstractNode
+
+```
 
 #### 4. Fork Node
 
@@ -189,6 +253,14 @@ Be aware that starting many asynchronous flows may be hard to manage, it also ma
 + Two or more flows going out.
 + Its outgoing flows may target an Action Node or a Decision Node. Do not terminate an asynchronous process without joining it again, please.
 
+**Usage**
+```javascript
+
+    var fNode = new jk4flow.model.ForkNode('#ID');
+    fNode.outgoings = [ node1, node2, ... , nodeN ]; // subclasses of AbstractNode
+
+```
+
 #### 5. Join Node
 
  ![join-node.jpg](README/join-node.jpg "Join Node")
@@ -199,6 +271,14 @@ Responsible for gathering all asynchronous processes started by a Fork Node.
 + Many as possible flows coming into;
 + Only one flow going out;
 + Its outgoing flow may target an Action Node, Decision Node, a Final Node or another Fork Node. Think about it! I could only start a set of asynchronous processes to speed up data gathering. After having all data needed, start another to speed up its use.
+
+**Usage**
+```javascript
+
+    var jNode = new jk4flow.model.JoinNode('#ID');
+    jNode.outgoing = ... // some subclass of AbstractNode;
+
+```
 
 #### 6. Final Node
 
@@ -212,6 +292,13 @@ At first I thought this node wasn't really necessary, for example, if I just rea
 + Many as possible flows coming into;
 + No flow going out.
 
+**Usage**
+```javascript
+
+    var fNode = new jk4flow.model.FinalNode('#ID');
+
+```
+
 #### 7. Control Flow
 
  ![control-flow.jpg](README/control-flow.jpg "Control Flow")
@@ -222,19 +309,86 @@ Links two (and only two) nodes together. Indicates from where to where the flow 
 + Link one node to another;
 + The start node cannot be the same as the end node.
 
-#### NOTES
+**NOTE:** There is not a control flow object implementation. The control flow is represented as outgoing nodes in Initial, Action, Fork and Join Nodes and as the previously explained Context Outgoing object of the Decision Node.
+
+#### 8. NOTES
 
 I'm not going to explain any of these elements in details, for that I would refer to [Visual Paradigm's Activity Diagram](http://www.visual-paradigm.com/VPGallery/diagrams/Activity.html "Activity Diagram Explanation") explanation.
 
 I did not included the **merge node** on purpose. In my opinion it will not be necessary in this initial versions. As for all the other elements existing in UML 2.0 Activity Diagram, once again: "too much sometimes is too much".
 
+#### 9. A Complete Example
+To show a complete example of a workflow, quite similar to the diagram previously exposed in "**[ GOAL ]**" section (and also can be found in the unit tests suite):s
+
+```javascript
+
+    var fin10 = new jk4flow.model.FinalNode('#FN:0010');
+
+    var act9 = new jk4flow.model.ActionNode('#AN:0009');
+    act9.outgoing = fin10;
+    act9.callback = function(context) {
+        context.result = NOT_OK;
+    };
+
+    var act8 = new jk4flow.model.ActionNode('#AN:0008');
+    act8.outgoing = fin10;
+    act8.callback = function(context) {
+        context.result = OK;
+    };
+
+    var dec7 = new jk4flow.model.DecisionNode('#DN:0007');
+    var ctxOut = new jk4flow.model.ContextOutgoing(
+            dec7, 'v', jk4flow.model.CONDITION_TYPE.LEQT, 3);
+    ctxOut.target = act8;
+    dec7.outgoings = [ ctxOut ];
+    dec7.otherwise = act9;
+
+    var act6 = new jk4flow.model.ActionNode('#AN:0006');
+    act6.outgoing = dec7;
+    act6.callback = function(context) {
+        context.v = context.x + context.y;
+    };
+
+    var join5 = new jk4flow.model.JoinNode('#AN:0005');
+    join5.outgoing = act6;
+
+    var act4 = new jk4flow.model.ActionNode('#AN:0004');
+    act4.outgoing = join5;
+    act4.callback = function(context) {
+        context.y = context.val1 * context.val2;
+    };
+
+    var act3 = new jk4flow.model.ActionNode('#AN:0003');
+    act3.outgoing = join5;
+    act3.callback = function(context) {
+        context.x = context.val1 + context.val2;
+    };
+
+    var fork2 = new jk4flow.model.ForkNode('#AN:0002');
+    fork2.outgoings = [ act3, act4 ];
+
+    var ini1 = new jk4flow.model.InitialNode('#IN:0001');
+    ini1.outgoing = fork2;
+
+```
+
 ## [ The Flow Context Object ]
-The *flow context* object is just a regular Javascript object that will be passed on to each node in the diagram so each part of the flow can make use of previous processed information.
+The *flow context* object is just a regular Javascript object that will be passed on to each node in the diagram so each part of the flow can make use of a previously processed information.
 
 One good use for this context object is, for instance, start a transaction before starting the flow, put the transaction object inside the context object and then start the flow execution passing the context object to it. Once the flow is finished, commit the transaction (or roll it back).
 
 ## [ The Workflow Object ]
-The workflow object is responsible for encapsulating all the objects that define the activity diagram to be executed.
+The workflow object is responsible for encapsulating all the objects that define the activity diagram to be executed. It also wraps the flow context object.
+
+When a brand new workflow object is created it will also create a new empty flow context object. Another flow context object can be assigned to the workflow after it has been created, but if **undefined** or **null** are assigned, it will only restarts an empty flow context object.
+
+**Usage**
+```javascript
+
+    var wf = new jk4flow.model.Workflow(someInitialNode);
+    wf.context = { someAttr: 1 };
+
+```
 
 ## [ Modules ]
 
@@ -244,16 +398,23 @@ NOTE: The set of arrays that were explained before is going to be part of anothe
 ```
 
 ## [ Workflow Engine ]
-The main goal of the engine is very simple:
+The main goal of the engine is to create **executors** that will run the workflow. One single engine can create as many executors as needed and each execution will not mess with another, they have different scopes, even if the same workflow is being executed by different engines.
 
-+ Executes the connected object instances by "traveling" through each dependency tree;
-+ The *flow context* object "travels along", node by node;
-+ Action Nodes must execute related callbacks;
-+ Decision Nodes must check for context attributes to drive the flow;
-+ Fork Nodes must start a set of promises to be called asynchronously;
-+ Join Nodes must gather all this asynchronous promises.s
+An executor object cannot be manually instantiated. It must be created using the [Factory Method](http://en.wikipedia.org/wiki/Factory_method_pattern "Factory Method") provided by the Engine object.
 
-In the next days (weeks?) I'll update this document with proposed implementation of the workflow engine.
+**NOTE:** There is no reason to instantiate more than one **Engine**. The reason that it was not made a [Singleton](http://en.wikipedia.org/wiki/Singleton_pattern "Singleton") or the factory method is not a static one is that it becomes harder to test (without some workarounds like spies) and even harder to extend.
+
+#### The Executor Object
+The executor object is the core of the executing engine! Its goals are:
+
++ To execute the connected objects instances by "traveling" through each one in the "dependency tree";
++ Make sure that the *flow context* object "travels along", node by node;
++ Execute Action Nodes' callbacks;
++ Check for context attributes in Decision Nodes to drive the flow;
++ Start a set of promises to be called asynchronously when a Fork Nodes is found;
++ Assure that Join Nodes gather all asynchronous promises started by a Fork Node.
+
+All **jk4flow** executor implementation strongly depends on **Q** library for asynchronous execution. It means that it will return a **promise** that must be correctly handled (if you don't know about promises or the **Q** library, I suggest start reading about).
 
 # **Thanks to...**
 ... The development team and supporters of the applications below, without them I could not even start this project at such low cost (I'm $upporting some of them, just to let you know):
@@ -261,14 +422,20 @@ In the next days (weeks?) I'll update this document with proposed implementation
 + Gimp - [http://www.gimp.org/](http://www.gimp.org/ "http://www.gimp.org/")
 + Git - [http://git-scm.com/](http://git-scm.com/ "http://git-scm.com/")
 + GitHub - [https://github.com/](https://github.com/ "https://github.com/")
-+ Node.js - [http://nodejs.org/](http://nodejs.org/ "http://nodejs.org/")
-+ MdCharm - [http://www.mdcharm.com/](http://www.mdcharm.com/ "http://www.mdcharm.com/")
-+ Ubuntu Desktop - [http://www.ubuntu.com/desktop](http://www.ubuntu.com/desktop "http://www.ubuntu.com/desktop")
 + Google Chrome - [http://www.google.com/chrome/](http://www.google.com/chrome/ "http://www.google.com/chrome/")
++ MdCharm - [http://www.mdcharm.com/](http://www.mdcharm.com/ "http://www.mdcharm.com/")
 + Mozilla Firefox - [https://www.mozilla.org/en-US/firefox/new/](https://www.mozilla.org/en-US/firefox/new/ "https://www.mozilla.org/en-US/firefox/new/")
-+ All the guys that create Javascript libraries that are commonly (or not that commonly) used!
++ Node.js - [http://nodejs.org/](http://nodejs.org/ "http://nodejs.org/")
++ Ubuntu Desktop - [http://www.ubuntu.com/desktop](http://www.ubuntu.com/desktop "http://www.ubuntu.com/desktop")
+
++ All the guys that have created all these wonderful Javascript libraries (like "[Q](http://documentup.com/kriskowal/q/ "Q")") that are commonly (or not that commonly) used!
 
 I could thank to [WebStorm](https://www.jetbrains.com/webstorm/ "WebStorm") team and all the guys in JetBrains, but since I'm paying for their software, I won't.
+
+# By the way...
+If you find any broken link, English mistakes (there must be tons) or any type of fix you think its worth of noticing... Please, **contact me**! My contact info can be found in my **GitHub** profile. Thanks!
+
+[ [https://github.com/alejoceballos](https://github.com/alejoceballos "https://github.com/alejoceballos") ]
 
 # **License**
 ```

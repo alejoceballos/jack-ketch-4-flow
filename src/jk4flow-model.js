@@ -541,7 +541,16 @@ jk4flow.model = (function() {
 
 
     /**
+     * The workflow object is responsible for encapsulating all the objects that define the activity
+     * diagram to be executed. It also wraps the flow context object.
      *
+     * When a brand new workflow object is created it will also create a new empty flow context
+     * object. Another flow context object can be assigned to the workflow after it has been
+     * created, but if undefined or null are assigned, it will only restarts an empty flow context
+     * object.
+     *
+     * @param {InitialNode} initialNode The first node that starts the whole workflow
+     * @constructor
      */
     var Workflow = function(initialNode) {
 

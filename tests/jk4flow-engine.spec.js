@@ -22,22 +22,65 @@ describe('JSON Workflow Engine', function() {
 
     describe('Executor Creation', function () {
 
+        var NO_WORKFLOW_ERR_MSG = 'First argument must be an instance of Workflow';
+
+        var engine = new jk4flow.engine.Engine();
+
         it('+ Should not allow an empty argument', function() {
+            expect(
+                function() {
+                    engine.createExecutor();
+                }
+            ).toThrow(NO_WORKFLOW_ERR_MSG);
         });
 
         it('+ Should not allow a number as argument', function() {
+            expect(
+                function() {
+                    engine.createExecutor(1);
+                }
+            ).toThrow(NO_WORKFLOW_ERR_MSG);
         });
 
         it('+ Should not allow a boolean as argument', function() {
+            expect(
+                function() {
+                    engine.createExecutor(true);
+                }
+            ).toThrow(NO_WORKFLOW_ERR_MSG);
         });
 
         it('+ Should not allow a string as argument', function() {
+            expect(
+                function() {
+                    engine.createExecutor('I\'m a string');
+                }
+            ).toThrow(NO_WORKFLOW_ERR_MSG);
         });
 
         it('+ Should not allow an ordinary object as argument', function() {
+            expect(
+                function() {
+                    engine.createExecutor( { } );
+                }
+            ).toThrow(NO_WORKFLOW_ERR_MSG);
         });
 
         it('+ Should only allow a workflow object as argument', function() {
+            var iNode = new jk4flow.model.InitialNode(DUMMY_ID);
+            var wf = new jk4flow.model.Workflow(iNode);
+            var executor = engine.createExecutor(wf);
+
+            expect(executor).toBeDefined();
+        });
+
+        it('+ Each executor creation must generate a different object', function() {
+            var iNode = new jk4flow.model.InitialNode(DUMMY_ID);
+            var wf = new jk4flow.model.Workflow(iNode);
+            var executor1 = engine.createExecutor(wf);
+            var executor2 = engine.createExecutor(wf);
+
+            expect(executor1).not.toBe(executor2);
         });
 
     });

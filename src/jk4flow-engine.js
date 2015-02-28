@@ -13,7 +13,24 @@ jk4flow.engine = (function(model) {
         var Q = require('q');
     }
 
+    /**
+     * The executor object is the core of the executing engine! Its goals are:
+     *
+     * + To execute the connected objects instances by "traveling" through each one in the
+     * "dependency tree";
+     * + Make sure that the flow context object "travels along", node by node;
+     * + Execute Action Nodes' callbacks;
+     * + Check for context attributes in Decision Nodes to drive the flow;
+     * + Start a set of promises to be called asynchronously when a Fork Nodes is found;
+     * + Assure that Join Nodes gather all asynchronous promises started by a Fork Node.
+     *
+     * @param {model.Workflow} workflow The Workflow to be executed
+     * @constructor
+     */
     var Executor = function(workflow) {
+        if (!(workflow instanceof model.Workflow)) {
+            throw 'First argument must be an instance of Workflow';
+        }
 
         var _executionError;
         Object.defineProperty(this, 'executionError', {
@@ -166,6 +183,21 @@ jk4flow.engine = (function(model) {
 
     };
 
+    /**
+     * The main goal of the engine is to create executors that will run the workflow. One
+     * single engine can create as many executors as needed and each execution will not mess
+     * with another, they have different scopes, even if the same workflow is being executed
+     * by different engines.
+     *
+     * An executor object cannot be manually instantiated. It must be created using the Factory
+     * Method provided by the Engine object.
+     *
+     * NOTE: There is no reason to instantiate more than one Engine. The reason that it was not
+     * made a Singleton or the factory method is not a static one is that it becomes harder to
+     * test (without some workarounds like spies) and even harder to extend.
+     *
+     * @constructor
+     */
     var Engine = function() {
         this.createExecutor = function(workflow) {
             return new Executor(workflow);

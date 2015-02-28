@@ -1921,7 +1921,6 @@ describe('JSON Workflow Model', function() {
                 expect(dNode.outgoings.length).toBe(1);
             });
 
-
             it('+ Should not allow numbers in the set of outgoing flows', function() {
                 expect(
                     function() {
