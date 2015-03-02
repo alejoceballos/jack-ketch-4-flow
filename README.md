@@ -1,13 +1,14 @@
-﻿# **Jack Ketch for JS Flows**
-(by Alejo Ceballos)
+﻿# **Jack Ketch for Flow**
 
 A flow executor for javascript code. Hopefully it will work in both client and server side.
 
+**Jack Ketch 4 Flow** is one of four projects. It is intended to be a flow executor framework capable of running [Activity Diagrams](http://en.wikipedia.org/wiki/Activity_diagram "Activity Diagram").
+
 **NOTE:** 
-+ This document was created on **February 9, 2015**. Last update was on ***February 28, 2015***.
++ This document was created on **February 9, 2015**. Last update was on the ***2nd of March, 2015***.
 
 ## [ Goal ]
-To get a JSON data structure representing something similar to an [Activity Diagram](http://en.wikipedia.org/wiki/Activity_diagram "Activity Diagram") and **execute it**!
+To get a [JSON](http://json.org/ "JavaScript Object Notation") data structure representing something similar to an [Activity Diagram](http://en.wikipedia.org/wiki/Activity_diagram "Activity Diagram") and **execute it**!
 
 In other words, the main goal is to get something like the diagram below...
 
@@ -55,63 +56,59 @@ The developer role is to provide programming structures that can be bound to the
 ## [ Special Notes ]
 I intend to split this project in 4 (four) parts. So this one can focus on the execution engine.
 
-The possibility to draw the diagram will be addressed in another project called **Jack Ketch for Draw** (or something similar), using [Raphaël - JavaScript Library](http://raphaeljs.com/ "Raphael"). I haven't decided yet what will be the JSON format the drawing structure will save the diagrams.
+The possibility to draw the diagram will be addressed in another project called **[Jack Ketch 4 Draw](https://github.com/alejoceballos/jack-ketch-4-draw "jk4draw")** (or something similar), using [Raphaël - JavaScript Library](http://raphaeljs.com/ "Raphael"). I haven't decided yet what will be the JSON format the drawing structure will save the diagrams.
 
-Another project ("**Jack Ketch for Transformation**"?) will provide some model transformation between drawing structures and the executable one. The main goal is to achieve a common model metadata that can be easily transformed from different sources. The current (possible) metadata structures are defined below (based on the previous diagram):
+Another project ("**Jack Ketch for Transformation**"?) will provide some model transformation between drawing structures and the executable one. The main goal is to achieve a common meta-model that can be easily transformed from different sources. The current (possible) metadata structures are defined below (based on the previous diagram):
 
 ```javascript
 
-    var initialNodes = [ 
-        { id: '#IN:0001' } 
-    ];
+    var workflow = {
+        initialNodes: [ 
+            { id: '#IN:0001' } 
+        ],    
+        forkNodes: [ 
+            { id: '#FN:0002' } 
+        ],
+        actionNodes: [ 
+            { id: '#AN:0003', callback: 'SimpleDiagram::sumOnePlusOne' },
+            { id: '#AN:0004', callback: 'SimpleDiagram::sumTwoPlusTwo' },
+            { id: '#AN:0006', callback: 'SimpleDiagram::sumXPlusY' },
+            { id: '#AN:0008', callback: 'SimpleDiagram::showOk' },
+            { id: '#AN:0009', callback: 'SimpleDiagram::showNotOk' }
+        ],    
+        joinNodes: [
+            { id: '#JN:0005' } 
+        ],
+        decisionNodes: [
+            { 
+                id: '#DN:0007', 
+                context: [ 
+                    { attribute: 'v', condition: '=', value: '6', controlFlow: '#CF:0008' }
+                ],
+                otherwise: { controlFlow: '#CF:0009' }
+            } 
+        ],
+        finalNodes: [ 
+            { id: '#FN:0021' } 
+        ],
+        controlFlows: [
+            { id: '#CF:0001', from: '#IF:0001', to: '#FN:0002' },
+            { id: '#CF:0002', from: '#FN:0002', to: '#AN:0003' },
+            { id: '#CF:0003', from: '#FN:0002', to: '#AN:0004' },
+            { id: '#CF:0004', from: '#AN:0003', to: '#JN:0005' },
+            { id: '#CF:0005', from: '#AN:0004', to: '#JN:0005' },
+            { id: '#CF:0006', from: '#JN:0005', to: '#AN:0006' },
+            { id: '#CF:0007', from: '#AN:0006', to: '#DN:0007' },
+            { id: '#CF:0008', from: '#DN:0007', to: '#AN:0008' },
+            { id: '#CF:0009', from: '#DN:0007', to: '#AN:0009' },
+            { id: '#CF:0010', from: '#AN:0008', to: '#FN:0010' },
+            { id: '#CF:0011', from: '#AN:0009', to: '#FN:0010' }
+        ]
+    }
     
-    var forkNodes = [ 
-        { id: '#FN:0003' } 
-    ];
-    
-    var actionNodes = [ 
-        { id: '#AN:0006', callback: 'SimpleDiagram::sumOnePlusOne' },
-        { id: '#AN:0007', callback: 'SimpleDiagram::sumTwoPlusTwo' },
-        { id: '#AN:0012', callback: 'SimpleDiagram::sumXPlusY' },
-        { id: '#AN:0017', callback: 'SimpleDiagram::showOk' },
-        { id: '#AN:0018', callback: 'SimpleDiagram::showNotOk' }
-    ];
-    
-    var joinNodes = [
-        { id: '#JN:0010' } 
-    ];
-    
-    var decisionNodes = [
-        { 
-            id: '#DN:0014', 
-            context: [ 
-                { attribute: 'v', condition: '=', value: '6', controlFlows: '#CF:0015' }
-            ],
-            otherwise: { controlFlow: '#CF:0016' }
-        } 
-    ];
-    
-    var finalNodes = [ 
-        { id: '#FN:0021' } 
-    ];
-    
-    var controlFlows = [
-        { id: '#CF:0002', from: '#IF:0001', to: '#FN:0003' },
-        { id: '#CF:0004', from: '#FN:0003', to: '#AN:0006' },
-        { id: '#CF:0005', from: '#FN:0003', to: '#AN:0007' },
-        { id: '#CF:0008', from: '#AN:0006', to: '#JN:0010' },
-        { id: '#CF:0009', from: '#AN:0007', to: '#JN:0010' },
-        { id: '#CF:0011', from: '#JN:0010', to: '#AN:0012' },
-        { id: '#CF:0013', from: '#AN:0012', to: '#DN:0014' },
-        { id: '#CF:0015', from: '#DN:0014', to: '#AN:0017' },
-        { id: '#CF:0016', from: '#DN:0014', to: '#AN:0018' },
-        { id: '#CF:0019', from: '#AN:0017', to: '#FN:0021' },
-        { id: '#CF:0020', from: '#AN:0018', to: '#FN:0021' }
-    ];
-
 ```
 
-The last project is an HTML 5 application (probably called **Jack Ketch App**) that will allow plotting the diagram and setting each nodes attributes (something similar to an IDE). It should also be able to save the diagram in some text format (JSON?) to be transformed in an executable workflow.
+The last project is an HTML 5 application (called **[Jack Catch for Application](https://github.com/alejoceballos/jack-ketch-4-app "jack-catch-4-app")**) that will allow plotting the diagram and setting each node's attribute (something similar to an [IDE](http://en.wikipedia.org/wiki/Integrated_development_environment "Integrated Development Environment")). It should also be able to save the diagram in some text format to be transformed in an executable workflow (byt this project).
 
 ## [ History ]
 The previous goal may sound familiar to some, and sometimes you may call it [BPM](http://en.wikipedia.org/wiki/Business_process_management "Business process management"), but this project is not that ambitious.
@@ -126,7 +123,7 @@ In fact, the complete set of tools that is provided along jBPM allows much more.
 The "problem" is that jBPM does much more, it works with an "on-the-fly" state persistence, using in-memory or file system databases with history logging for querying and monitoring and lots of integrations with other technologies. It was too much! And even being faster than we expected, sometimes was too "heavy" when all we wanted was a simple *flow executor* (specially when some flows should execute within miliseconds).
 
 #### The rise and fall of my first OSS Project
-That's when I had the idea to implement a much simpler engine without all the overhead jBPM offered. In fact, an alfa, limited version (without asynchronous execution) was implemented but never went to production, mostly because I lost interest on it, but the difficulty to find a good UML tool that could export its diagram structure as files didn't burst my motivation either. The alfa version used [ArgoUML](http://argouml.tigris.org/ "") for exporting Activity Diagrams to XMI so, basically, the link between visual diagrams and the executing engine was XML.
+That's when I had the idea to implement a much simpler engine without all the overhead jBPM offered. In fact, an alfa, limited version (without asynchronous execution) was implemented but never went to production, mostly because I lost interest on it, but the difficulty to find a good [UML](http://www.uml.org/ "Unified Modeling Language") tool that could export its diagram structure as files didn't burst my motivation either. The alfa version used [ArgoUML](http://argouml.tigris.org/ "") for exporting Activity Diagrams to XMI so, basically, the link between visual diagrams and the executing engine was XML.
 
 #### Lessons learned
 One thing that impressed me in the project using jBPM was the capability of our stakeholder to discuss our solution just looking at the flow diagram. Complex flows were simplified with colored shapes and our client was able to discuss about proposed solutions without having to dig down into complex lines of code that he wouldn't understand. Once I started to study javascript more deeply and its related technologies (NodeJS, promises, SPAs, ...), the asynchronous nature of the language seemed the perfect environment to try this project again (and to simplify a lot javascript's dynamic, and sometimes, *uncontrollable* nature). So here I go!
@@ -141,7 +138,7 @@ The main idea of this library is to:
 2. Allow the flow to be controlled binding nodes results to different outcomes;
 3. Allow to represent and execute synchronous and asynchronous processing.
 
-For that I will use a limited set of UML's Activity Diagram elements, such as:
+For that I will use a limited set of [UML](http://www.uml.org/ "Unified Modeling Language")'s Activity Diagram elements, such as:
 
 #### 1. Initial Node
 
@@ -414,7 +411,7 @@ The executor object is the core of the executing engine! Its goals are:
 + Start a set of promises to be called asynchronously when a Fork Nodes is found;
 + Assure that Join Nodes gather all asynchronous promises started by a Fork Node.
 
-All **jk4flow** executor implementation strongly depends on **Q** library for asynchronous execution. It means that it will return a **promise** that must be correctly handled (if you don't know about promises or the **Q** library, I suggest start reading about).
+All **jk4flow** executor implementation strongly depends on **[Q](http://documentup.com/kriskowal/q/ "Q")** library for asynchronous execution. It means that it will return a **[promise](https://promisesaplus.com/ "Promise/A+")** that must be correctly handled (if you don't know about promises or the **Q** library, I suggest start reading about).
 
 **Usage**
 ```javascript
