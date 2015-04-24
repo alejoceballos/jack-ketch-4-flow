@@ -53,12 +53,14 @@ This way the requirements provided by the stakeholder **can** be easily translat
 
 The developer role is to provide programming structures that can be bound to the flow and executed by an external engine.
 
-## [ Special Notes ]
-I intend to split this project in 4 (four) parts. So this one can focus on the execution engine.
+## **[ Important Note ]**
+I intended to split this project in 4 (four) parts. This one (jk4flow) still focuses on the execution engine, but the library that would allow drawing the diagram, addressed in another project called **[Jack Ketch 4 Draw](https://github.com/alejoceballos/jack-ketch-4-draw "jk4draw")**, is no more.
 
-The possibility to draw the diagram will be addressed in another project called **[Jack Ketch 4 Draw](https://github.com/alejoceballos/jack-ketch-4-draw "jk4draw")** (or something similar), using [Raphaël - JavaScript Library](http://raphaeljs.com/ "Raphael"). I haven't decided yet what will be the JSON format the drawing structure will save the diagrams.
+There are a lot of free application that do this job. The best ones are paid, I know, but the best free tool will always be better than any graphic tool I would develop (I just don't have the time to focus on this right now). 
 
-Another project ("**Jack Ketch for Transformation**"?) will provide some model transformation between drawing structures and the executable one. The main goal is to achieve a common meta-model that can be easily transformed from different sources. The current (possible) metadata structures are defined below (based on the previous diagram):
+I still intend to define a JSON format to represent the drawing structure metadata. The transformation from a third-party tool digram file to jk4flow JSON metadata will still be addressed by a project to be (something like "**Jack Ketch for Transformation**"?). This project may provide some model transformation between drawing structures and the executable one. 
+
+The main goal still is to achieve a common meta-model that can be easily transformed from different sources. The current (possible) metadata structures are defined below (based on the previous diagram):
 
 ```javascript
 
@@ -108,7 +110,7 @@ Another project ("**Jack Ketch for Transformation**"?) will provide some model t
     
 ```
 
-The last project is an HTML 5 application (called **[Jack Catch for Application](https://github.com/alejoceballos/jack-ketch-4-app "jack-catch-4-app")**) that will allow plotting the diagram and setting each node's attribute (something similar to an [IDE](http://en.wikipedia.org/wiki/Integrated_development_environment "Integrated Development Environment")). It should also be able to save the diagram in some text format to be transformed in an executable workflow (byt this project).
+The last project should be an HTML 5 application (called **[Jack Catch for Application](https://github.com/alejoceballos/jack-ketch-4-app "jack-catch-4-app")**) that would allow plotting the diagram and setting each node's attribute (something similar to an [IDE](http://en.wikipedia.org/wiki/Integrated_development_environment "Integrated Development Environment")). As I won't develop a drawing library anymore there is no use in keeping this project alive as well, but I will indicate free tools and how to use them along jk4flow in the future.
 
 ## [ History ]
 The previous goal may sound familiar to some, and sometimes you may call it [BPM](http://en.wikipedia.org/wiki/Business_process_management "Business process management"), but this project is not that ambitious.

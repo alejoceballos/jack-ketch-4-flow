@@ -276,7 +276,7 @@ jk4flow.model = (function() {
      *
      * Basic Rules: (1) Many as possible flows coming into; (2) Only one flow going out;
      * (3) Its outgoing flow may target an Action Node, Decision Node, a Final Node or
-     * another Fork Node. Think about it! I could only start a set of asynchronous processes
+     * a Fork Node. Think about it! I could only start a set of asynchronous processes
      * to speed up data gathering. After having all data needed, start another to speed up
      * its use.
      *
@@ -417,7 +417,7 @@ jk4flow.model = (function() {
 
         /**
          * Checks if the current instance of the Context Output satisfies the condition. It must
-         * be used by the engine to drive the workflow to thenext node.
+         * be used by the engine to drive the workflow to the next node.
          *
          * @param {object} context The flow context object is just a regular Javascript object that will
          * be passed on to each node in the diagram so each part of the flow can make use of previous
