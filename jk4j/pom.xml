@@ -3,13 +3,16 @@
 	
 	<modelVersion>4.0.0</modelVersion>
 	
-	<groupId>somossuinos.jackketch</groupId>
+	<groupId>somossuinos.jk4j</groupId>
 	<artifactId>jk4j</artifactId>
 	<version>1.0</version>
-    <modules>
-        <module>jk4j-jk4j-workflow</module>
-    </modules>
     <packaging>pom</packaging>
+
+    <name>Jack Ketch 4 Java</name>
+
+    <modules>
+        <module>jk4j-workflow</module>
+    </modules>
 
     <!--
     ########################################################################
