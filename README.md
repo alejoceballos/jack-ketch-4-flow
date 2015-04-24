@@ -18,7 +18,7 @@ In other words, the main goal is to get something like the diagram below...
 
 ```javascript
 
-    s{
+    {
         initialNodes: [ 
             { id: '#IN:0001' } 
         ],    
@@ -69,19 +69,19 @@ In other words, the main goal is to get something like the diagram below...
 This way the requirements provided by the stakeholder **can** be easily translated to an **execution flow**, easy to visualize, therefore easier to **understand**.
 
 The developer role is to provide the programming structures that can be bound to the flow and executed by an external engine.
-s
+
 ## **[ Important Note ]**
-This project was initially intended to be fill stack Javascript with AngularJs in the client and Node.js in the server. Unfortunately Node.js had to be removed from my study path due to professional needs.
+This project was initially intended to be **full stack** Javascript with AngularJs in the client and Node.js in the server. Unfortunately Node.js had to be removed from my study path due to professional needs.
 
 The new restructured project was split in two main development efforts. The client (Javascript) workflow executor and the server (Java) workflow executor.
 
 ### Javascript projects
-The Javascript projects will address the workflow structures, the engine for workflow execution and their adaptation to AngularJS (directives). It will be centered on browser execution, but nothing prevents that it can be extended for the server using Node.js.
+Javascript projects will address the workflow structures, the engine for workflow execution and their adaptation to AngularJS (directives). It will be centered on browser execution, but nothing prevents it from being extended for the server (i.e. using Node.js).
 
 For more information: <https://github.com/alejoceballos/jack-ketch-4-flow/tree/master/jk4js>
 
 ### Java projects
-The Java projects will address the workflow structures, the engine for workflow execution, the transformation from an XML, third-party diagramming software, to JSON and also their adaptation to be used with the Spring framework.
+Java projects will address the workflow structures, the engine for workflow execution, the transformation from an XML, third-party diagramming software, to JSON and also their adaptation to be used with the Spring framework.
 
 For more information: <https://github.com/alejoceballos/jack-ketch-4-flow/tree/master/jk4j>
 
@@ -101,7 +101,7 @@ The "problem" is that jBPM does much more, it works with an "on-the-fly" state p
 That's when I had the idea to implement a much simpler engine without all the overhead jBPM offered. In fact, an alfa, limited version (without asynchronous execution) was implemented but never went to production, mostly because I lost interest on it, but the difficulty to find a good [UML](http://www.uml.org/ "Unified Modeling Language") tool that could export its diagram structure as files didn't burst my motivation either. The alfa version used [ArgoUML](http://argouml.tigris.org/ "") for exporting Activity Diagrams to XMI so, basically, the link between visual diagrams and the executing engine was XML.
 
 #### Lessons learned
-One thing that impressed me in the project using jBPM was the capability of our stakeholder to discuss our solution just looking at the flow diagram. Complex flows were simplified with colored shapes and our client was able to discuss about proposed solutions without having to dig down into complex lines of code that he wouldn't understand. Once I started studying javascript more deeply and its related technologies (NodeJS, promises, SPAs, ...), the asynchronous nature of the language seemed the perfect environment to try this project again (and to simplify a lot javascript's dynamic, and sometimes, *uncontrollable* nature). Once again Java crossed my path and I decided to implement it along javascript's. So here I go!
+One thing that I was impressed in this project using jBPM was our stakeholder's ability to discuss our solution logic just looking at the flow diagram. Complex flows were simplified with colored shapes and our client was able to discuss about proposed solutions without having to dig down into complex lines of code that he wouldn't understand. Once I delved in the javascript and its related technologies (NodeJS, promises, SPAs, ...) its asynchronous nature seemed the perfect environment to try this project again. But once again Java crossed my path and I had to take a decision, I decided to implement it in both languages! So here I go!
 
 #### Why "Jack Ketch"?
 Well, I wanted something that meant "to execute", after all, this engine will be executing a flow. But "executor" or "runner" seemed too lame. So I remembered that an "executioner" executes people (of course, in a different way) and then came the idea to call it [Jack Ketch](http://en.wikipedia.org/wiki/Jack_Ketch ""). Still lame? Well... Whatever, maybe I'll change it in the future.
