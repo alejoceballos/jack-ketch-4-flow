@@ -1,8 +1,8 @@
 ﻿# **Jack Ketch for Flow**
 
-A flow executor for javascript code. Hopefully it will work in both client and server side.
+A flow executor for Java and Javascript code to work in both client and server side.
 
-**Jack Ketch 4 Flow** is one of four projects. It is intended to be a flow executor framework capable of running [Activity Diagrams](http://en.wikipedia.org/wiki/Activity_diagram "Activity Diagram").
+**Jack Ketch 4 Flow** is an umbrella project. It is intended to provide mechanisms to be a flow executor framework capable of running [Activity Diagrams](http://en.wikipedia.org/wiki/Activity_diagram "Activity Diagram") actions bound to Java or Javascript objects.
 
 **NOTE:** 
 + This document was created on **February 9, 2015**. Last update was on the ***2nd of March, 2015***.
