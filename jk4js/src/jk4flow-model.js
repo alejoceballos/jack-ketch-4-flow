@@ -21,16 +21,12 @@ jk4flow.model = (function() {
 
     function isValidNode(node) {
         var aNode = new AbstractNode('DUMMY_ID', NODE_TYPE.ACTION);
-        if (!node || !(node instanceof AbstractNode) || aNode.constructor === node.constructor) {
-            return false;
-        }
-
-        return true
+        return (!node || !(node instanceof AbstractNode) || aNode.constructor === node.constructor);
     }
 
     function isNodeTypeOf(node, types) {
         for (var idx in types) {
-            if (types[idx] === node.type) {
+            if (types.hasOwnProperty(idx) && types[idx] === node.type) {
                 return true;
             }
         }
@@ -44,7 +40,7 @@ jk4flow.model = (function() {
         }
 
         for (var idx in nodes) {
-            if (!isValidNode(nodes[idx])) {
+            if (nodes.hasOwnProperty(idx) && !isValidNode(nodes[idx])) {
                 return false;
             }
         }
@@ -56,10 +52,12 @@ jk4flow.model = (function() {
         for (var nIdx in nodes) {
             var result = false;
 
-            for (var tIdx in types) {
-                if (types[tIdx] === nodes[nIdx].type) {
-                    result = true;
-                    break;
+            if (nodes.hasOwnProperty(nIdx)) {
+                for (var tIdx in types) {
+                    if (types.hasOwnProperty(tIdx) && types[tIdx] === nodes[nIdx].type) {
+                        result = true;
+                        break;
+                    }
                 }
             }
 
@@ -73,7 +71,7 @@ jk4flow.model = (function() {
      * Abstract Node is the template class for all nodes in the Activity diagram
      *
      * @param {string} id The node identification
-     * @param {NODE_TYPE} type Defines the type of the node being created using this constructor
+     * @param {string} type Defines the type of the node being created using this constructor
      * @constructor
      */
     var AbstractNode = function(id, type) {
@@ -431,33 +429,35 @@ jk4flow.model = (function() {
             var ctx = context[_attribute].toString().toLowerCase();
             var val = !_value && _value !== 0 && typeof _value !== 'boolean' ? _value : _value.toString().toLowerCase();
 
+            var result;
+
             switch(_condition) {
                 case CONDITION_TYPE.EQ:
-                    var result = ctx == val;
+                    result = ctx == val;
                     break;
                 case CONDITION_TYPE.NEQ:
-                    var result = ctx != val;
+                    result = ctx != val;
                     break;
                 case CONDITION_TYPE.GT:
-                    var result = Number(ctx) > Number(val);
+                    result = Number(ctx) > Number(val);
                     break;
                 case CONDITION_TYPE.GEQT:
-                    var result = Number(ctx) >= Number(val);
+                    result = Number(ctx) >= Number(val);
                     break;
                 case CONDITION_TYPE.LT:
-                    var result = Number(ctx) < Number(val);
+                    result = Number(ctx) < Number(val);
                     break;
                 case CONDITION_TYPE.LEQT:
-                    var result = Number(ctx) <= Number(val);
+                    result = Number(ctx) <= Number(val);
                     break;
                 case CONDITION_TYPE.IN:
-                    var result = ctx.indexOf(val) > -1;
+                    result = ctx.indexOf(val) > -1;
                     break;
                 case CONDITION_TYPE.ENDS:
-                    var result = ctx.indexOf(val, ctx.length - val.length) !== -1;
+                    result = ctx.indexOf(val, ctx.length - val.length) !== -1;
                     break;
                 case CONDITION_TYPE.STARTS:
-                    var result = ctx.indexOf(val) === 0;
+                    result = ctx.indexOf(val) === 0;
                     break;
             }
 
@@ -494,7 +494,7 @@ jk4flow.model = (function() {
                 }
 
                 for (var idx in val) {
-                    if (!(val[idx] instanceof ContextOutgoing) && !val[idx].target) {
+                    if (val.hasOwnProperty(idx) && !(val[idx] instanceof ContextOutgoing) && !val[idx].target) {
                         throw 'A Decision Node\'s outgoing must be of Context Outgoing type with a valid node as target';
                     }
                 }
