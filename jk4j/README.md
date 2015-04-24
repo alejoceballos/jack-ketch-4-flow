@@ -1,1 +1,1 @@
-# jack-ketch-4-java
+# Jack Ketch for Java

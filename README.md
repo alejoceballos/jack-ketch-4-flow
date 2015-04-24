@@ -1,70 +1,24 @@
 ﻿# **Jack Ketch for Flow**
 
-A flow executor for Java and Javascript code to work in both client and server side.
+A flow executor for **Java** and **Javascript** code to work in both client and server side.
 
-**Jack Ketch 4 Flow** is an umbrella project. It is intended to provide mechanisms to be a flow executor framework capable of running [Activity Diagrams](http://en.wikipedia.org/wiki/Activity_diagram "Activity Diagram") actions bound to Java or Javascript objects.
+**Jack Ketch 4 Flow** is an umbrella project. It is intended to provide mechanisms to be a flow executor framework capable of running [Activity Diagrams](http://en.wikipedia.org/wiki/Activity_diagram "Activity Diagram") actions bound to Java and Javascript objects.
 
 **NOTE:** 
-+ This document was created on **February 9, 2015**. Last update was on the ***2nd of March, 2015***.
++ This document was created on **February 9, 2015** and totally redefined in **April 24, 2015**. Last update was on the ***April 24, 2015***.
 
 ## [ Goal ]
-To get a [JSON](http://json.org/ "JavaScript Object Notation") data structure representing something similar to an [Activity Diagram](http://en.wikipedia.org/wiki/Activity_diagram "Activity Diagram") and **execute it**!
+Mainly get a [JSON](http://json.org/ "JavaScript Object Notation") data structure representing something similar to an [Activity Diagram](http://en.wikipedia.org/wiki/Activity_diagram "Activity Diagram") and **execute it**!
 
 In other words, the main goal is to get something like the diagram below...
 
-![Activity Diagram](README/async-plus-operation-flow.jpg "Activity Diagram")
+![Activity Diagram](README.files/async-plus-operation-flow.jpg "Activity Diagram")
 
 ... And transform into a set of data structures similar to the ones below...
 
-![Class Diagram](README/model-class-diagram.jpg "Class Diagram")
-```
- Note: since Javascript is not purely OO, this diagram does not strictly reflects the implementation
-```
-... That would be bound to some (object's) callbacks similar to the ones below...
-
 ```javascript
 
-    var SimpleDiagram = function() {s
-        this.sumValues = function(context) {
-            context.x = context.val1 + context.val2;
-        };
-        
-        this.multiplyValues = function(context) {
-            context.y = context.val1 * context.val2;
-        };
-        
-        this.sumXPlusY = function(context) {
-            context.v = context.x + context.y;
-        };
-    
-        this.showOk = function() {
-            alert('Ok');
-        };
-    
-        this.showNotOk = function() {
-            alert('Not Ok');
-        };
-    }
-
-```
-... And execute them.
-
-This way the requirements provided by the stakeholder **can** be easily translated to an execution flow, easy to visualize, therefore easier to understand.
-
-The developer role is to provide programming structures that can be bound to the flow and executed by an external engine.
-
-## **[ Important Note ]**
-I intended to split this project in 4 (four) parts. This one (jk4flow) still focuses on the execution engine, but the library that would allow drawing the diagram, addressed in another project called **[Jack Ketch 4 Draw](https://github.com/alejoceballos/jack-ketch-4-draw "jk4draw")**, is no more.
-
-There are a lot of free application that do this job. The best ones are paid, I know, but the best free tool will always be better than any graphic tool I would develop (I just don't have the time to focus on this right now). 
-
-I still intend to define a JSON format to represent the drawing structure metadata. The transformation from a third-party tool digram file to jk4flow JSON metadata will still be addressed by a project to be (something like "**Jack Ketch for Transformation**"?). This project may provide some model transformation between drawing structures and the executable one. 
-
-The main goal still is to achieve a common meta-model that can be easily transformed from different sources. The current (possible) metadata structures are defined below (based on the previous diagram):
-
-```javascript
-
-    var workflow = {
+    s{
         initialNodes: [ 
             { id: '#IN:0001' } 
         ],    
@@ -110,7 +64,26 @@ The main goal still is to achieve a common meta-model that can be easily transfo
     
 ```
 
-The last project should be an HTML 5 application (called **[Jack Catch for Application](https://github.com/alejoceballos/jack-ketch-4-app "jack-catch-4-app")**) that would allow plotting the diagram and setting each node's attribute (something similar to an [IDE](http://en.wikipedia.org/wiki/Integrated_development_environment "Integrated Development Environment")). As I won't develop a drawing library anymore there is no use in keeping this project alive as well, but I will indicate free tools and how to use them along jk4flow in the future.
+... That must be bound to some (object's) callbacks, in Java and/or Javascript, and execute them.
+
+This way the requirements provided by the stakeholder **can** be easily translated to an **execution flow**, easy to visualize, therefore easier to **understand**.
+
+The developer role is to provide the programming structures that can be bound to the flow and executed by an external engine.
+s
+## **[ Important Note ]**
+This project was initially intended to be fill stack Javascript with AngularJs in the client and Node.js in the server. Unfortunately Node.js had to be removed from my study path due to professional needs.
+
+The new restructured project was split in two main development efforts. The client (Javascript) workflow executor and the server (Java) workflow executor.
+
+### Javascript projects
+The Javascript projects will address the workflow structures, the engine for workflow execution and their adaptation to AngularJS (directives). It will be centered on browser execution, but nothing prevents that it can be extended for the server using Node.js.
+
+For more information: <https://github.com/alejoceballos/jack-ketch-4-flow/tree/master/jk4js>
+
+### Java projects
+The Java projects will address the workflow structures, the engine for workflow execution, the transformation from an XML, third-party diagramming software, to JSON and also their adaptation to be used with the Spring framework.
+
+For more information: <https://github.com/alejoceballos/jack-ketch-4-flow/tree/master/jk4j>
 
 ## [ History ]
 The previous goal may sound familiar to some, and sometimes you may call it [BPM](http://en.wikipedia.org/wiki/Business_process_management "Business process management"), but this project is not that ambitious.
@@ -128,7 +101,7 @@ The "problem" is that jBPM does much more, it works with an "on-the-fly" state p
 That's when I had the idea to implement a much simpler engine without all the overhead jBPM offered. In fact, an alfa, limited version (without asynchronous execution) was implemented but never went to production, mostly because I lost interest on it, but the difficulty to find a good [UML](http://www.uml.org/ "Unified Modeling Language") tool that could export its diagram structure as files didn't burst my motivation either. The alfa version used [ArgoUML](http://argouml.tigris.org/ "") for exporting Activity Diagrams to XMI so, basically, the link between visual diagrams and the executing engine was XML.
 
 #### Lessons learned
-One thing that impressed me in the project using jBPM was the capability of our stakeholder to discuss our solution just looking at the flow diagram. Complex flows were simplified with colored shapes and our client was able to discuss about proposed solutions without having to dig down into complex lines of code that he wouldn't understand. Once I started to study javascript more deeply and its related technologies (NodeJS, promises, SPAs, ...), the asynchronous nature of the language seemed the perfect environment to try this project again (and to simplify a lot javascript's dynamic, and sometimes, *uncontrollable* nature). So here I go!
+One thing that impressed me in the project using jBPM was the capability of our stakeholder to discuss our solution just looking at the flow diagram. Complex flows were simplified with colored shapes and our client was able to discuss about proposed solutions without having to dig down into complex lines of code that he wouldn't understand. Once I started studying javascript more deeply and its related technologies (NodeJS, promises, SPAs, ...), the asynchronous nature of the language seemed the perfect environment to try this project again (and to simplify a lot javascript's dynamic, and sometimes, *uncontrollable* nature). Once again Java crossed my path and I decided to implement it along javascript's. So here I go!
 
 #### Why "Jack Ketch"?
 Well, I wanted something that meant "to execute", after all, this engine will be executing a flow. But "executor" or "runner" seemed too lame. So I remembered that an "executioner" executes people (of course, in a different way) and then came the idea to call it [Jack Ketch](http://en.wikipedia.org/wiki/Jack_Ketch ""). Still lame? Well... Whatever, maybe I'll change it in the future.
@@ -144,7 +117,7 @@ For that I will use a limited set of [UML](http://www.uml.org/ "Unified Modeling
 
 #### 1. Initial Node
 
-![initial-node.jpg](README/initial-node.jpg "Initial Node")
+![initial-node.jpg](README.files/initial-node.jpg "Initial Node")
  
 It is only a kickstart point to let the engine know where to begin processing.
 
@@ -155,15 +128,22 @@ It is only a kickstart point to let the engine know where to begin processing.
 
 **Usage**
 ```javascript
-
+    
+    [ Javascript ]
+    
     var iNode = new InitialNode('#ID');
     iNode.outgoing = ... // some subclass of AbstractNode;
 
+
+    [ Java ]
+    
+    TBD
+    
 ```
 
 #### 2. Action Node
 
- ![action-node.jpg](README/action-node.jpg "Action Node")
+ ![action-node.jpg](README.files/action-node.jpg "Action Node")
 
 Where the magic happens! Each action node corresponds to a programming unit responsible for some real processing of the workflow. It is done by associating one callback (function/method) to it. Any callback will always receive one *flow context* object as first argument, this object wraps all data that must be passed by through the flow execution. If the action node needs to pass along some information, just put it into the flow context object, no need to return anything.
 
@@ -176,17 +156,24 @@ Where the magic happens! Each action node corresponds to a programming unit resp
 **Usage**
 ```javascript
 
+    [ Javascript ]
+
     var aNode = new ActionNode('#ID');
     aNode.outgoing = ... // some subclass of AbstractNode;
     aNode.callback = function() { 
         // Do something here
     };
+
+
+    [ Java ]
+    
+    TBD
     
 ```
 
 #### 3. Decision Node
 
- ![decision-node.jpg](README/decision-node.jpg "Decision Node")
+ ![decision-node.jpg](README.files/decision-node.jpg "Decision Node")
 
 Will take the decision of which will be the next step of the workflow. It will check a previously set attribute value from the *flow context* object that is passed along through the entire flow. According to the attribute value it will redirect the flow to one of its outgoing control flows.
 
@@ -199,10 +186,17 @@ Will take the decision of which will be the next step of the workflow. It will c
 **Usage**
 ```javascript
 
+    [ Javascript ]
+
     var dNode = new DecisionNode('#ID');
     dNode.outgoings = [ ctxOut1, ctxOut2, ... , ctxOutN ]; // ContextOutgoing objects;
     dNode.otherwise = ... // some subclass of AbstractNode
 
+
+    [ Java ]
+    
+    TBD
+    
 ```
 ##### 3.1. The Context Outgoing Object
 A Context Outgoing object is a special type of object used by decision nodes to check what is the next node to be executed.
@@ -228,6 +222,8 @@ The operators accepted by a context outgoing are:
 **Usage**
 ```javascript
 
+    [ Javascript ]
+
     var ctxOut = new ContextOutgoing(
         decisionNodeOwner, // The decision that holds this outgoing
         'attr',            // The flow context's attribute being evaluated
@@ -235,11 +231,16 @@ The operators accepted by a context outgoing are:
         s'1');             // The expected value
     ctxOut.target = ...    // some subclass of AbstractNode
 
+
+    [ Java ]
+    
+    TBD
+    
 ```
 
 #### 4. Fork Node
 
- ![fork-node.jpg](README/fork-node.jpg "Fork Node")
+ ![fork-node.jpg](README.files/fork-node.jpg "Fork Node")
 
 Starts an asynchronous process.
 
@@ -255,14 +256,21 @@ Be aware that starting many asynchronous flows may be hard to manage, it may als
 **Usage**
 ```javascript
 
+    [ Javascript ]
+
     var fNode = new ForkNode('#ID');
     fNode.outgoings = [ node1, node2, ... , nodeN ]; // subclasses of AbstractNode
 
+
+    [ Java ]
+    
+    TBD
+    
 ```
 
 #### 5. Join Node
 
- ![join-node.jpg](README/join-node.jpg "Join Node")
+ ![join-node.jpg](README.files/join-node.jpg "Join Node")
 
 Responsible for gathering all asynchronous processes started by a Fork Node.
  
@@ -274,14 +282,21 @@ Responsible for gathering all asynchronous processes started by a Fork Node.
 **Usage**
 ```javascript
 
+    [ Javascript ]
+
     var jNode = new JoinNode('#ID');
     jNode.outgoing = ... // some subclass of AbstractNode;
 
+
+    [ Java ]
+    
+    TBD
+    
 ```
 
 #### 6. Final Node
 
- ![final-node.jpg](README/final-node.jpg "Final Node")
+ ![final-node.jpg](README.files/final-node.jpg "Final Node")
  
 Establishes the end of the flow.
 
@@ -294,13 +309,20 @@ At first I thought this node wasn't really necessary, for example, if I just rea
 **Usage**
 ```javascript
 
+    [ Javascript ]
+
     var fNode = new FinalNode('#ID');
 
+
+    [ Java ]
+    
+    TBD
+    
 ```
 
 #### 7. Control Flow
 
- ![control-flow.jpg](README/control-flow.jpg "Control Flow")
+ ![control-flow.jpg](README.files/control-flow.jpg "Control Flow")
  
 Links two (and only two) nodes together. Indicates from where to where the flow goes and it is not allowed to link a node to itself (cyclic dependency).
 
@@ -320,6 +342,8 @@ I did not included the **merge node** on purpose. In my opinion it will not be n
 To show a complete example of a workflow, quite similar to the diagram previously exposed in "**[ GOAL ]**" section (and also can be found in the unit tests suite):
 
 ```javascript
+
+    [ Javascript ]
 
     var fin10 = new FinalNode('#FN:0010');
 
@@ -369,24 +393,36 @@ To show a complete example of a workflow, quite similar to the diagram previousl
     var ini1 = new InitialNode('#IN:0001');
     ini1.outgoing = fork2;
 
+
+    [ Java ]
+    
+    TBD
+    
 ```
 
 ## [ The Flow Context Object ]
-The *flow context* object is just a regular Javascript object that will be passed on to each node in the diagram so each part of the flow can make use of a previously processed information.
+For javascript code, the *flow context* object is just a regular object, for Java code, it will be a regular *Map\<String, String>* instance. This object will be passed on to each node in the diagram so each part of the flow can make use of a previously processed information.
 
 One good use for this context object is, for instance, start a transaction before starting the flow, put the transaction object inside the context object and then start the flow execution passing the context object to it. Once the flow is finished, commit the transaction (or roll it back).
 
 ## [ The Workflow Object ]
 The workflow object is responsible for encapsulating all the objects that define the activity diagram to be executed. It also wraps the flow context object.
 
-When a brand new workflow object is created it will also create a new empty flow context object. Another flow context object can be assigned to the workflow after it has been created, but if **undefined** or **null** are assigned, it will only restarts an empty flow context object.
+When a brand new workflow object is created it will also create a new empty flow context object. Another flow context object can be assigned to the workflow after it has been created, if none is assigned (**undefined** or **null** for Javascript, **null** for Java) it will only restarts an empty flow context object.
 
 **Usage**
 ```javascript
 
+    [ Javascript ]
+    
     var wf = new Workflow(someInitialNode);
     wf.context = { someAttr: 1 };
 
+
+    [ Java ]
+    
+    TBD
+    
 ```
 
 ## [ Modules ]
@@ -413,6 +449,7 @@ The executor object is the core of the executing engine! Its goals are:
 + Start a set of promises to be called asynchronously when a Fork Nodes is found;
 + Assure that Join Nodes gather all asynchronous promises started by a Fork Node.
 
+##### Javascript Special Notes
 All **jk4flow** executor implementation strongly depends on **[Q](http://documentup.com/kriskowal/q/ "Q")** library for asynchronous execution. It means that it will return a **[promise](https://promisesaplus.com/ "Promise/A+")** that must be correctly handled (if you don't know about promises or the **Q** library, I suggest start reading about).
 
 **Usage**
@@ -432,20 +469,24 @@ All **jk4flow** executor implementation strongly depends on **[Q](http://documen
 
 ```
 
+##### Java Special Notes
+TBD
+
 # **Thanks to...**
 ... The development team and supporters of the applications below, without them I could not even start this project at such low cost (I'm $upporting some of them, just to let you know):
 + Astah Community - [http://astah.net/editions/community](http://astah.net/editions/community "http://astah.net/editions/community")
 + Gimp - [http://www.gimp.org/](http://www.gimp.org/ "http://www.gimp.org/")
 + Git - [http://git-scm.com/](http://git-scm.com/ "http://git-scm.com/")
 + GitHub - [https://github.com/](https://github.com/ "https://github.com/")
-+ Google Chrome - [http://www.google.com/chrome/](http://www.google.com/chrome/ "http://www.google.com/chrome/")
++ Google Chrome - [http://www.google.com/chrome/](http://swww.google.com/chrome/ "http://www.google.com/chrome/")
 + MdCharm - [http://www.mdcharm.com/](http://www.mdcharm.com/ "http://www.mdcharm.com/")
 + Mozilla Firefox - [https://www.mozilla.org/en-US/firefox/new/](https://www.mozilla.org/en-US/firefox/new/ "https://www.mozilla.org/en-US/firefox/new/")
 + Node.js - [http://nodejs.org/](http://nodejs.org/ "http://nodejs.org/")
 + Ubuntu Desktop - [http://www.ubuntu.com/desktop](http://www.ubuntu.com/desktop "http://www.ubuntu.com/desktop")
 + All the guys that have created all these wonderful Javascript libraries (like "[Q](http://documentup.com/kriskowal/q/ "Q")" and "[Underscore.js](http://underscorejs.org/ "Underscore.js")") that are commonly (or not that commonly) used!
++ All the guys that have created all these wonderful Java libraries (like "[Guava](https://code.google.com/p/guava-libraries/ "Guava")" and "[Commons Lang](https://commons.apache.org/proper/commons-lang/ "Commons Lang")") that are commonly (or not that commonly) used!
 
-I could thank to [WebStorm](https://www.jetbrains.com/webstorm/ "WebStorm") team and all the guys in JetBrains, but since I'm paying for their software, I won't.
+I could thank to [Intellij IDEA](https://www.jetbrains.com/idea/ "Intellij IDEA") team and all the guys in JetBrains, but since I'm paying for their software, I won't.
 
 # By the way...
 If you find any broken link, English mistakes (there must be tons) or any type of fix you think its worth of noticing... Please, **contact me**! My contact info can be found in my **GitHub** profile. Thanks!
