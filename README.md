@@ -428,9 +428,7 @@ When a brand new workflow object is created it will also create a new empty flow
 ## [ Modules ]
 
 ### JSON Flow Parser & Transformer
-```
-NOTE: The set of arrays that were explained in previous versions of this document are going to be part of another project. The reason is that the previous data structures were out of this project's scope as explained in the "Special Notes" topic at the beginning of this document.
-```
+**NOTE:** The set of arrays that were explained in previous versions of this document are going to be part of another project. The reason is that the previous data structures were out of this project's scope as explained in the "Special Notes" topic at the beginning of this document.
 
 ## [ Workflow Engine ]
 The main goal of the engine is to create **executors** that will run the workflow. One single engine can create as many executors as needed and each execution will not mess with another, they have different scopes, even if the same workflow is being executed by different engines.
