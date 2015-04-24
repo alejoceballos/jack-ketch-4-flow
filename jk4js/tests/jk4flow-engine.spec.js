@@ -9,8 +9,8 @@
 var Q = require('q');
 
 var jk4flow = {
-    model: require('../src/jk4flow-model').jk4flow.model,
-    engine: require('../src/jk4flow-engine').jk4flow.engine
+    model: require('jk4flow-model').jk4flow.model,
+    engine: require('jk4flow-engine').jk4flow.engine
 };
 
 describe('JSON Workflow Engine', function() {

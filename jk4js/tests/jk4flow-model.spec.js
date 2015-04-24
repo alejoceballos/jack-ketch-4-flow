@@ -7,7 +7,7 @@
 'use strict';
 
 var jk4flow = {
-    model: require('../src/jk4flow-model').jk4flow.model
+    model: require('jk4flow-model').jk4flow.model
 };
 
 describe('JSON Workflow Model', function() {
