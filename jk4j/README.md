@@ -3,11 +3,11 @@
 The flow executor for Java projects.
 
 **NOTE:** 
-+ This document was created on **April 26, 2015**. Last update was on ***April 26, 2015***.
++ This document was created on **April 26, 2015**. Last update was on ***April 27, 2015***.
 
 ## [ Goal ]
 
-Make [jk4flow](.. "Jack Ketch 4 Flow") project in Java reality!
+Make [jk4flow](https://github.com/alejoceballos/jack-ketch-4-flow "Jack Ketch 4 Flow") project in Java reality!
 
 # Subprojects
 
