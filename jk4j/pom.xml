@@ -13,6 +13,7 @@
     <modules>
         <module>jk4j-workflow</module>
         <module>jk4j-engine</module>
+        <module>jk4j-transformer</module>
     </modules>
 
     <!--
