@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import somossuinos.jackketch.workflow.node.NodeType;
 
-public class InitialNodeTest {
+public class ForkNodeTest {
 
     private final static String ID = "#ID";
 
@@ -18,7 +18,7 @@ public class InitialNodeTest {
         thrown.expect(RuntimeException.class);
         thrown.expectMessage("\"id\" must not be empty");
 
-        final InitialNode in = new InitialNode(" ");
+        final ForkNode fn = new ForkNode(" ");
     }
 
     @Test
@@ -26,19 +26,19 @@ public class InitialNodeTest {
         thrown.expect(RuntimeException.class);
         thrown.expectMessage("\"id\" must not be empty");
 
-        final InitialNode in = new InitialNode(null);
+        final ForkNode fn = new ForkNode(null);
     }
 
     @Test
     public void test_getType_Is_The_Right_One() {
-        final InitialNode in = new InitialNode(ID);
-        Assert.assertEquals(NodeType.INITIAL, in.getType());
+        final ForkNode fn = new ForkNode(ID);
+        Assert.assertEquals(NodeType.FORK, fn.getType());
     }
 
     @Test
     public void test_getId_Is_The_Same_As_Assigned_Id() {
-        final InitialNode in = new InitialNode(ID);
-        Assert.assertEquals(ID, in.getId());
+        final ForkNode fn = new ForkNode(ID);
+        Assert.assertEquals(ID, fn.getId());
     }
 
 }

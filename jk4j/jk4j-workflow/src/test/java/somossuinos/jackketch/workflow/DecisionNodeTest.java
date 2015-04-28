@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import somossuinos.jackketch.workflow.node.NodeType;
 
-public class InitialNodeTest {
+public class DecisionNodeTest {
 
     private final static String ID = "#ID";
 
@@ -18,7 +18,7 @@ public class InitialNodeTest {
         thrown.expect(RuntimeException.class);
         thrown.expectMessage("\"id\" must not be empty");
 
-        final InitialNode in = new InitialNode(" ");
+        final DecisionNode dn = new DecisionNode(" ");
     }
 
     @Test
@@ -26,19 +26,19 @@ public class InitialNodeTest {
         thrown.expect(RuntimeException.class);
         thrown.expectMessage("\"id\" must not be empty");
 
-        final InitialNode in = new InitialNode(null);
+        final DecisionNode dn = new DecisionNode(null);
     }
 
     @Test
     public void test_getType_Is_The_Right_One() {
-        final InitialNode in = new InitialNode(ID);
-        Assert.assertEquals(NodeType.INITIAL, in.getType());
+        final DecisionNode dn = new DecisionNode(ID);
+        Assert.assertEquals(NodeType.DECISION, dn.getType());
     }
 
     @Test
     public void test_getId_Is_The_Same_As_Assigned_Id() {
-        final InitialNode in = new InitialNode(ID);
-        Assert.assertEquals(ID, in.getId());
+        final DecisionNode dn = new DecisionNode(ID);
+        Assert.assertEquals(ID, dn.getId());
     }
 
 }
