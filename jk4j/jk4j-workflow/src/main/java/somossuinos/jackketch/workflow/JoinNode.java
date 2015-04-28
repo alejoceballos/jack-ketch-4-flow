@@ -1,6 +1,6 @@
 package somossuinos.jackketch.workflow;
 
-import somossuinos.jackketch.workflow.controlflow.SingleControlFlowNode;
+import somossuinos.jackketch.workflow.controlflow.SingleControlFlow;
 import somossuinos.jackketch.workflow.node.AbstractNode;
 import somossuinos.jackketch.workflow.node.Node;
 import somossuinos.jackketch.workflow.node.NodeType;
@@ -14,7 +14,7 @@ import somossuinos.jackketch.workflow.node.NodeType;
  * to speed up data gathering. After having all data needed, start another to speed up
  * its use.
  */
-public class JoinNode extends AbstractNode implements SingleControlFlowNode {
+public class JoinNode extends AbstractNode implements SingleControlFlow {
 
     private static final NodeType[] ALLOWED_TYPES = { NodeType.ACTION, NodeType.DECISION, NodeType.FORK, NodeType.FINAL };
 

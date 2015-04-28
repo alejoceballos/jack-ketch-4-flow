@@ -1,6 +1,5 @@
 package somossuinos.jackketch.workflow.controlflow;
 
-import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 public class FlowCondition {
@@ -33,17 +32,20 @@ public class FlowCondition {
      * Checks if the current instance of the Context Output satisfies the condition. It must
      * be used by the engine to drive the workflow to the next node.
      */
-    public boolean isValid(final Map<String, String> context) {
-        if (context == null || context.size() == 0) {
+    public boolean isValid(final String attribute, final String value) {
+        if (StringUtils.isBlank(attribute)) {
             return false;
         }
 
-        String ctxValue = context.get(this.attribute);
+        String ctxValue = value;
         if (ctxValue != null) {
             ctxValue = ctxValue.trim().toLowerCase();
         }
 
-        String thisValue = this.value.trim().toLowerCase();
+        String thisValue = this.value;
+        if (thisValue != null) {
+            thisValue = this.value.trim().toLowerCase();
+        }
 
         boolean result = false;
 

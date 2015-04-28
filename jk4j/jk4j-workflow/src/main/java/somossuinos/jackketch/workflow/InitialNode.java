@@ -1,6 +1,6 @@
 package somossuinos.jackketch.workflow;
 
-import somossuinos.jackketch.workflow.controlflow.SingleControlFlowNode;
+import somossuinos.jackketch.workflow.controlflow.SingleControlFlow;
 import somossuinos.jackketch.workflow.node.AbstractNode;
 import somossuinos.jackketch.workflow.node.Node;
 import somossuinos.jackketch.workflow.node.NodeType;
@@ -11,7 +11,7 @@ import somossuinos.jackketch.workflow.node.NodeType;
  * Basic Rules: (1) No flow coming into; (2) Only one flow going out; (3) Its outgoing flow
  * must target an Action Node, a Decision Node or a Fork Node.
  */
-public class InitialNode extends AbstractNode implements SingleControlFlowNode {
+public class InitialNode extends AbstractNode implements SingleControlFlow {
 
     private static final NodeType[] ALLOWED_TYPES = { NodeType.ACTION, NodeType.DECISION, NodeType.FORK };
 

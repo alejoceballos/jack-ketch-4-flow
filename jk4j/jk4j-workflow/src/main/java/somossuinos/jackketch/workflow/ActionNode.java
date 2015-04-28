@@ -1,6 +1,6 @@
 package somossuinos.jackketch.workflow;
 
-import somossuinos.jackketch.workflow.controlflow.SingleControlFlowNode;
+import somossuinos.jackketch.workflow.controlflow.SingleControlFlow;
 import somossuinos.jackketch.workflow.node.AbstractNode;
 import somossuinos.jackketch.workflow.node.Node;
 import somossuinos.jackketch.workflow.node.NodeType;
@@ -18,7 +18,7 @@ import somossuinos.jackketch.workflow.node.NodeType;
  * and even a Join Node, but only if it is part of an asynchronous flow started by a previous
  * Fork Node. (4) Its outgoing flow cannot target itself.
  */
-public class ActionNode extends AbstractNode implements SingleControlFlowNode {
+public class ActionNode extends AbstractNode implements SingleControlFlow {
 
     private static final NodeType[] ALLOWED_TYPES = { NodeType.ACTION, NodeType.DECISION, NodeType.FORK, NodeType.FINAL, NodeType.JOIN };
 

@@ -2,7 +2,7 @@ package somossuinos.jackketch.workflow;
 
 import java.util.HashSet;
 import java.util.Set;
-import somossuinos.jackketch.workflow.controlflow.MultiControlFlowNode;
+import somossuinos.jackketch.workflow.controlflow.MultipleControlFlow;
 import somossuinos.jackketch.workflow.node.AbstractNode;
 import somossuinos.jackketch.workflow.node.Node;
 import somossuinos.jackketch.workflow.node.NodeType;
@@ -21,7 +21,7 @@ import somossuinos.jackketch.workflow.node.NodeType;
  * (3) Its outgoing flow may target an Action Node or a Decision Node. Do not terminate an
  * asynchronous process without joining it again, please.
  */
-public class ForkNode extends AbstractNode implements MultiControlFlowNode {
+public class ForkNode extends AbstractNode implements MultipleControlFlow {
 
     private static final NodeType[] ALLOWED_TYPES = { NodeType.ACTION, NodeType.DECISION };
 

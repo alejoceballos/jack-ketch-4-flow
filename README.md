@@ -5,7 +5,7 @@ A flow executor for **Java** and **Javascript** code to work in both client and 
 **Jack Ketch 4 Flow** is an umbrella project. It is intended to provide mechanisms to be a flow executor framework capable of running [Activity Diagrams](http://en.wikipedia.org/wiki/Activity_diagram "Activity Diagram") actions bound to Java and Javascript objects.
 
 **NOTE:** 
-+ This document was created on **February 9, 2015** and totally redefined in **April 24, 2015**. Last update was on the ***April 24, 2015***.
++ This document was created on **February 9, 2015** and totally redefined in **April 24, 2015**. Last update was on ***April 24, 2015***.
 
 ## [ Goal ]
 Mainly get a [JSON](http://json.org/ "JavaScript Object Notation") data structure representing something similar to an [Activity Diagram](http://en.wikipedia.org/wiki/Activity_diagram "Activity Diagram") and **execute it**!

@@ -2,7 +2,7 @@ package somossuinos.jackketch.workflow;
 
 import java.util.HashMap;
 import java.util.Map;
-import somossuinos.jackketch.workflow.controlflow.ConditionalControlFlowNode;
+import somossuinos.jackketch.workflow.controlflow.ConditionalControlFlow;
 import somossuinos.jackketch.workflow.controlflow.FlowCondition;
 import somossuinos.jackketch.workflow.node.AbstractNode;
 import somossuinos.jackketch.workflow.node.Node;
@@ -20,7 +20,7 @@ import somossuinos.jackketch.workflow.node.NodeType;
  * may target an Action Node, a Final Node, another Decision Node or a Fork Node. (4) Its
  * outgoing flow cannot target itself.
  */
-public class DecisionNode extends AbstractNode implements ConditionalControlFlowNode {
+public class DecisionNode extends AbstractNode implements ConditionalControlFlow {
 
     private static final NodeType[] ALLOWED_TYPES = { NodeType.ACTION, NodeType.DECISION, NodeType.FORK, NodeType.FINAL };
 
