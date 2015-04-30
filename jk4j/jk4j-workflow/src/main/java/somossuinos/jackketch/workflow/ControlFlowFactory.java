@@ -31,6 +31,10 @@ public class ControlFlowFactory {
     }
 
     private static void validateTarget(final Collection<Node> targets) {
+        if (targets == null || targets.size() == 0) {
+            throw new RuntimeException("No targets were passed as argument");
+        }
+
         if (targets.contains(null)) {
             throw new RuntimeException("Null targets in target list are not accepted");
         }
@@ -54,7 +58,7 @@ public class ControlFlowFactory {
 
     private static void validateSelfRedirection(final Node origin, final Collection<Node> targets) {
         if (targets.contains(origin)) {
-            throw new RuntimeException("Repeated target instances are not allowed");
+            throw new RuntimeException("Origin and targets cannot be the same object");
         }
     }
 
