@@ -22,28 +22,36 @@
  * SOFTWARE.
  */
 
-package somossuinos.jackketch.workflow.node;
+package somossuinos.jackketch.workflow;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.HashMap;
+import java.util.Map;
+import somossuinos.jackketch.workflow.node.Node;
+import somossuinos.jackketch.workflow.node.NodeType;
 
-/**
- * Abstract Node is the template class for all nodes in the Activity diagram
- */
-public abstract class Node {
+public class Workflow {
 
-    private String id;
+    private Node initiaNode;
 
-    public Node(final String id) {
-        if (StringUtils.isBlank(id)) {
-            throw new RuntimeException("\"id\" must not be empty");
+    private Map<String, Object> context = new HashMap<>(0);
+
+    private Workflow(final Node initialNode) {
+        this.initiaNode = initialNode;
+    }
+
+    public static Workflow create(final Node initialNode) {
+        if (initialNode == null || !NodeType.INITIAL.equals(initialNode.getType())) {
+            throw new RuntimeException("Workflow's Initial Node required");
         }
 
-        this.id = id.trim();
+        return new Workflow(initialNode);
     }
 
-    public String getId() {
-        return this.id;
+    public Map<String, Object> getContext() {
+        return context;
     }
 
-    public abstract NodeType getType();
+    public void setContext(final Map<String, Object> context) {
+        this.context = context;
+    }
 }

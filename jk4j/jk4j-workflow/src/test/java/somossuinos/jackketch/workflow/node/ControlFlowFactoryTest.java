@@ -1,4 +1,4 @@
-package somossuinos.jackketch.workflow;
+package somossuinos.jackketch.workflow.node;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -6,8 +6,7 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import somossuinos.jackketch.workflow.node.Node;
-import somossuinos.jackketch.workflow.node.NodeType;
+import somossuinos.jackketch.workflow.NodeFactory;
 
 public class ControlFlowFactoryTest {
 

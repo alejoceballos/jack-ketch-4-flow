@@ -24,26 +24,33 @@
 
 package somossuinos.jackketch.workflow.node;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.HashSet;
+import java.util.Set;
 
-/**
- * Abstract Node is the template class for all nodes in the Activity diagram
- */
-public abstract class Node {
+public abstract class MultipleControlFlowNode extends ControlFlowNode {
 
-    private String id;
+    private Set<Node> flows = new HashSet<>(0);
 
-    public Node(final String id) {
-        if (StringUtils.isBlank(id)) {
-            throw new RuntimeException("\"id\" must not be empty");
-        }
-
-        this.id = id.trim();
+    public MultipleControlFlowNode(String id) {
+        super(id);
     }
 
-    public String getId() {
-        return this.id;
+    /**
+     * Will always return a copy of the inner list so the control flows are kept
+     * the same regardless external changes to the returned list.
+     *
+     * @return A list with all outgoing flows of this node.
+     */
+    public Set<Node> getFlows() {
+        final Set<Node> copy = new HashSet<>(this.flows.size());
+        copy.addAll(this.flows);
+        return copy;
     }
 
-    public abstract NodeType getType();
+    public void setFlows(final Set<Node> flows) {
+        this.flows = ControlFlowFactory.create(this, flows, this.getAllowedTypes(), this.getMinFlowsAllowed());
+    }
+
+    public abstract int getMinFlowsAllowed();
+
 }

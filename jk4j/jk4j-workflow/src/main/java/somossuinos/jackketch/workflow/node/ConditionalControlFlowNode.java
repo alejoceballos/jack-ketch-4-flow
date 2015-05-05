@@ -24,26 +24,36 @@
 
 package somossuinos.jackketch.workflow.node;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.HashMap;
+import java.util.Map;
+import somossuinos.jackketch.workflow.conditional.FlowCondition;
 
-/**
- * Abstract Node is the template class for all nodes in the Activity diagram
- */
-public abstract class Node {
+public abstract class ConditionalControlFlowNode extends ControlFlowNode {
 
-    private String id;
+    private Map<FlowCondition, Node> flows = new HashMap<>(0);
 
-    public Node(final String id) {
-        if (StringUtils.isBlank(id)) {
-            throw new RuntimeException("\"id\" must not be empty");
+    private Node otherwise;
+
+    public ConditionalControlFlowNode(final String id) {
+        super(id);
+    }
+
+    public Node getFlow(final String attribute, final String value) {
+        for (final FlowCondition condition : this.flows.keySet()) {
+            if (condition.isValid(attribute, value)) {
+                return this.flows.get(condition);
+            }
         }
 
-        this.id = id.trim();
+        return otherwise;
     }
 
-    public String getId() {
-        return this.id;
+    public void setFlows(final Map<FlowCondition, Node> flows, final Node otherwise) {
+        this.flows = ControlFlowFactory.create(this, flows, this.getAllowedTypes(), this.getMinFlowsAllowed());
+        this.otherwise = ControlFlowFactory.create(this, otherwise, this.getAllowedTypes());
     }
 
-    public abstract NodeType getType();
+    public abstract int getMinFlowsAllowed();
+
+
 }

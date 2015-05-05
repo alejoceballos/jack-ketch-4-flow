@@ -14,4 +14,13 @@
 
     <name>Engine</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>somossuinos.jk4j</groupId>
+            <artifactId>jk4j-workflow</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+    </dependencies>
+
 </project>

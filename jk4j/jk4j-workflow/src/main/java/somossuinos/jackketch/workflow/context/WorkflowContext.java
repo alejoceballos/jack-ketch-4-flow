@@ -22,28 +22,18 @@
  * SOFTWARE.
  */
 
-package somossuinos.jackketch.workflow.node;
+package somossuinos.jackketch.workflow.context;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.Map;
 
 /**
- * Abstract Node is the template class for all nodes in the Activity diagram
+ * @author Alejo Ceballos
+ * @since 2015-May-05
  */
-public abstract class Node {
+public interface WorkflowContext {
 
-    private String id;
+    Object get(final String key);
+    Object set(final String key, final Object value);
+    Map<String, Object> getMap();
 
-    public Node(final String id) {
-        if (StringUtils.isBlank(id)) {
-            throw new RuntimeException("\"id\" must not be empty");
-        }
-
-        this.id = id.trim();
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public abstract NodeType getType();
 }

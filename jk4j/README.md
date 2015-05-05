@@ -23,4 +23,4 @@ Responsible for executing the workflow model
 
 Responsible for reading a JSON activity diagram and creating an workflow instance.
 
-**NOTE:** *It is this project intention to implement XML translators since most of third-party visual modeler save their diagrams in XMI format.*
+**NOTE:** *It is this project intention to implement XML translators since most of third-party visual modelers save their diagrams in XMI format.*

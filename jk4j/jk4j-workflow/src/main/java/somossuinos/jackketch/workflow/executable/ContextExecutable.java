@@ -22,28 +22,15 @@
  * SOFTWARE.
  */
 
-package somossuinos.jackketch.workflow.node;
+package somossuinos.jackketch.workflow.executable;
 
-import org.apache.commons.lang3.StringUtils;
+import java.lang.reflect.Method;
+import somossuinos.jackketch.workflow.context.WorkflowContext;
 
-/**
- * Abstract Node is the template class for all nodes in the Activity diagram
- */
-public abstract class Node {
+public interface ContextExecutable {
 
-    private String id;
+    void setObject(final Object object);
+    void setMethod(final Method method);
+    Object execute(final WorkflowContext context);
 
-    public Node(final String id) {
-        if (StringUtils.isBlank(id)) {
-            throw new RuntimeException("\"id\" must not be empty");
-        }
-
-        this.id = id.trim();
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public abstract NodeType getType();
 }

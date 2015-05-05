@@ -24,26 +24,20 @@
 
 package somossuinos.jackketch.workflow.node;
 
-import org.apache.commons.lang3.StringUtils;
+public abstract class SingleControlFlowNode extends ControlFlowNode {
 
-/**
- * Abstract Node is the template class for all nodes in the Activity diagram
- */
-public abstract class Node {
+    private Node flow;
 
-    private String id;
-
-    public Node(final String id) {
-        if (StringUtils.isBlank(id)) {
-            throw new RuntimeException("\"id\" must not be empty");
-        }
-
-        this.id = id.trim();
+    public SingleControlFlowNode(final String id) {
+        super(id);
     }
 
-    public String getId() {
-        return this.id;
+    public Node getFlow() {
+        return this.flow;
     }
 
-    public abstract NodeType getType();
+    public void setFlow(final Node flow) {
+        this.flow = ControlFlowFactory.create(this, flow, this.getAllowedTypes());
+    }
+
 }

@@ -22,28 +22,11 @@
  * SOFTWARE.
  */
 
-package somossuinos.jackketch.workflow.node;
-
-import org.apache.commons.lang3.StringUtils;
+package somossuinos.jackketch.workflow.conditional;
 
 /**
- * Abstract Node is the template class for all nodes in the Activity diagram
+ * All condition types currently accepted by JK4Flow engine.
  */
-public abstract class Node {
-
-    private String id;
-
-    public Node(final String id) {
-        if (StringUtils.isBlank(id)) {
-            throw new RuntimeException("\"id\" must not be empty");
-        }
-
-        this.id = id.trim();
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public abstract NodeType getType();
+public enum ConditionType {
+    EQ, NEQ, GT, GEQT, LT, LEQT, IN, ENDS, STARTS
 }
