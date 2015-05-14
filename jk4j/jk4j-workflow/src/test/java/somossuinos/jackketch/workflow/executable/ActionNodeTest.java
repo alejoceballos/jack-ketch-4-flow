@@ -1,9 +1,12 @@
 package somossuinos.jackketch.workflow.executable;
 
+import java.lang.reflect.Method;
+import java.util.Map;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import somossuinos.jackketch.workflow.context.WorkflowContext;
 import somossuinos.jackketch.workflow.node.NodeType;
 
 public class ActionNodeTest {
@@ -64,7 +67,39 @@ public class ActionNodeTest {
 
     @Test
     public void test_execute_Object_Method() {
-        Assert.fail("Not implemented yet");
+        WorkflowContext wc = new WorkflowContext() {
+            private Object whatever;
+            @Override public Object get(String key) {return this.whatever;}
+            @Override public void set(String key, Object value) { this.whatever = value;}
+            @Override public Map<String, Object> getMap() { return null;}
+            @Override public void clear() {}
+        };
+
+        class AClass {
+            public void doSomething(final WorkflowContext wc) {
+                wc.set("KEY", "WHATEVER");
+            }
+        }
+
+        final AClass obj = new AClass();
+        final Method method;
+
+        try {
+            final Class clz = Class.forName(AClass.class.getName());
+            method = clz.getMethod("doSomething", WorkflowContext.class);
+
+        } catch (ReflectiveOperationException e) {
+            throw  new RuntimeException(e);
+        }
+
+
+        final ActionNode an = new ActionNode(ID);
+        an.setObject(obj);
+        an.setMethod(method);
+
+        an.execute(wc);
+
+        Assert.assertEquals("WHATEVER", wc.get("KEY"));
     }
 
 }

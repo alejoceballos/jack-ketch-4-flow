@@ -59,7 +59,7 @@ public class ActionNode extends SingleControlFlowNode implements ContextExecutab
 
     @Override
     public void setMethod(final Method method) {
-        if (this.method == null) {
+        if (method == null) {
             throw new RuntimeException("Method cannot be null");
         }
 

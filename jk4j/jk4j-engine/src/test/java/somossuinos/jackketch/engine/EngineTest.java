@@ -17,7 +17,7 @@ public class EngineTest {
     @Test
     public void test() {
         try {
-            final Class clz = Class.forName("somossuinos.jackkeTtch.engine.MyTest");
+            final Class clz = Class.forName("somossuinos.jackketch.engine.MyTest");
             final Method m = clz.getMethod("doSomething", Map.class);
 
             Object result = null;
