@@ -33,7 +33,8 @@ import java.util.Map;
 public interface WorkflowContext {
 
     Object get(final String key);
-    Object set(final String key, final Object value);
+    void set(final String key, final Object value);
     Map<String, Object> getMap();
+    void clear();
 
 }

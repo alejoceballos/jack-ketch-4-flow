@@ -1,6 +1,7 @@
 package somossuinos.jackketch.workflow.node;
 
-import org.junit.Assert;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -40,13 +41,13 @@ public class NodeTest {
     @Test
     public void test_getType_Is_The_Right_One() {
         final Node node = this.createNode(ID);
-        Assert.assertEquals(NodeType.FINAL, node.getType());
+        MatcherAssert.assertThat("getType: Node type is correct", node.getType(), Matchers.equalTo(NodeType.FINAL));
     }
 
     @Test
     public void test_getId_Is_The_Same_As_Assigned_Id() {
         final Node node = this.createNode(ID);
-        Assert.assertEquals(ID, node.getId());
+        MatcherAssert.assertThat("getId: is the same as assigned id", node.getId(), Matchers.equalTo(ID));
     }
 
 }

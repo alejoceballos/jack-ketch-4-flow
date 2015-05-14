@@ -26,17 +26,49 @@ package somossuinos.jackketch.workflow;
 
 import java.util.HashMap;
 import java.util.Map;
+import somossuinos.jackketch.workflow.context.WorkflowContext;
 import somossuinos.jackketch.workflow.node.Node;
 import somossuinos.jackketch.workflow.node.NodeType;
 
+/**
+ *
+ */
 public class Workflow {
 
-    private Node initiaNode;
+    private Node initialNode;
 
-    private Map<String, Object> context = new HashMap<>(0);
+    private WorkflowContext context = new WorkflowContext() {
+
+        private Map<String, Object> contextMap = new HashMap<>(0);
+
+        @Override
+        public Object get(final String key) {
+            return contextMap.get(key);
+        }
+
+        @Override
+        public void set(final String key, final Object value) {
+            if (value != null) {
+                contextMap.put(key, value);
+            }
+        }
+
+        @Override
+        public Map<String, Object> getMap() {
+            final Map<String, Object> clone = new HashMap<>(this.contextMap.size());
+            clone.putAll(this.contextMap);
+
+            return clone;
+        }
+
+        @Override
+        public void clear() {
+            contextMap.clear();
+        }
+    };
 
     private Workflow(final Node initialNode) {
-        this.initiaNode = initialNode;
+        this.initialNode = initialNode;
     }
 
     public static Workflow create(final Node initialNode) {
@@ -47,11 +79,17 @@ public class Workflow {
         return new Workflow(initialNode);
     }
 
-    public Map<String, Object> getContext() {
+    public WorkflowContext getContext() {
         return context;
     }
 
-    public void setContext(final Map<String, Object> context) {
-        this.context = context;
+    public void setContext(final Map<String, Object> contextMap) {
+        this.context.clear();
+
+        for (final String attribute : contextMap.keySet()) {
+            if (contextMap.get(attribute) != null) {
+                this.context.set(attribute, contextMap.get(attribute));
+            }
+        }
     }
 }

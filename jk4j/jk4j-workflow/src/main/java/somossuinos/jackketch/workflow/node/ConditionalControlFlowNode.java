@@ -27,6 +27,7 @@ package somossuinos.jackketch.workflow.node;
 import java.util.HashMap;
 import java.util.Map;
 import somossuinos.jackketch.workflow.conditional.FlowCondition;
+import somossuinos.jackketch.workflow.context.WorkflowContext;
 
 public abstract class ConditionalControlFlowNode extends ControlFlowNode {
 
@@ -38,9 +39,11 @@ public abstract class ConditionalControlFlowNode extends ControlFlowNode {
         super(id);
     }
 
-    public Node getFlow(final String attribute, final String value) {
+    public Node getFlow(final WorkflowContext context) {
         for (final FlowCondition condition : this.flows.keySet()) {
-            if (condition.isValid(attribute, value)) {
+            final Object obj = context.get(condition.getAttribute());
+
+            if (obj != null && condition.isValid(obj.toString())) {
                 return this.flows.get(condition);
             }
         }

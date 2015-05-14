@@ -29,6 +29,20 @@ import somossuinos.jackketch.workflow.context.WorkflowContext;
 import somossuinos.jackketch.workflow.node.NodeType;
 import somossuinos.jackketch.workflow.node.SingleControlFlowNode;
 
+/**
+ * Where the magic happens! Each action node corresponds to a programming
+ * unit responsible for some real processing of the workflow. It is done by associating one
+ * callback (function/method) to it. Any callback will always receive one flow context object
+ * as first argument, this object wraps all data that mst be passed by through the flow
+ * execution. If the action node needs to pass along some information, just put it into the
+ * flow context object, no need to return anything.
+ * <p>
+ * <i>Basic Rules: (1) Many as possible flows coming into; (2) Only one flow going out; (3) Its
+ * outgoing flow may target another Action Node, a Final Node, a Decision Node, a Fork Node
+ * and even a Join Node, but only if it is part of an asynchronous flow started by a previous
+ * Fork Node. (4) Its outgoing flow cannot target itself.</i>
+ * </p>
+ */
 public class ActionNode extends SingleControlFlowNode implements ContextExecutable {
 
     public Object object;
@@ -45,6 +59,14 @@ public class ActionNode extends SingleControlFlowNode implements ContextExecutab
 
     @Override
     public void setMethod(final Method method) {
+        if (this.method == null) {
+            throw new RuntimeException("Method cannot be null");
+        }
+
+        if (method.getParameterTypes().length == 0 || !method.getParameterTypes()[0].isAssignableFrom(WorkflowContext.class)) {
+            throw new RuntimeException(String.format("The first parameter of method must be of % type", WorkflowContext.class.getCanonicalName()));
+        }
+
         this.method = method;
     }
 

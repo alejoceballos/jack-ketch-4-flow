@@ -1,14 +1,23 @@
 package somossuinos.jackketch.engine;
 
-import somossuinos.jackketch.workflow.node.ActionNode;
 import somossuinos.jackketch.workflow.Workflow;
-import somossuinos.jackketch.workflow.node.SingleControlFlowNode;
+import somossuinos.jackketch.workflow.executable.ContextExecutable;
+import somossuinos.jackketch.workflow.node.ConditionalControlFlowNode;
+import somossuinos.jackketch.workflow.node.MultipleControlFlowNode;
 import somossuinos.jackketch.workflow.node.Node;
 import somossuinos.jackketch.workflow.node.NodeType;
+import somossuinos.jackketch.workflow.node.SingleControlFlowNode;
 
 public class Executor {
 
+    private Workflow workflow;
+
     public Executor(final Workflow workflow) {
+        if (workflow == null) {
+            throw new RuntimeException("Workflow cannot be null");
+        }
+
+        this.workflow = workflow;
     }
 
     public void run() {
@@ -19,18 +28,25 @@ public class Executor {
         Node currentNode = node;
 
         while(!NodeType.FINAL.equals(currentNode.getType())) {
-            switch(currentNode.getType()) {
-                case INITIAL:
-                    currentNode = ((SingleControlFlowNode) currentNode).getFlow();
-                    break;
-                case JOIN:
-                    currentNode = ((SingleControlFlowNode) currentNode).getFlow();
-                    break;
-                case ACTION:
-                    final ActionNode an = (ActionNode) currentNode;
-                    // TODO: Do something regarding the action
 
+            if (currentNode instanceof ContextExecutable) {
+                // TODO: Execute the action
             }
+
+            if (currentNode instanceof SingleControlFlowNode) {
+                if (NodeType.JOIN.equals(currentNode.getType())) {
+                    // TODO: Join threaded flows
+                }
+
+                currentNode = ((SingleControlFlowNode) currentNode).getFlow();
+
+            } else if (currentNode instanceof ConditionalControlFlowNode) {
+                currentNode = ((ConditionalControlFlowNode) currentNode).getFlow(this.workflow.getContext());
+
+            } else if (currentNode instanceof MultipleControlFlowNode) {
+                // TODO: Fork flows as threads
+            }
+
         }
     }
 }
