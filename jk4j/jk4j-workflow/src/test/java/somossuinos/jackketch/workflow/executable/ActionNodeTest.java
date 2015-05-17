@@ -84,6 +84,30 @@ public class ActionNodeTest {
     }
 
     @Test
+    public void test_execute_Without_Object_Fails() {
+        WorkflowContext wc = this.getWorkflowContext();
+
+        final Object obj = this.getExecutableObject();
+        final Method method;
+
+        try {
+            final Class clz = Class.forName(obj.getClass().getName());
+            method = clz.getMethod("doSomething", WorkflowContext.class);
+
+        } catch (ReflectiveOperationException e) {
+            throw  new RuntimeException(e);
+        }
+
+        final ActionNode an = new ActionNode(ID);
+        an.setMethod(method);
+
+        thrown.expect(RuntimeException.class);
+        thrown.expectMessage("Cannot execute an operation without an object");
+
+        an.execute(this.getWorkflowContext());
+    }
+
+    @Test
     public void test_execute_Object_Method() {
         WorkflowContext wc = this.getWorkflowContext();
 

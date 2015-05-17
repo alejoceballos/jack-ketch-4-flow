@@ -86,6 +86,10 @@ public class ActionNode extends SingleControlFlowNode implements ContextExecutab
             throw new RuntimeException("Cannot execute an operation without a method");
         }
 
+        if (this.object == null) {
+            throw new RuntimeException("Cannot execute an operation without an object");
+        }
+
         try {
             return this.method.invoke(this.object, context);
 
