@@ -16,6 +16,28 @@ public class ActionNodeTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
+    private WorkflowContext getWorkflowContext() {
+        WorkflowContext wc = new WorkflowContext() {
+            private Object whatever;
+            @Override public Object get(String key) {return this.whatever;}
+            @Override public void set(String key, Object value) { this.whatever = value;}
+            @Override public Map<String, Object> getMap() { return null;}
+            @Override public void clear() {}
+        };
+
+        return wc;
+    }
+
+    private Object getExecutableObject() {
+        class ExecutableObjectClass {
+            public void doSomething(final WorkflowContext wc) {
+                wc.set("KEY", "WHATEVER");
+            }
+        }
+
+        return new ExecutableObjectClass();
+    }
+
     @Test
     public void test_create_Assign_Empty_Id_Fails() {
         thrown.expect(RuntimeException.class);
@@ -52,40 +74,24 @@ public class ActionNodeTest {
 
     @Test
     public void test_execute_Without_Method_Fails() {
-        Assert.fail("Not implemented yet");
-    }
+        final ActionNode an = new ActionNode(ID);
+        an.setObject(this.getExecutableObject());
 
-    @Test
-    public void test_execute_Not_Accessible_Method_Fails() {
-        Assert.fail("Not implemented yet");
-    }
+        thrown.expect(RuntimeException.class);
+        thrown.expectMessage("Cannot execute an operation without a method");
 
-    @Test
-    public void test_execute_Static_Method() {
-        Assert.fail("Not implemented yet");
+        an.execute(this.getWorkflowContext());
     }
 
     @Test
     public void test_execute_Object_Method() {
-        WorkflowContext wc = new WorkflowContext() {
-            private Object whatever;
-            @Override public Object get(String key) {return this.whatever;}
-            @Override public void set(String key, Object value) { this.whatever = value;}
-            @Override public Map<String, Object> getMap() { return null;}
-            @Override public void clear() {}
-        };
+        WorkflowContext wc = this.getWorkflowContext();
 
-        class AClass {
-            public void doSomething(final WorkflowContext wc) {
-                wc.set("KEY", "WHATEVER");
-            }
-        }
-
-        final AClass obj = new AClass();
+        final Object obj = this.getExecutableObject();
         final Method method;
 
         try {
-            final Class clz = Class.forName(AClass.class.getName());
+            final Class clz = Class.forName(obj.getClass().getName());
             method = clz.getMethod("doSomething", WorkflowContext.class);
 
         } catch (ReflectiveOperationException e) {
