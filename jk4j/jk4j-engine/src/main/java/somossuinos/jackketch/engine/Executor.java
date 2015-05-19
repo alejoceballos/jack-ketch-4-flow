@@ -21,16 +21,16 @@ public class Executor {
     }
 
     public void run() {
-
+        this.handle(this.workflow.getInitialNode());
     }
 
-    public void handle(final Node node) {
+    protected void handle(final Node node) {
         Node currentNode = node;
 
         while(!NodeType.FINAL.equals(currentNode.getType())) {
 
             if (currentNode instanceof ContextExecutable) {
-                // TODO: Execute the action
+                ((ContextExecutable) currentNode).execute(this.workflow.getContext());
             }
 
             if (currentNode instanceof SingleControlFlowNode) {

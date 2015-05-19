@@ -71,6 +71,10 @@ public class Workflow {
         this.initialNode = initialNode;
     }
 
+    public Node getInitialNode() {
+        return initialNode;
+    }
+
     public static Workflow create(final Node initialNode) {
         if (initialNode == null || !NodeType.INITIAL.equals(initialNode.getType())) {
             throw new RuntimeException("Workflow's Initial Node required");

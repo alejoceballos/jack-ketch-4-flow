@@ -38,6 +38,20 @@ public class ActionNodeTest {
         return new ExecutableObjectClass();
     }
 
+    private Method getExecutableObjectMethod(final Object obj) {
+        final Method method;
+
+        try {
+            final Class clz = Class.forName(obj.getClass().getName());
+            method = clz.getMethod("doSomething", WorkflowContext.class);
+
+        } catch (ReflectiveOperationException e) {
+            throw  new RuntimeException(e);
+        }
+
+        return method;
+    }
+
     @Test
     public void test_create_Assign_Empty_Id_Fails() {
         thrown.expect(RuntimeException.class);
@@ -88,15 +102,7 @@ public class ActionNodeTest {
         WorkflowContext wc = this.getWorkflowContext();
 
         final Object obj = this.getExecutableObject();
-        final Method method;
-
-        try {
-            final Class clz = Class.forName(obj.getClass().getName());
-            method = clz.getMethod("doSomething", WorkflowContext.class);
-
-        } catch (ReflectiveOperationException e) {
-            throw  new RuntimeException(e);
-        }
+        final Method method = this.getExecutableObjectMethod(obj);
 
         final ActionNode an = new ActionNode(ID);
         an.setMethod(method);
@@ -112,16 +118,7 @@ public class ActionNodeTest {
         WorkflowContext wc = this.getWorkflowContext();
 
         final Object obj = this.getExecutableObject();
-        final Method method;
-
-        try {
-            final Class clz = Class.forName(obj.getClass().getName());
-            method = clz.getMethod("doSomething", WorkflowContext.class);
-
-        } catch (ReflectiveOperationException e) {
-            throw  new RuntimeException(e);
-        }
-
+        final Method method = this.getExecutableObjectMethod(obj);
 
         final ActionNode an = new ActionNode(ID);
         an.setObject(obj);
