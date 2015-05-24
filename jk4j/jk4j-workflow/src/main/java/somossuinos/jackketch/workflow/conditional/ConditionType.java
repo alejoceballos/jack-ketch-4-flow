@@ -26,6 +26,7 @@ package somossuinos.jackketch.workflow.conditional;
 
 /**
  * All condition types currently accepted by JK4Flow engine.
+ *
  * <p>
  *     <b>Description:</b>
  *     <ul>
@@ -42,5 +43,49 @@ package somossuinos.jackketch.workflow.conditional;
  * </p>
  */
 public enum ConditionType {
-    EQ, NEQ, GT, GEQT, LT, LEQT, IN, ENDS, STARTS
+
+    /**
+     * Equals (any object comparison)
+     */
+    EQ,
+
+    /**
+     * Not equals (any object comparison)
+     */
+    NEQ,
+
+    /**
+     * Greater than (just numbers)
+     */
+    GT,
+
+    /**
+     * Greater or equals than (just numbers)
+     */
+    GEQT,
+
+    /**
+     * Lesser than (just numbers)
+     */
+    LT,
+
+    /**
+     * Lesser or equals than (just numbers)
+     */
+    LEQT,
+
+    /**
+     * String inside another (strings only)
+     */
+    IN,
+
+    /**
+     * String ends with (strings only)
+     */
+    ENDS,
+
+    /**
+     * String starts with (strings only)
+     */
+    STARTS
 }

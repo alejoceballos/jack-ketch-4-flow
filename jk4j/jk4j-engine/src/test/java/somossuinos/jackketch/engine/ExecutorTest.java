@@ -65,21 +65,21 @@ public class ExecutorTest {
     @Test
     public void testRun_SimpleActionFlow_IN_A_FN() {
         // Final node creation
-        final Node fn = NodeFactory.createNode("#3", NodeType.FINAL);
+        final Node fNode = NodeFactory.createNode("#3", NodeType.FINAL);
 
         // Action node (id #2) creation and flow set to final node
         final String ID = "#2";
-        final Node an = NodeFactory.createNode(ID, NodeType.ACTION);
-        ((SingleControlFlowNode) an).setFlow(fn);
+        final Node aNode = NodeFactory.createNode(ID, NodeType.ACTION);
+        ((SingleControlFlowNode) aNode).setFlow(fNode);
         final ExecutableActionMock obj = ExecutableActionMock.create(KEY, ID);
-        ((ContextExecutable) an).setObject(obj);
-        ((ContextExecutable) an).setMethod(obj.getPutIdInContextMethod());
+        ((ContextExecutable) aNode).setObject(obj);
+        ((ContextExecutable) aNode).setMethod(obj.getPutIdInContextMethod());
 
         // Initial node (id #1) creation and flow set to action node
-        final Node in = NodeFactory.createNode("#1", NodeType.INITIAL);
-        ((SingleControlFlowNode) in).setFlow(an);
+        final Node iNode = NodeFactory.createNode("#1", NodeType.INITIAL);
+        ((SingleControlFlowNode) iNode).setFlow(aNode);
 
-        final Workflow wf = Workflow.create(in);
+        final Workflow wf = Workflow.create(iNode);
 
         (new Executor(wf)).run();
 
@@ -143,10 +143,10 @@ public class ExecutorTest {
         ((SingleControlFlowNode) an1).setFlow(dn);
 
         // Initial node (id #1) creation and flow set to action node 1
-        final Node in = NodeFactory.createNode("#1", NodeType.INITIAL);
-        ((SingleControlFlowNode) in).setFlow(an1);
+        final Node iNode = NodeFactory.createNode("#1", NodeType.INITIAL);
+        ((SingleControlFlowNode) iNode).setFlow(an1);
 
-        final Workflow wf = Workflow.create(in);
+        final Workflow wf = Workflow.create(iNode);
 
         (new Executor(wf)).run();
 
@@ -194,26 +194,26 @@ public class ExecutorTest {
         final String A1_ID = "#2";
 
         // Decision node (id #3) creation
-        final Node dn = NodeFactory.createNode("#3", NodeType.DECISION);
+        final Node dNode = NodeFactory.createNode("#3", NodeType.DECISION);
         // Flow control from decision to action node 2 (if KEY == #2 goto A2)
         Map<FlowCondition, Node> flows = new HashMap<>(1);
         final FlowCondition fc2a2 = new FlowCondition(A1_KEY, ConditionType.EQ, "ANYTHING WRONG");
         flows.put(fc2a2, an2);
         // Otherwise, goto A3
-        ((ConditionalControlFlowNode) dn).setFlows(flows, an3);
+        ((ConditionalControlFlowNode) dNode).setFlows(flows, an3);
 
         // Action node 1 (id #2) creation. Sets the context to be used by the decision
         final Node an1 = NodeFactory.createNode(A1_ID, NodeType.ACTION);
         final ExecutableActionMock objAn1 = ExecutableActionMock.create(A1_KEY, A1_ID);
         ((ContextExecutable) an1).setObject(objAn1);
         ((ContextExecutable) an1).setMethod(objAn1.getPutIdInContextMethod());
-        ((SingleControlFlowNode) an1).setFlow(dn);
+        ((SingleControlFlowNode) an1).setFlow(dNode);
 
         // Initial node (id #1) creation and flow to action node 1
-        final Node in = NodeFactory.createNode("#1", NodeType.INITIAL);
-        ((SingleControlFlowNode) in).setFlow(an1);
+        final Node iNode = NodeFactory.createNode("#1", NodeType.INITIAL);
+        ((SingleControlFlowNode) iNode).setFlow(an1);
 
-        final Workflow wf = Workflow.create(in);
+        final Workflow wf = Workflow.create(iNode);
 
         (new Executor(wf)).run();
 
@@ -239,11 +239,11 @@ public class ExecutorTest {
     @Test
     public void testRun_Fork_IN_FN_A1_A2_JN_FN() {
         // Final node creation (id #6)
-        final Node fn = NodeFactory.createNode("#6", NodeType.FINAL);
+        final Node finNode = NodeFactory.createNode("#6", NodeType.FINAL);
 
         // Join node creation (id #5) and flow to final node
-        final Node jn = NodeFactory.createNode("#5", NodeType.JOIN);
-        ((SingleControlFlowNode) jn).setFlow(fn);
+        final Node jNode = NodeFactory.createNode("#5", NodeType.JOIN);
+        ((SingleControlFlowNode) jNode).setFlow(finNode);
 
         // Action node 2 creation (id #4) and flow to join node
         final String A2_KEY = "a2_key";
@@ -252,7 +252,7 @@ public class ExecutorTest {
         final ExecutableActionMock objAn2 = ExecutableActionMock.create(A2_KEY, A2_ID);
         ((ContextExecutable) an2).setObject(objAn2);
         ((ContextExecutable) an2).setMethod(objAn2.getPutIdInContextMethod());
-        ((SingleControlFlowNode) an2).setFlow(jn);
+        ((SingleControlFlowNode) an2).setFlow(jNode);
 
         // Action node 1 creation (id #3) and flow to join node
         final String A1_KEY = "a1_key";
@@ -261,20 +261,20 @@ public class ExecutorTest {
         final ExecutableActionMock objAn1 = ExecutableActionMock.create(A1_KEY, A1_ID);
         ((ContextExecutable) an1).setObject(objAn1);
         ((ContextExecutable) an1).setMethod(objAn1.getPutIdInContextMethod());
-        ((SingleControlFlowNode) an1).setFlow(jn);
+        ((SingleControlFlowNode) an1).setFlow(jNode);
 
         // Fork creation (id #2) and flow to actions node
-        final Node fk = NodeFactory.createNode("#2", NodeType.FORK);
+        final Node fNode = NodeFactory.createNode("#2", NodeType.FORK);
         final Set<Node> flows = new HashSet<>(2);
         flows.add(an1);
         flows.add(an2);
-        ((MultipleControlFlowNode) fk).setFlows(flows);
+        ((MultipleControlFlowNode) fNode).setFlows(flows);
 
         // Initial node (id #1) creation and flow to action node 1
-        final Node in = NodeFactory.createNode("#1", NodeType.INITIAL);
-        ((SingleControlFlowNode) in).setFlow(fk);
+        final Node iNode = NodeFactory.createNode("#1", NodeType.INITIAL);
+        ((SingleControlFlowNode) iNode).setFlow(fNode);
 
-        final Workflow wf = Workflow.create(in);
+        final Workflow wf = Workflow.create(iNode);
 
         (new Executor(wf)).run();
 
@@ -344,5 +344,36 @@ public class ExecutorTest {
         final Date a2Date = (Date) wf.getContext().get(A2_ID);
 
         Assert.assertTrue(a1Date.after(a2Date));
+    }
+
+
+    /*
+            (INI)       #1
+              |
+             \|/
+            -----       #2
+            /   \
+           V    V
+        (ACT)   (ACT)   #3/#4
+           \     /
+           V    V
+            -----       #5
+              |
+              V
+            (ACT)       #6
+              |
+              V
+            (DEC)       #7
+            /   \
+           V    V
+        (ACT)   (ACT)   #8/#9
+           \     /
+           V    V
+          ( FIN )       #10
+
+     */
+    @Test
+    public void testRun_Complex_Execution() {
+        // TODO: TBD - Exactly as done in Javascript
     }
 }

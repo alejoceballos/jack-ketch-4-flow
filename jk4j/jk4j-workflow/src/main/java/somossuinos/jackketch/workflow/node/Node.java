@@ -33,6 +33,11 @@ public abstract class Node {
 
     private String id;
 
+    /**
+     * Constructor. Node id is mandatory and cannot be blank.
+     *
+     * @param id The node id. It is mandatory and cannot be blank.
+     */
     public Node(final String id) {
         if (StringUtils.isBlank(id)) {
             throw new RuntimeException("\"id\" must not be empty");
@@ -41,9 +46,23 @@ public abstract class Node {
         this.id = id.trim();
     }
 
+    /**
+     * Default getter for the Node id.
+     *
+     * @return The node identification.
+     */
     public String getId() {
         return this.id;
     }
 
+    /**
+     * Default getter for the node type.
+     * <p>
+     * Some different nodes may implement the same interface and will only be differentiated
+     * by its type attribute.
+     * </p>
+     *
+     * @return The node type of this node instance.
+     */
     public abstract NodeType getType();
 }

@@ -25,8 +25,48 @@
 package somossuinos.jackketch.workflow.node;
 
 /**
- * All types of nodes accepted in jk4flow diagrams
+ * All types of nodes accepted in jk4flow diagrams.
+ * <ul>
+ *     <li><b>INITIAL:</b> It is only a kickstart point to let the engine know where to begin processing;</li>
+ *     <li><b>ACTION:</b> Where the magic happens! Each action node corresponds to a programming unit responsible for some real processing of the workflow;</li>
+ *     <li><b>DECISION:</b> Will take the decision of which will be the next step of the workflow;</li>
+ *     <li><b>FORK:</b> Starts more than one asynchronous processes for each node in the outgoing flow;</li>
+ *     <li><b>JOIN:</b> Responsible for gathering all asynchronous processes started by a Fork Node;</li>
+ *     <li><b>FINAL:</b> Establishes the end of the flow;</li>
+ * </ul>
+ * <p>
+ * <i>Hope that are more to come if this framework starts to be widely used</i>
+ * </p>
  */
 public enum NodeType {
-    INITIAL, ACTION, DECISION, FORK, JOIN, FINAL
+    /**
+     * It is only a kickstart point to let the engine know where to begin processing
+     */
+    INITIAL,
+
+    /**
+     * Where the magic happens! Each action node corresponds to a programming unit
+     * responsible for some real processing of the workflow
+     */
+    ACTION,
+
+    /**
+     * Will take the decision of which will be the next step of the workflow.
+     */
+    DECISION,
+
+    /**
+     * Starts more than one asynchronous processes for each node in the outgoing flow.
+     */
+    FORK,
+
+    /**
+     * Responsible for gathering all asynchronous processes started by a Fork Node.
+     */
+    JOIN,
+
+    /**
+     * Establishes the end of the flow.
+     */
+    FINAL
 }

@@ -26,12 +26,24 @@ package somossuinos.jackketch.workflow.conditional;
 
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * Flow condition is used to help deciding what course should a current
+ * workflow execution take depending on attributes' values in the flow
+ * context.
+ */
 public class FlowCondition {
 
     private String attribute;
     private ConditionType conditionType;
     private String value;
 
+    /**
+     * Constructor. All parameter values are mandatory.
+     *
+     * @param attribute The attribute name of the current context flow. Cannot be blank.
+     * @param conditionType The type of comparison that will be performed on attribute value.
+     * @param value The value expected set to the current attribute when the flow goes through this condition.
+     */
     public FlowCondition(final String attribute, final ConditionType conditionType, final String value) {
         if (StringUtils.isBlank(attribute)) {
             throw new RuntimeException("\"attribute\" must not be empty");
@@ -52,6 +64,11 @@ public class FlowCondition {
         this.value = value;
     }
 
+    /**
+     * Default getter for the attribute name.
+     *
+     * @return The attribute name which value will be validated by this flow condition.
+     */
     public String getAttribute() {
         return attribute;
     }
@@ -59,6 +76,11 @@ public class FlowCondition {
     /**
      * Checks if the current instance of the Context Output satisfies the condition. It must
      * be used by the engine to drive the workflow to the next node.
+     *
+     * @param value The flow context value to be compared against this flow condition value.
+     * @return <b>true</b> if the condition is satisfied (meaning that this will be the following
+     * flow in the workflow) or <b>false</b> if the condition is not satisfied, so the engine must
+     * try another condition flow or accept the "otherwise flow" as the next one.
      */
     public boolean isValid(final String value) {
         String ctxValue = value;

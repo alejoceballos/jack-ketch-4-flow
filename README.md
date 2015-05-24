@@ -5,7 +5,7 @@ A flow executor for **Java** and **Javascript** code to work in both client and 
 **Jack Ketch 4 Flow** is an umbrella project. It is intended to provide mechanisms to be a flow executor framework capable of running [Activity Diagrams](http://en.wikipedia.org/wiki/Activity_diagram "Activity Diagram") actions bound to Java and Javascript objects.
 
 **NOTE:** 
-+ This document was created on **February 9, 2015** and totally redefined in **April 24, 2015**. Last update was on ***April 24, 2015***.
++ This document was created on **February 9, 2015** and totally redefined in **April 24, 2015**. Last update was on ***May 24, 2015***.
 
 ## [ Goal ]
 Mainly get a [JSON](http://json.org/ "JavaScript Object Notation") data structure representing something similar to an [Activity Diagram](http://en.wikipedia.org/wiki/Activity_diagram "Activity Diagram") and **execute it**!
@@ -137,7 +137,8 @@ It is only a kickstart point to let the engine know where to begin processing.
 
     [ Java ]
     
-    TBD
+    Node iNode = NodeFactory.createNode('#ID', NodeType.INITIAL);
+    ((SingleControlFlowNode) iNode).setFlow( /* <another-node> */ );
     
 ```
 
@@ -167,7 +168,10 @@ Where the magic happens! Each action node corresponds to a programming unit resp
 
     [ Java ]
     
-    TBD
+    Node aNode = NodeFactory.createNode('#ID', NodeType.ACTION);
+    ((SingleControlFlowNode) aNode).setFlow( /* <another-node> */ );
+    ((ContextExecutable) aNode).setObject( /* <some object> */ );
+    ((ContextExecutable) aNode).setMethod( /* <some-method-using-reflection> */ );
     
 ```
 
@@ -195,9 +199,11 @@ Will take the decision of which will be the next step of the workflow. It will c
 
     [ Java ]
     
-    TBD
+    Node dNode = NodeFactory.createNode("#ID", NodeType.DECISION);
+    ((ConditionalControlFlowNode) dNode).setFlows(actionFlows, otherwiseAction);
     
 ```
+
 ##### 3.1. The Context Outgoing Object
 A Context Outgoing object is a special type of object used by decision nodes to check what is the next node to be executed.
 
@@ -234,7 +240,16 @@ The operators accepted by a context outgoing are:
 
     [ Java ]
     
-    TBD
+    FlowCondition condition = 
+        new FlowCondition(
+            "attr1",          // The flow context's attribute being evaluated
+            ConditionType.EQ, // The evaluating operator
+            "val1");          // The expected value
+
+    Map<FlowCondition, Node> flows = new HashMap<>(...);
+    flows.put(
+        flowCondition, 
+        someAction1);         // some subclass of Node
     
 ```
 
@@ -242,7 +257,7 @@ The operators accepted by a context outgoing are:
 
  ![fork-node.jpg](README.files/fork-node.jpg "Fork Node")
 
-Starts an asynchronous process.
+Starts more than one asynchronous processes for each node in the outgoing flow.
 
 All flows going out a Fork Node will be handled asynchronously until they find a Join Node, where processing becomes synchronous again.
 
@@ -264,7 +279,11 @@ Be aware that starting many asynchronous flows may be hard to manage, it may als
 
     [ Java ]
     
-    TBD
+    Node fNode = NodeFactory.createNode("#ID", NodeType.FORK);
+    final Set<Node> flows = new HashSet<>(2);
+    flows.add(someNode1);
+    flows.add(someNode2);
+    ((MultipleControlFlowNode) fNode).setFlows(flows);
     
 ```
 
@@ -290,7 +309,8 @@ Responsible for gathering all asynchronous processes started by a Fork Node.
 
     [ Java ]
     
-    TBD
+    Node jNode = NodeFactory.createNode("#ID", NodeType.JOIN);
+    ((SingleControlFlowNode) jNode).setFlow(someNode);
     
 ```
 
@@ -316,7 +336,7 @@ At first I thought this node wasn't really necessary, for example, if I just rea
 
     [ Java ]
     
-    TBD
+    Node fNode = NodeFactory.createNode("#ID", NodeType.FINAL);
     
 ```
 
