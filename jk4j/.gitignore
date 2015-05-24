@@ -1,4 +1,5 @@
 .idea/
 target/
+jenkins-config/
 *.iml
 
