@@ -31,21 +31,45 @@ import somossuinos.jackketch.workflow.node.Node;
 import somossuinos.jackketch.workflow.node.NodeType;
 
 /**
- *
+ * The workflow object is responsible for encapsulating all the objects that
+ * define the activity diagram to be executed. It also wraps the flow context object.
+ * <p>
+ * When a brand new workflow object is created it will also create a new empty flow
+ * context object. Another flow context object can be assigned to the workflow after
+ * it has been created, if none is assigned it will only restarts an empty flow context
+ * object.
+ * </p>
  */
 public class Workflow {
 
+    /**
+     * The {@link Node} that starts the whole workflow process.  Must
+     * be of type {@link NodeType#INITIAL}.
+     */
     private Node initialNode;
 
+    /**
+     * The {@link WorkflowContext} object of the current workflow execution.
+     */
     private WorkflowContext context = new WorkflowContext() {
 
+        /**
+         * A basic Map with String/Object double to store the context attributes
+         * and values.
+         */
         private Map<String, Object> contextMap = new HashMap<>(0);
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Object get(final String key) {
             return contextMap.get(key);
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void set(final String key, final Object value) {
             if (value != null) {
@@ -53,6 +77,9 @@ public class Workflow {
             }
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Map<String, Object> getMap() {
             final Map<String, Object> clone = new HashMap<>(this.contextMap.size());
@@ -61,12 +88,25 @@ public class Workflow {
             return clone;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void clear() {
             contextMap.clear();
         }
     };
 
+    /**
+     * Private constructor. Instead of calling new to this class call its static
+     * factory method.
+     * <p>
+     * The {@link Node} that starts the whole workflow process must
+     * be of type {@link NodeType#INITIAL}.
+     * </p>
+     *
+     * @param initialNode A {@link WorkflowContext} object of type {@link NodeType#INITIAL}.
+     */
     private Workflow(final Node initialNode) {
         this.initialNode = initialNode;
     }
@@ -85,6 +125,15 @@ public class Workflow {
 
     public WorkflowContext getContext() {
         return context;
+    }
+
+    public void setContext(final WorkflowContext context) {
+        if (context == null) {
+            this.context.clear();
+
+        } else {
+            this.context = context;
+        }
     }
 
     public void setContext(final Map<String, Object> contextMap) {

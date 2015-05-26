@@ -45,18 +45,36 @@ import somossuinos.jackketch.workflow.node.SingleControlFlowNode;
  */
 public class ActionNode extends SingleControlFlowNode implements ContextExecutable {
 
+    /**
+     * The object that holds the method to be executed.
+     */
     public Object object;
+
+    /**
+     * The method to be executed. This method object must be extracted using reflection.
+     */
     public Method method;
 
+    /**
+     * Constructor. Node id is mandatory and cannot be blank.
+     *
+     * @param id The node id. It is mandatory and cannot be blank.
+     */
     public ActionNode(final String id) {
         super(id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setObject(final Object object) {
         this.object = object;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setMethod(final Method method) {
         if (method == null) {
@@ -70,16 +88,35 @@ public class ActionNode extends SingleControlFlowNode implements ContextExecutab
         this.method = method;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     *     Obviously, this "getType()" implementation will always return {@link NodeType#ACTION}.
+     * </p>
+     * @return {@link NodeType#ACTION}.
+     */
     @Override
     public NodeType getType() {
         return NodeType.ACTION;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * The allowed types for outgoing nodes are: ACTION, DECISION, FORK, FINAL and JOIN.
+     * </p>
+     */
     @Override
     public NodeType[] getAllowedTypes() {
         return new NodeType[] { NodeType.ACTION, NodeType.DECISION, NodeType.FORK, NodeType.FINAL, NodeType.JOIN };
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * The workflow context object cannot be null
+     * </p>
+     */
     @Override
     public Object execute(final WorkflowContext context) {
         if (this.method == null) {

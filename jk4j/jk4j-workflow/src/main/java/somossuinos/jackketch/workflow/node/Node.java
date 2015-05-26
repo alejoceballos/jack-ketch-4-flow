@@ -31,6 +31,10 @@ import org.apache.commons.lang3.StringUtils;
  */
 public abstract class Node {
 
+    /**
+     * The id of the node. Usually its value is defined by an external diagramming
+     * tool.
+     */
     private String id;
 
     /**

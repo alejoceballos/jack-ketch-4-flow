@@ -15,7 +15,9 @@ Make [jk4flow](https://github.com/alejoceballos/jack-ketch-4-flow "Jack Ketch 4 
 
 Responsible for all workflow domain model.
 
-In this project you may find all classes responsible for representing an Activity Model Diagram. Since with Java we are declaring pure OO classes, all entities such as Actions, Decisions, Forks and so on are concrete implementations of node's abstractions.
+In this project you may find all classes responsible for representing an Activity Model Diagram. Since we declare pure OO classes in Java, all entities such as Actions, Decisions, Forks and so on are concrete implementations of node's abstractions.
+
+
 
 ## Engine
 

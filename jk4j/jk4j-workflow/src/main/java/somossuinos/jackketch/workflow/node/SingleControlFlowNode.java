@@ -24,18 +24,48 @@
 
 package somossuinos.jackketch.workflow.node;
 
+/**
+ * The main abstraction for nodes that forwards to only one outgoing node.
+ * <p>
+ * Subclasses for Initial, Action and Join Node are created using this abstraction.
+ * </p>
+ */
 public abstract class SingleControlFlowNode extends ControlFlowNode {
 
+    /**
+     * The outgoing node forwarded by this node.
+     */
     private Node flow;
 
+    /**
+     * Constructor. Node id is mandatory and cannot be blank.
+     *
+     * @param id The node id. It is mandatory and cannot be blank.
+     */
     public SingleControlFlowNode(final String id) {
         super(id);
     }
 
+    /**
+     * Gets the outgoing node forwarded by this node.
+     *
+     * @return The outgoing node forwarded by this node.
+     */
     public Node getFlow() {
         return this.flow;
     }
 
+    /**
+     * Sets the outgoing node forwarded by this node.
+     * <p>
+     *     Only node types defined by the overridden method {@link ControlFlowNode#getAllowedTypes()}
+     *     can be set as outgoing flow.
+     * </p>
+     *
+     * @param flow The outgoing node forwarded by this node.
+     *
+     * @see ControlFlowNode
+     */
     public void setFlow(final Node flow) {
         this.flow = ControlFlowFactory.create(this, flow, this.getAllowedTypes());
     }

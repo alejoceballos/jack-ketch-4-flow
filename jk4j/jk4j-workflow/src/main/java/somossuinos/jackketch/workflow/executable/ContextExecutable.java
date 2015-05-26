@@ -27,10 +27,41 @@ package somossuinos.jackketch.workflow.executable;
 import java.lang.reflect.Method;
 import somossuinos.jackketch.workflow.context.WorkflowContext;
 
+/**
+ * Any node that intends to execute a workflow task must implement this
+ * interface.
+ * <p>
+ *     "Executable nodes", like Action Nodes, are bound to java objects holding
+ *     at least one method that can receive a {@link WorkflowContext} and execute it.
+ * </p>
+ * <p>
+ *     Since Java works with dynamic method execution using <i>Reflection</i>, a simple
+ *     {@link Method} must be defined to executed along its object's instance.
+ * </p>
+ */
 public interface ContextExecutable {
 
+    /**
+     * Sets the instance that holds the method to be executed.
+     *
+     * @param object The object that holds the method to be executed.
+     */
     void setObject(final Object object);
+
+    /**
+     * The method to be executed. This method object must be extracted using reflection.
+     *
+     * @param method The method to be executed.
+     */
     void setMethod(final Method method);
+
+    /**
+     * The execution. Actually will call {@link Method#invoke(Object, Object...)} passing
+     * {@link WorkflowContext} as parameter.
+     *
+     * @param context The {@link WorkflowContext} object of the current workflow execution.
+     * @return The same result as declared by the method. Null if the method declares void.
+     */
     Object execute(final WorkflowContext context);
 
 }
