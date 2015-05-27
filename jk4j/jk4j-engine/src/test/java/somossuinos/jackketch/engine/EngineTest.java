@@ -22,7 +22,7 @@ import somossuinos.jackketch.workflow.node.Node;
 import somossuinos.jackketch.workflow.node.NodeType;
 import somossuinos.jackketch.workflow.node.SingleControlFlowNode;
 
-public class ExecutorTest {
+public class EngineTest {
 
     private final static String ID = "#ID";
     private final static String KEY = "KEY";
@@ -44,13 +44,13 @@ public class ExecutorTest {
         thrown.expect(RuntimeException.class);
         thrown.expectMessage("Workflow cannot be null");
 
-        final Executor executor = new Executor(null);
+        final Engine engine = new Engine(null);
     }
 
     @Test
     public void testCreate_Success() {
         final Workflow wc = Workflow.create(this.getInitialNode());
-        Assert.assertNotNull(new Executor(wc));
+        Assert.assertNotNull(new Engine(wc));
     }
 
     /*
@@ -81,7 +81,7 @@ public class ExecutorTest {
 
         final Workflow wf = Workflow.create(iNode);
 
-        (new Executor(wf)).run();
+        (new Engine(wf)).run();
 
         Assert.assertEquals(ID, wf.getContext().get(KEY));
     }
@@ -148,7 +148,7 @@ public class ExecutorTest {
 
         final Workflow wf = Workflow.create(iNode);
 
-        (new Executor(wf)).run();
+        (new Engine(wf)).run();
 
         Assert.assertEquals(A2_ID, wf.getContext().get(KEY));
     }
@@ -215,7 +215,7 @@ public class ExecutorTest {
 
         final Workflow wf = Workflow.create(iNode);
 
-        (new Executor(wf)).run();
+        (new Engine(wf)).run();
 
         Assert.assertEquals(A3_ID, wf.getContext().get(KEY));
     }
@@ -276,7 +276,7 @@ public class ExecutorTest {
 
         final Workflow wf = Workflow.create(iNode);
 
-        (new Executor(wf)).run();
+        (new Engine(wf)).run();
 
         Assert.assertTrue(
                 wf.getContext().get(A1_KEY).equals(A1_ID) &&
@@ -338,7 +338,7 @@ public class ExecutorTest {
 
         final Workflow wf = Workflow.create(in);
 
-        (new Executor(wf)).run();
+        (new Engine(wf)).run();
 
         final Date a1Date = (Date) wf.getContext().get(A1_ID);
         final Date a2Date = (Date) wf.getContext().get(A2_ID);

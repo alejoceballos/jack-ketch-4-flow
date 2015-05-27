@@ -81,8 +81,8 @@ public class ActionNode extends SingleControlFlowNode implements ContextExecutab
             throw new RuntimeException("Method cannot be null");
         }
 
-        if (method.getParameterTypes().length == 0 || !method.getParameterTypes()[0].isAssignableFrom(WorkflowContext.class)) {
-            throw new RuntimeException(String.format("The first parameter of method must be of % type", WorkflowContext.class.getCanonicalName()));
+        if (method.getParameterTypes().length != 0) {
+            throw new RuntimeException("The method must not have any parameter");
         }
 
         this.method = method;
@@ -114,7 +114,11 @@ public class ActionNode extends SingleControlFlowNode implements ContextExecutab
     /**
      * {@inheritDoc}
      * <p>
-     * The workflow context object cannot be null
+     *     If the object being executed implements {@link ContextBindableObject}, the action
+     *     node will pass it the workflow context object.
+     * </p>
+     * <p>
+     *     The workflow context object cannot be null.
      * </p>
      */
     @Override
@@ -127,8 +131,12 @@ public class ActionNode extends SingleControlFlowNode implements ContextExecutab
             throw new RuntimeException("Cannot execute an operation without an object");
         }
 
+        if (this.object instanceof ContextBindableObject) {
+            ((ContextBindableObject) this.object).setContext(context);
+        }
+
         try {
-            return this.method.invoke(this.object, context);
+            return this.method.invoke(this.object);
 
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException("Problem invoking context executable method", e);

@@ -87,12 +87,17 @@ public abstract class ConditionalControlFlowNode extends ControlFlowNode {
     /**
      * Sets all the possible outgoing flows.
      *
-     * @param flows A map of {@link FlowCondition} and its corresponding outgoing nodes.
+     * @param targets A map of {@link FlowCondition} and its corresponding outgoing nodes.
      * @param otherwise The default outgoing node if no condition is met.
      */
-    public void setFlows(final Map<FlowCondition, Node> flows, final Node otherwise) {
-        this.flows = ControlFlowFactory.create(this, flows, this.getAllowedTypes(), this.getMinFlowsAllowed());
-        this.otherwise = ControlFlowFactory.create(this, otherwise, this.getAllowedTypes());
+    public void setFlows(final Map<FlowCondition, Node> targets, final Node otherwise) {
+        ControlFlowValidator.validate(this, targets, this.getAllowedTypes(), this.getMinFlowsAllowed());
+
+        this.flows = new HashMap<>(targets.size());
+        this.flows.putAll(targets);
+
+        ControlFlowValidator.validate(this, otherwise, this.getAllowedTypes());
+        this.otherwise = otherwise;
     }
 
     /**

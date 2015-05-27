@@ -72,10 +72,13 @@ public abstract class MultipleControlFlowNode extends ControlFlowNode {
      * from external changes.
      * </p>
      *
-     * @param flows A set of all outgoing flows of this node.
+     * @param targets A set of all outgoing flows of this node.
      */
-    public void setFlows(final Set<Node> flows) {
-        this.flows = ControlFlowFactory.create(this, flows, this.getAllowedTypes(), this.getMinFlowsAllowed());
+    public void setFlows(final Set<Node> targets) {
+        ControlFlowValidator.validate(this, targets, this.getAllowedTypes(), this.getMinFlowsAllowed());
+
+        this.flows = new HashSet<>(targets.size());
+        this.flows.addAll(targets);
     }
 
     /**

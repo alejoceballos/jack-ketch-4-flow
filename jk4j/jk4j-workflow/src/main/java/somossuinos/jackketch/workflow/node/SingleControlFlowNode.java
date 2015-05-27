@@ -62,12 +62,13 @@ public abstract class SingleControlFlowNode extends ControlFlowNode {
      *     can be set as outgoing flow.
      * </p>
      *
-     * @param flow The outgoing node forwarded by this node.
+     * @param target The outgoing node forwarded by this node.
      *
      * @see ControlFlowNode
      */
-    public void setFlow(final Node flow) {
-        this.flow = ControlFlowFactory.create(this, flow, this.getAllowedTypes());
+    public void setFlow(final Node target) {
+        ControlFlowValidator.validate(this, target, this.getAllowedTypes());
+        this.flow = target;
     }
 
 }

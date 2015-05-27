@@ -98,13 +98,38 @@ import somossuinos.jackketch.workflow.node.SingleControlFlowNode;
  * <i>Basic Rules: (1) Many as possible flows coming into; (2) No flow going out.</i>
  * </p>
  *
- * @author Alejo Ceballos
+ * @see SingleControlFlowNode
+ * @see MultipleControlFlowNode
+ * @see ConditionalControlFlowNode
+ * @see ActionNode
  */
 public class NodeFactory {
 
+    /**
+     * Private constructor to ensure that this class will not be instantiate.
+     */
     private NodeFactory() {
     }
 
+    /**
+     * Factory method that creates all types of nodes.
+     * <p>
+     * The real node objects created may be of the following  types:
+     * <ul>
+     *     <li>{@link SingleControlFlowNode}</li>
+     *     <li>{@link MultipleControlFlowNode}</li>
+     *     <li>{@link ConditionalControlFlowNode}</li>
+     *     <li>{@link ActionNode}</li>
+     * </ul>
+     * </p>
+     *
+     * @param id The node id. It is mandatory and cannot be blank.
+     * @param type The node type according to {@link NodeType}.
+     * @return An instance of {@link Node}. Can be of type
+     * {@link SingleControlFlowNode}, {@link MultipleControlFlowNode},
+     * {@link ConditionalControlFlowNode} or {@link ActionNode}.
+     *
+     */
     public static Node createNode(final String id, final NodeType type) {
         if (type == null) {
             throw new RuntimeException("Must a node type to create a node");

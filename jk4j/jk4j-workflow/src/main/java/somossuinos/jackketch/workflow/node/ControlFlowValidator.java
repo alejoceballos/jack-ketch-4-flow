@@ -27,17 +27,28 @@ package somossuinos.jackketch.workflow.node;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang3.ArrayUtils;
 import somossuinos.jackketch.workflow.conditional.FlowCondition;
 
-public class ControlFlowFactory {
+/**
+ * Handles all validations for nodes that are supposed to be set
+ * as outgoing flows (target nodes).
+ *
+ * Validations:
+ * <ul>
+ *     <li>The originating node of the flow must be passed in all validations. It cannot be null;</li>
+ *     <li>Nodes cannot redirect to itself (origin and target nodes cannot be the same);</li>
+ *     <li>The target node (outgoing flow) must be passed. If it is only one, cannot be null;</li>
+ *     <li>Target nodes (outgoing flows) , when a collection or Map, cannot be empty and cannot contain null or repeated values;</li>
+ *     <li>Target nodes can only be of a type allowed by each node type, i.e. Initial nodes can only allow Actions, Decisions or Forks as outgoing flow;</li>
+ * </ul>
+ */
+public class ControlFlowValidator {
 
-    private ControlFlowFactory() {
+    private ControlFlowValidator() {
     }
 
     private static void validateOrigin(final Node origin) {
@@ -141,34 +152,49 @@ public class ControlFlowFactory {
                 }
             }
         }
-
     }
 
-    public static Node create(final Node origin, final Node target, final NodeType[] allowedTypes) {
+    /**
+     * Validates single outgoing flow node.
+     *
+     * @param origin The node that holds the control flow.
+     * @param target The outgoing flow node.
+     * @param allowedTypes The types allowed for the target node (depends on each node type).
+     */
+    public static void validate(final Node origin, final Node target, final NodeType[] allowedTypes) {
         validateOrigin(origin);
         validateTarget(target);
         validateSelfRedirection(origin, target);
         validateAllowedTypes(allowedTypes);
         validateTargetNodeType(target, allowedTypes);
-
-        return target;
     }
 
-    public static Set<Node> create(final Node origin, final Set<Node> targets, final NodeType[] allowedTypes, final int minListSize) {
+    /**
+     * Validates multiple outgoing flow nodes.
+     *
+     * @param origin The node that holds the control flow.
+     * @param targets The outgoing flow nodes.
+     * @param allowedTypes The types allowed for the target nodes (depends on each node type).
+     * @param minListSize The minimum size allowed for the targets set.
+     */
+    public static void validate(final Node origin, final Set<Node> targets, final NodeType[] allowedTypes, final int minListSize) {
         validateOrigin(origin);
         validateTarget(targets);
         validateSelfRedirection(origin, targets);
         validateAllowedTypes(allowedTypes);
         validateTargetNodeType(targets, allowedTypes);
         validateTargetListSize(targets, minListSize);
-
-        final Set<Node> flows = new HashSet<>(targets.size());
-        flows.addAll(targets);
-
-        return flows;
     }
 
-    public static Map<FlowCondition, Node> create(final Node origin, final Map<FlowCondition, Node> targets, final NodeType[] allowedTypes, final int minListSize) {
+    /**
+     * Validates conditional outgoing flow nodes.
+     *
+     * @param origin The node that holds the control flow.
+     * @param targets The outgoing flow nodes and related conditions.
+     * @param allowedTypes The types allowed for the target nodes (depends on each node type).
+     * @param minListSize The minimum size allowed for the targets set.
+     */
+    public static void validate(final Node origin, final Map<FlowCondition, Node> targets, final NodeType[] allowedTypes, final int minListSize) {
         validateOrigin(origin);
         validateTarget(targets);
         validateSelfRedirection(origin, targets.values());
@@ -176,10 +202,5 @@ public class ControlFlowFactory {
         validateTargetNodeType(targets.values(), allowedTypes);
         validateTargetListSize(targets.values(), minListSize);
         validateRepeatedTargets(targets.values());
-
-        final Map<FlowCondition, Node> flows = new HashMap<>(targets.size());
-        flows.putAll(targets);
-
-        return flows;
-    }
+   }
 }

@@ -24,9 +24,9 @@
 
 package somossuinos.jackketch.workflow;
 
-import java.util.HashMap;
 import java.util.Map;
 import somossuinos.jackketch.workflow.context.WorkflowContext;
+import somossuinos.jackketch.workflow.context.WorkflowContextFactory;
 import somossuinos.jackketch.workflow.node.Node;
 import somossuinos.jackketch.workflow.node.NodeType;
 
@@ -51,51 +51,7 @@ public class Workflow {
     /**
      * The {@link WorkflowContext} object of the current workflow execution.
      */
-    private WorkflowContext context = new WorkflowContext() {
-
-        /**
-         * A basic Map with String/Object double to store the context attributes
-         * and values.
-         */
-        private Map<String, Object> contextMap = new HashMap<>(0);
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Object get(final String key) {
-            return contextMap.get(key);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void set(final String key, final Object value) {
-            if (value != null) {
-                contextMap.put(key, value);
-            }
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Map<String, Object> getMap() {
-            final Map<String, Object> clone = new HashMap<>(this.contextMap.size());
-            clone.putAll(this.contextMap);
-
-            return clone;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void clear() {
-            contextMap.clear();
-        }
-    };
+    private WorkflowContext context = WorkflowContextFactory.create();
 
     /**
      * Private constructor. Instead of calling new to this class call its static
@@ -111,10 +67,21 @@ public class Workflow {
         this.initialNode = initialNode;
     }
 
+    /**
+     * Returns the starting point of the workflow.
+     *
+     * @return A node object of type {@link NodeType#INITIAL}.
+     */
     public Node getInitialNode() {
         return initialNode;
     }
 
+    /**
+     * Factory method that creates a new s=instance of this calss.
+     *
+     * @param initialNode The starting point of the workflow.
+     * @return A workflow object.
+     */
     public static Workflow create(final Node initialNode) {
         if (initialNode == null || !NodeType.INITIAL.equals(initialNode.getType())) {
             throw new RuntimeException("Workflow's Initial Node required");

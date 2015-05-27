@@ -29,10 +29,10 @@ public class ActionNodeTest {
     }
 
     private Object getExecutableObject() {
-        class ExecutableObjectClass {
-            public void doSomething(final WorkflowContext wc) {
-                wc.set("KEY", "WHATEVER");
-            }
+        class ExecutableObjectClass implements ContextBindableObject {
+            private WorkflowContext wc;
+            @Override public void setContext(final WorkflowContext context) { wc = context; }
+            public void doSomething() { wc.set("KEY", "WHATEVER"); }
         }
 
         return new ExecutableObjectClass();
@@ -43,7 +43,7 @@ public class ActionNodeTest {
 
         try {
             final Class clz = Class.forName(obj.getClass().getName());
-            method = clz.getMethod("doSomething", WorkflowContext.class);
+            method = clz.getMethod("doSomething");
 
         } catch (ReflectiveOperationException e) {
             throw  new RuntimeException(e);

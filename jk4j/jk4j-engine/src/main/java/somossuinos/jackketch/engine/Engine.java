@@ -39,11 +39,11 @@ import somossuinos.jackketch.workflow.node.Node;
 import somossuinos.jackketch.workflow.node.NodeType;
 import somossuinos.jackketch.workflow.node.SingleControlFlowNode;
 
-public class Executor {
+public class Engine {
 
     private Workflow workflow;
 
-    public Executor(final Workflow workflow) {
+    public Engine(final Workflow workflow) {
         if (workflow == null) {
             throw new RuntimeException("Workflow cannot be null");
         }
