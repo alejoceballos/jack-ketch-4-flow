@@ -3,7 +3,7 @@
 The flow executor for Java projects.
 
 **NOTE:** 
-+ This document was created on **April 26, 2015**. Last update was on ***April 27, 2015***.
++ This document was created on **April 26, 2015**. Last update was on ***May 26, 2015***.
 
 ## [ Goal ]
 
@@ -11,7 +11,13 @@ Make [jk4flow](https://github.com/alejoceballos/jack-ketch-4-flow "Jack Ketch 4 
 
 # Subprojects
 
-## **Workflow**
+**Jack Ketch for Java** project can be separated in other 3 (three) projects (at least, until now):
+
+1. **Workflow:** Responsible for all workflow domain model;
+2. **Engine:** Responsible for executing the workflow model;
+3. **Transformation:** Responsible for transforming a JSON file into a "living" workflow instance;
+
+## **Workflow** Project (jk4j-workflow)
 
 Responsible for all workflow domain model.
 
@@ -60,7 +66,7 @@ TBD
 
 TBD
 
-## **Engine**
+## **Engine** Project (jk4j-engine)
 
 Responsible for executing the workflow model.
 
@@ -82,7 +88,7 @@ TBD
 
 TBD
 
-## **Transformation**
+## **Transformer** Project (jk4j-transformer)
 
 Responsible for reading a JSON activity diagram and creating an workflow instance.
 
