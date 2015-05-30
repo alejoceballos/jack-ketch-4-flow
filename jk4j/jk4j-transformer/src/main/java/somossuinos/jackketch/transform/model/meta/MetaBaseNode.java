@@ -1,11 +1,11 @@
-package somossuinos.jackketch.transform.model.json;
+package somossuinos.jackketch.transform.model.meta;
 
-public class JsonBaseNode {
+public class MetaBaseNode {
 
-    public JsonBaseNode() {
+    public MetaBaseNode() {
     }
 
-    public JsonBaseNode(String id) {
+    public MetaBaseNode(String id) {
         this.id = id;
     }
 

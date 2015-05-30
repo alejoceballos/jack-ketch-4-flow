@@ -1,16 +1,16 @@
-package somossuinos.jackketch.transform.model.json;
+package somossuinos.jackketch.transform.model.meta;
 
-public class JsonFlowCondition {
+public class MetaFlowCondition {
 
     private String attribute;
     private String  condition;
     private String value;
     private String controlFlow;
 
-    public JsonFlowCondition() {
+    public MetaFlowCondition() {
     }
 
-    public JsonFlowCondition(String attribute, String condition, String value, String controlFlow) {
+    public MetaFlowCondition(String attribute, String condition, String value, String controlFlow) {
         this.attribute = attribute;
         this.condition = condition;
         this.value = value;

@@ -1,11 +1,11 @@
-package somossuinos.jackketch.transform.model.json;
+package somossuinos.jackketch.transform.model.meta;
 
-public class JsonActionNode extends JsonBaseNode {
+public class MetaActionNode extends MetaBaseNode {
 
-    public JsonActionNode() {
+    public MetaActionNode() {
     }
 
-    public JsonActionNode(String id, String callback) {
+    public MetaActionNode(String id, String callback) {
         super(id);
         this.callback = callback;
     }

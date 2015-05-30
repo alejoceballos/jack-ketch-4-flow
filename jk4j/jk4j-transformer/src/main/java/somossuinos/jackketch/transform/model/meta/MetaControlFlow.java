@@ -1,15 +1,15 @@
-package somossuinos.jackketch.transform.model.json;
+package somossuinos.jackketch.transform.model.meta;
 
-public class JsonControlFlow {
+public class MetaControlFlow {
 
     private String id;
     private String from;
     private String to;
 
-    public JsonControlFlow() {
+    public MetaControlFlow() {
     }
 
-    public JsonControlFlow(String id, String from, String to) {
+    public MetaControlFlow(String id, String from, String to) {
         this.id = id;
         this.from = from;
         this.to = to;

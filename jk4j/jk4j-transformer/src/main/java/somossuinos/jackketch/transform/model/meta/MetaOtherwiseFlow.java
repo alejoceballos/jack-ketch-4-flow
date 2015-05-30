@@ -1,13 +1,13 @@
-package somossuinos.jackketch.transform.model.json;
+package somossuinos.jackketch.transform.model.meta;
 
-public class JsonOtherwiseFlow {
+public class MetaOtherwiseFlow {
 
     private String controlFlow;
 
-    public JsonOtherwiseFlow() {
+    public MetaOtherwiseFlow() {
     }
 
-    public JsonOtherwiseFlow(String controlFlow) {
+    public MetaOtherwiseFlow(String controlFlow) {
         this.controlFlow = controlFlow;
     }
 
