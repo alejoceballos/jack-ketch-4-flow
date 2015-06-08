@@ -1,4 +1,4 @@
-package somossuinos.jackketch.transform.model.meta;
+package somossuinos.jackketch.transform.meta;
 
 public class MetaOtherwiseFlow {
 

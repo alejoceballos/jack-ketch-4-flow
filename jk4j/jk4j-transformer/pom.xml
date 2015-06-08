@@ -16,6 +16,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>somossuinos.jk4j</groupId>
+            <artifactId>jk4j-workflow</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.3.1</version>

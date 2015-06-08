@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<ActivityDiagramGraph id="1">
+    <nodes id="2">
+        <ScenarioStartNode id="3">
+            <children id="4"/>
+            <location class="Point2D.Double" id="5" x="780.0" y="140.0"/>
+            <id id="6" value="727995c5-a419-4b19-a035-d68f3073be74"/>
+            <revision>1</revision>
+            <backgroundColor id="7">
+                <red>255</red>
+                <green>255</green>
+                <blue>255</blue>
+                <alpha>255</alpha>
+            </backgroundColor>
+            <borderColor id="8">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+            </borderColor>
+            <textColor reference="8"/>
+        </ScenarioStartNode>
+        <SynchronizationBarNode id="9">
+            <children id="10"/>
+            <location class="Point2D.Double" id="11" x="648.0" y="210.0"/>
+            <id id="12" value="eda0107e-1f45-45a0-b0f9-578a9a624260"/>
+            <revision>1</revision>
+            <backgroundColor reference="7"/>
+            <borderColor reference="8"/>
+            <textColor reference="8"/>
+        </SynchronizationBarNode>
+        <ActivityNode id="13">
+            <children id="14"/>
+            <location class="Point2D.Double" id="15" x="660.0" y="270.0"/>
+            <id id="16" value="6f6aabb4-b073-4290-b303-5f9f0cd25fa7"/>
+            <revision>1</revision>
+            <backgroundColor reference="7"/>
+            <borderColor reference="8"/>
+            <textColor reference="8"/>
+            <name id="17" justification="1" size="4" underlined="false">
+                <text>x = 1 + 1</text>
+            </name>
+        </ActivityNode>
+        <ActivityNode id="18">
+            <children id="19"/>
+            <location class="Point2D.Double" id="20" x="840.0" y="270.0"/>
+            <id id="21" value="f768f0b0-beee-413c-b998-258e8ae81cc7"/>
+            <revision>1</revision>
+            <backgroundColor reference="7"/>
+            <borderColor reference="8"/>
+            <textColor reference="8"/>
+            <name id="22" justification="1" size="4" underlined="false">
+                <text>y = 1 * 1</text>
+            </name>
+        </ActivityNode>
+        <SynchronizationBarNode id="23">
+            <children id="24"/>
+            <location class="Point2D.Double" id="25" x="648.0" y="390.0"/>
+            <id id="26" value="935482ce-a20d-45fa-ba5d-c9cdfa6a348e"/>
+            <revision>1</revision>
+            <backgroundColor reference="7"/>
+            <borderColor reference="8"/>
+            <textColor reference="8"/>
+        </SynchronizationBarNode>
+        <ActivityNode id="27">
+            <children id="28"/>
+            <location class="Point2D.Double" id="29" x="750.0" y="460.0"/>
+            <id id="30" value="fc05a717-8385-4e54-bfd1-30e4f030eb10"/>
+            <revision>1</revision>
+            <backgroundColor reference="7"/>
+            <borderColor reference="8"/>
+            <textColor reference="8"/>
+            <name id="31" justification="1" size="4" underlined="false">
+                <text>v = x + y</text>
+            </name>
+        </ActivityNode>
+        <DecisionNode id="32">
+            <children id="33"/>
+            <location class="Point2D.Double" id="34" x="750.0" y="590.0"/>
+            <id id="35" value="f69f1f43-5e22-4036-8b9d-72c1b9ceb391"/>
+            <revision>1</revision>
+            <backgroundColor reference="7"/>
+            <borderColor reference="8"/>
+            <textColor reference="8"/>
+            <condition id="36" justification="1" size="4" underlined="false">
+                <text></text>
+            </condition>
+        </DecisionNode>
+        <ActivityNode id="37">
+            <children id="38"/>
+            <location class="Point2D.Double" id="39" x="660.0" y="690.0"/>
+            <id id="40" value="858e6795-aa8f-48f3-b90a-3131a91959de"/>
+            <revision>1</revision>
+            <backgroundColor reference="7"/>
+            <borderColor reference="8"/>
+            <textColor reference="8"/>
+            <name id="41" justification="1" size="4" underlined="false">
+                <text>Ok</text>
+            </name>
+        </ActivityNode>
+        <ActivityNode id="42">
+            <children id="43"/>
+            <location class="Point2D.Double" id="44" x="840.0" y="690.0"/>
+            <id id="45" value="a73b7d7d-d825-451c-86a2-8fdbc44d7d3e"/>
+            <revision>1</revision>
+            <backgroundColor reference="7"/>
+            <borderColor reference="8"/>
+            <textColor reference="8"/>
+            <name id="46" justification="1" size="4" underlined="false">
+                <text>Not Ok</text>
+            </name>
+        </ActivityNode>
+        <ScenarioEndNode id="47">
+            <children id="48"/>
+            <location class="Point2D.Double" id="49" x="780.0" y="910.0"/>
+            <id id="50" value="3e50ddfa-ea7a-4a0e-be65-7455702bed49"/>
+            <revision>1</revision>
+            <backgroundColor reference="7"/>
+            <borderColor reference="8"/>
+            <textColor reference="8"/>
+        </ScenarioEndNode>
+        <NoteNode id="51">
+            <children id="52"/>
+            <location class="Point2D.Double" id="53" x="950.0" y="240.0"/>
+            <id id="54" value="c62d3638-1eec-410f-965c-97de8f9424b2"/>
+            <revision>1</revision>
+            <backgroundColor id="55">
+                <red>255</red>
+                <green>255</green>
+                <blue>255</blue>
+                <alpha>255</alpha>
+            </backgroundColor>
+            <borderColor id="56">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+                <alpha>255</alpha>
+            </borderColor>
+            <textColor reference="56"/>
+            <text id="57" justification="0" size="4" underlined="false">
+                <text>{
+                    &quot;comment&quot;: &quot;Will sum multiply 1 * 1&quot;,
+                    &quot;package&quot;: &quot;somossuinos.jackketch.transform.violet&quot;,
+                    &quot;class&quot;: &quot;SimpleDiagram&quot;,
+                    &quot;method&quot;: &quot;multiplyOneByOne&quot;
+                    }</text>
+            </text>
+            <color id="58">
+                <red>255</red>
+                <green>228</green>
+                <blue>181</blue>
+                <alpha>255</alpha>
+            </color>
+        </NoteNode>
+        <NoteNode id="59">
+            <children id="60"/>
+            <location class="Point2D.Double" id="61" x="270.0" y="240.0"/>
+            <id id="62" value="be30b589-d550-492b-b362-07d937f7dab7"/>
+            <revision>1</revision>
+            <backgroundColor reference="55"/>
+            <borderColor reference="56"/>
+            <textColor reference="56"/>
+            <text id="63" justification="0" size="4" underlined="false">
+                <text>{
+                    &quot;comment&quot;: &quot;Will sum 1 + 1&quot;,
+                    &quot;package&quot;: &quot;somossuinos.jackketch.transform.violet&quot;,
+                    &quot;class&quot;: &quot;SimpleDiagram&quot;,
+                    &quot;method&quot;: &quot;sumOnePlusOne&quot;
+                    }</text>
+            </text>
+            <color id="64">
+                <red>255</red>
+                <green>239</green>
+                <blue>213</blue>
+                <alpha>255</alpha>
+            </color>
+        </NoteNode>
+        <NoteNode id="65">
+            <children id="66"/>
+            <location class="Point2D.Double" id="67" x="950.0" y="430.0"/>
+            <id id="68" value="19c09a1e-d1ab-4a95-8051-f06debd348af"/>
+            <revision>1</revision>
+            <backgroundColor reference="55"/>
+            <borderColor reference="56"/>
+            <textColor reference="56"/>
+            <text id="69" justification="0" size="4" underlined="false">
+                <text>{
+                    &quot;comment&quot;: &quot;Will sum both results&quot;,
+                    &quot;package&quot;: &quot;somossuinos.jackketch.transform.violet&quot;,
+                    &quot;class&quot;: &quot;SimpleDiagram&quot;,
+                    &quot;method&quot;: &quot;sumXPlusY&quot;
+                    }</text>
+            </text>
+            <color reference="58"/>
+        </NoteNode>
+        <NoteNode id="70">
+            <children id="71"/>
+            <location class="Point2D.Double" id="72" x="270.0" y="660.0"/>
+            <id id="73" value="7e9060b5-e651-48de-85ed-64909b4cc84e"/>
+            <revision>1</revision>
+            <backgroundColor reference="55"/>
+            <borderColor reference="56"/>
+            <textColor reference="56"/>
+            <text id="74" justification="0" size="4" underlined="false">
+                <text>{
+                    &quot;comment&quot;: &quot;Will save okay in the context&quot;,
+                    &quot;package&quot;: &quot;somossuinos.jackketch.transform.violet&quot;,
+                    &quot;class&quot;: &quot;SimpleDiagram&quot;,
+                    &quot;method&quot;: &quot;showOk&quot;
+                    }</text>
+            </text>
+            <color reference="58"/>
+        </NoteNode>
+        <NoteNode id="75">
+            <children id="76"/>
+            <location class="Point2D.Double" id="77" x="950.0" y="660.0"/>
+            <id id="78" value="c6957c93-9ec3-4411-921c-83cd18cb853b"/>
+            <revision>1</revision>
+            <backgroundColor reference="55"/>
+            <borderColor reference="56"/>
+            <textColor reference="56"/>
+            <text id="79" justification="0" size="4" underlined="false">
+                <text>{
+                    &quot;comment&quot;: &quot;Will save not okay in the context&quot;,
+                    &quot;package&quot;: &quot;somossuinos.jackketch.transform.violet&quot;,
+                    &quot;class&quot;: &quot;SimpleDiagram&quot;,
+                    &quot;method&quot;: &quot;showNotOk&quot;
+                    }</text>
+            </text>
+            <color reference="58"/>
+        </NoteNode>
+    </nodes>
+    <edges id="80">
+        <ActivityTransitionEdge id="81">
+            <start class="ScenarioStartNode" reference="3"/>
+            <end class="SynchronizationBarNode" reference="9"/>
+            <startLocation class="Point2D.Double" id="82" x="10.0" y="10.0"/>
+            <endLocation class="Point2D.Double" id="83" x="50.0" y="0.0"/>
+            <transitionPoints id="84"/>
+            <id id="85" value="735cfe1e-4e6b-42c2-bb0b-74af16463361"/>
+            <revision>1</revision>
+            <lineStyle name="SOLID"/>
+            <startArrowHead name="NONE"/>
+            <bentStyle name="AUTO"/>
+            <startLabel></startLabel>
+            <middleLabel></middleLabel>
+            <endLabel></endLabel>
+        </ActivityTransitionEdge>
+        <ActivityTransitionEdge id="86">
+            <start class="SynchronizationBarNode" reference="9"/>
+            <end class="ActivityNode" reference="13"/>
+            <startLocation class="Point2D.Double" id="87" x="22.0" y="0.0"/>
+            <endLocation class="Point2D.Double" id="88" x="40.0" y="20.0"/>
+            <transitionPoints id="89"/>
+            <id id="90" value="f475eb75-9954-4ef7-ad14-76c4e8d762a0"/>
+            <revision>1</revision>
+            <lineStyle name="SOLID"/>
+            <startArrowHead name="NONE"/>
+            <bentStyle name="AUTO"/>
+            <startLabel></startLabel>
+            <middleLabel></middleLabel>
+            <endLabel></endLabel>
+        </ActivityTransitionEdge>
+        <ActivityTransitionEdge id="91">
+            <start class="SynchronizationBarNode" reference="9"/>
+            <end class="ActivityNode" reference="18"/>
+            <startLocation class="Point2D.Double" id="92" x="192.0" y="0.0"/>
+            <endLocation class="Point2D.Double" id="93" x="60.0" y="20.0"/>
+            <transitionPoints id="94"/>
+            <id id="95" value="14f6bc3b-a0ea-439c-b934-67ee80381d54"/>
+            <revision>1</revision>
+            <lineStyle name="SOLID"/>
+            <startArrowHead name="NONE"/>
+            <bentStyle name="AUTO"/>
+            <startLabel></startLabel>
+            <middleLabel></middleLabel>
+            <endLabel></endLabel>
+        </ActivityTransitionEdge>
+        <ActivityTransitionEdge id="96">
+            <start class="ActivityNode" reference="13"/>
+            <end class="SynchronizationBarNode" reference="23"/>
+            <startLocation class="Point2D.Double" id="97" x="60.0" y="40.0"/>
+            <endLocation class="Point2D.Double" id="98" x="60.0" y="0.0"/>
+            <transitionPoints id="99"/>
+            <id id="100" value="aa210d30-05ca-4198-93fd-b32e751a9f6a"/>
+            <revision>1</revision>
+            <lineStyle name="SOLID"/>
+            <startArrowHead name="NONE"/>
+            <bentStyle name="AUTO"/>
+            <startLabel></startLabel>
+            <middleLabel></middleLabel>
+            <endLabel></endLabel>
+        </ActivityTransitionEdge>
+        <ActivityTransitionEdge id="101">
+            <start class="ActivityNode" reference="18"/>
+            <end class="SynchronizationBarNode" reference="23"/>
+            <startLocation class="Point2D.Double" id="102" x="40.0" y="40.0"/>
+            <endLocation class="Point2D.Double" id="103" x="52.0" y="0.0"/>
+            <transitionPoints id="104"/>
+            <id id="105" value="98daa777-7cd0-4473-ba71-7a97de25d5e3"/>
+            <revision>1</revision>
+            <lineStyle name="SOLID"/>
+            <startArrowHead name="NONE"/>
+            <bentStyle name="AUTO"/>
+            <startLabel></startLabel>
+            <middleLabel></middleLabel>
+            <endLabel></endLabel>
+        </ActivityTransitionEdge>
+        <ActivityTransitionEdge id="106">
+            <start class="SynchronizationBarNode" reference="23"/>
+            <end class="ActivityNode" reference="27"/>
+            <startLocation class="Point2D.Double" id="107" x="202.0" y="0.0"/>
+            <endLocation class="Point2D.Double" id="108" x="40.0" y="30.0"/>
+            <transitionPoints id="109"/>
+            <id id="110" value="fa76b600-fb83-47cc-b10c-df4d7bca69d2"/>
+            <revision>1</revision>
+            <lineStyle name="SOLID"/>
+            <startArrowHead name="NONE"/>
+            <bentStyle name="AUTO"/>
+            <startLabel></startLabel>
+            <middleLabel></middleLabel>
+            <endLabel></endLabel>
+        </ActivityTransitionEdge>
+        <ActivityTransitionEdge id="111">
+            <start class="ActivityNode" reference="27"/>
+            <end class="DecisionNode" reference="32"/>
+            <startLocation class="Point2D.Double" id="112" x="30.0" y="30.0"/>
+            <endLocation class="Point2D.Double" id="113" x="40.0" y="10.0"/>
+            <transitionPoints id="114"/>
+            <id id="115" value="a59c585e-6c65-493a-ac69-dad104f8db2b"/>
+            <revision>1</revision>
+            <lineStyle name="SOLID"/>
+            <startArrowHead name="NONE"/>
+            <bentStyle name="AUTO"/>
+            <startLabel></startLabel>
+            <middleLabel></middleLabel>
+            <endLabel></endLabel>
+        </ActivityTransitionEdge>
+        <ActivityTransitionEdge id="116">
+            <start class="DecisionNode" reference="32"/>
+            <end class="ActivityNode" reference="37"/>
+            <startLocation class="Point2D.Double" id="117" x="30.0" y="20.0"/>
+            <endLocation class="Point2D.Double" id="118" x="30.0" y="40.0"/>
+            <transitionPoints id="119"/>
+            <id id="120" value="0c3e9b5b-9234-4927-a5b8-f910ac55d710"/>
+            <revision>1</revision>
+            <lineStyle name="SOLID"/>
+            <startArrowHead name="NONE"/>
+            <bentStyle name="HV"/>
+            <startLabel></startLabel>
+            <middleLabel>v &lt;= 6</middleLabel>
+            <endLabel></endLabel>
+        </ActivityTransitionEdge>
+        <ActivityTransitionEdge id="121">
+            <start class="DecisionNode" reference="32"/>
+            <end class="ActivityNode" reference="42"/>
+            <startLocation class="Point2D.Double" id="122" x="40.0" y="20.0"/>
+            <endLocation class="Point2D.Double" id="123" x="50.0" y="30.0"/>
+            <transitionPoints id="124"/>
+            <id id="125" value="0e97cd98-8e17-4ed3-ba6d-89edb313765c"/>
+            <revision>1</revision>
+            <lineStyle name="SOLID"/>
+            <startArrowHead name="NONE"/>
+            <bentStyle name="HV"/>
+            <startLabel></startLabel>
+            <middleLabel>otherwise</middleLabel>
+            <endLabel></endLabel>
+        </ActivityTransitionEdge>
+        <ActivityTransitionEdge id="126">
+            <start class="ActivityNode" reference="37"/>
+            <end class="ScenarioEndNode" reference="47"/>
+            <startLocation class="Point2D.Double" id="127" x="50.0" y="50.0"/>
+            <endLocation class="Point2D.Double" id="128" x="10.0" y="10.0"/>
+            <transitionPoints id="129"/>
+            <id id="130" value="b8e2ecd0-3d51-48b8-aebb-41b0c9c4b909"/>
+            <revision>1</revision>
+            <lineStyle name="SOLID"/>
+            <startArrowHead name="NONE"/>
+            <bentStyle name="AUTO"/>
+            <startLabel></startLabel>
+            <middleLabel></middleLabel>
+            <endLabel></endLabel>
+        </ActivityTransitionEdge>
+        <ActivityTransitionEdge id="131">
+            <start class="ActivityNode" reference="42"/>
+            <end class="ScenarioEndNode" reference="47"/>
+            <startLocation class="Point2D.Double" id="132" x="20.0" y="40.0"/>
+            <endLocation class="Point2D.Double" id="133" x="10.0" y="10.0"/>
+            <transitionPoints id="134"/>
+            <id id="135" value="5d666f63-65aa-4a8b-a1c8-f5fcd7e18657"/>
+            <revision>1</revision>
+            <lineStyle name="SOLID"/>
+            <startArrowHead name="NONE"/>
+            <bentStyle name="AUTO"/>
+            <startLabel></startLabel>
+            <middleLabel></middleLabel>
+            <endLabel></endLabel>
+        </ActivityTransitionEdge>
+        <NoteEdge id="136">
+            <start class="NoteNode" reference="51"/>
+            <end class="ActivityNode" reference="18"/>
+            <startLocation class="Point2D.Double" id="137" x="10.0" y="20.0"/>
+            <endLocation class="Point2D.Double" id="138" x="50.0" y="30.0"/>
+            <transitionPoints id="139"/>
+            <id id="140" value="1b1f97c5-5092-41a1-8fc5-3039cbea55c8"/>
+            <revision>1</revision>
+        </NoteEdge>
+        <NoteEdge id="141">
+            <start class="NoteNode" reference="59"/>
+            <end class="ActivityNode" reference="13"/>
+            <startLocation class="Point2D.Double" id="142" x="40.0" y="20.0"/>
+            <endLocation class="Point2D.Double" id="143" x="30.0" y="30.0"/>
+            <transitionPoints id="144"/>
+            <id id="145" value="de6ff169-91e2-4a7d-abba-f87478bfb416"/>
+            <revision>1</revision>
+        </NoteEdge>
+        <NoteEdge id="146">
+            <start class="NoteNode" reference="65"/>
+            <end class="ActivityNode" reference="27"/>
+            <startLocation class="Point2D.Double" id="147" x="30.0" y="20.0"/>
+            <endLocation class="Point2D.Double" id="148" x="50.0" y="30.0"/>
+            <transitionPoints id="149"/>
+            <id id="150" value="93c5fae6-6b24-4a7c-8d66-79d304010cf8"/>
+            <revision>1</revision>
+        </NoteEdge>
+        <NoteEdge id="151">
+            <start class="NoteNode" reference="70"/>
+            <end class="ActivityNode" reference="37"/>
+            <startLocation class="Point2D.Double" id="152" x="40.0" y="20.0"/>
+            <endLocation class="Point2D.Double" id="153" x="40.0" y="30.0"/>
+            <transitionPoints id="154"/>
+            <id id="155" value="c840562f-2530-449a-b285-814c71e4152d"/>
+            <revision>1</revision>
+        </NoteEdge>
+        <NoteEdge id="156">
+            <start class="NoteNode" reference="75"/>
+            <end class="ActivityNode" reference="42"/>
+            <startLocation class="Point2D.Double" id="157" x="20.0" y="20.0"/>
+            <endLocation class="Point2D.Double" id="158" x="50.0" y="20.0"/>
+            <transitionPoints id="159"/>
+            <id id="160" value="5478ad41-3a98-43a5-b97b-23fa8cabab92"/>
+            <revision>1</revision>
+        </NoteEdge>
+    </edges>
+</ActivityDiagramGraph>

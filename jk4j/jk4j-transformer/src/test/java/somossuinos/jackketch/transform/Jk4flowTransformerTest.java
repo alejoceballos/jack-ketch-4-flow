@@ -1,19 +1,19 @@
-package somossuinos.jackketch.engine;
+package somossuinos.jackketch.transform;
 
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
-import somossuinos.jackketch.transform.model.meta.MetaActionNode;
-import somossuinos.jackketch.transform.model.meta.MetaBaseNode;
-import somossuinos.jackketch.transform.model.meta.MetaControlFlow;
-import somossuinos.jackketch.transform.model.meta.MetaDecisionNode;
-import somossuinos.jackketch.transform.model.meta.MetaFlowCondition;
-import somossuinos.jackketch.transform.model.meta.MetaOtherwiseFlow;
-import somossuinos.jackketch.transform.model.meta.MetaWorkflow;
+import somossuinos.jackketch.transform.meta.MetaActionNode;
+import somossuinos.jackketch.transform.meta.MetaBaseNode;
+import somossuinos.jackketch.transform.meta.MetaControlFlow;
+import somossuinos.jackketch.transform.meta.MetaDecisionNode;
+import somossuinos.jackketch.transform.meta.MetaFlowCondition;
+import somossuinos.jackketch.transform.meta.MetaOtherwiseFlow;
+import somossuinos.jackketch.transform.meta.MetaWorkflow;
 
-public class TransformerTest {
+public class Jk4flowTransformerTest {
 
     private StringBuilder json = new StringBuilder()
         .append("{                                                                                        ")

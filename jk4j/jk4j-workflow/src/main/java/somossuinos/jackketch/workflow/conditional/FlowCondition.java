@@ -118,7 +118,7 @@ public class FlowCondition {
                 result = thisValue.contains(ctxValue);
                 break;
             case ENDS:
-                result = thisValue.indexOf(ctxValue, ctxValue.length() - thisValue.length()) != -1;
+                result = thisValue.indexOf(ctxValue) == thisValue.length() - ctxValue.length();
                 break;
             case STARTS:
                 result = thisValue.indexOf(ctxValue) == 0;
