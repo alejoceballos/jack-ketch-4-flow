@@ -24,15 +24,14 @@
 
 package somossuinos.jackketch.transform;
 
-import com.google.gson.Gson;
 import somossuinos.jackketch.transform.meta.MetaWorkflow;
+import somossuinos.jackketch.transform.violet.VltWorkflow;
 
-public class MetaToJsonJk4flowTransformer implements Jk4flowTransformer<MetaWorkflow, String> {
-
-    private static final Gson GSON = new Gson();
+public class VioletToMetaTransformer implements Jk4flowTransformer<VltWorkflow, MetaWorkflow> {
 
     @Override
-    public String transform(final MetaWorkflow meta) {
-        return GSON.toJson(meta);
+    public MetaWorkflow transform(final VltWorkflow workflow) {
+        return null;
     }
+
 }

@@ -22,17 +22,23 @@
  * SOFTWARE.
  */
 
-package somossuinos.jackketch.transform;
+package somossuinos.jackketch.transform.violet;
 
-import com.google.gson.Gson;
-import somossuinos.jackketch.transform.meta.MetaWorkflow;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 
-public class MetaToJsonJk4flowTransformer implements Jk4flowTransformer<MetaWorkflow, String> {
+@XmlAccessorType(XmlAccessType.NONE)
+public class VltEdges {
 
-    private static final Gson GSON = new Gson();
+    @XmlElement(name = "ActivityTransitionEdge")
+    private VltEdge transitionEdge;
 
-    @Override
-    public String transform(final MetaWorkflow meta) {
-        return GSON.toJson(meta);
+    @XmlElement(name = "NoteEdge")
+    private VltEdge noteEdge;
+
+    public boolean validate() {
+        return transitionEdge != null && noteEdge != null;
     }
+
 }
