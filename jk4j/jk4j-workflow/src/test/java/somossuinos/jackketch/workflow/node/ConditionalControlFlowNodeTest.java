@@ -9,7 +9,7 @@ public class ConditionalControlFlowNodeTest {
 
     private final static String ID = "#ID";
 
-    public ConditionalControlFlowNode createNode(final String id) {
+    private ConditionalControlFlowNode createNode(final String id) {
         return new ConditionalControlFlowNode(id) {
             @Override
             public int getMinFlowsAllowed() {

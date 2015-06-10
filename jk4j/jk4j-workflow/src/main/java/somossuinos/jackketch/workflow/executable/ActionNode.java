@@ -48,12 +48,12 @@ public class ActionNode extends SingleControlFlowNode implements ContextExecutab
     /**
      * The object that holds the method to be executed.
      */
-    public Object object;
+    private Object object;
 
     /**
      * The method to be executed. This method object must be extracted using reflection.
      */
-    public Method method;
+    private Method method;
 
     /**
      * Constructor. Node id is mandatory and cannot be blank.

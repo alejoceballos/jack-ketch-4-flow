@@ -24,6 +24,8 @@
 
 package somossuinos.jackketch.transform.violet;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -32,13 +34,24 @@ import javax.xml.bind.annotation.XmlElement;
 public class VltEdges {
 
     @XmlElement(name = "ActivityTransitionEdge")
-    private VltEdge transitionEdge;
+    private List<VltEdge> transitionEdges = new ArrayList<>(0);
+
+    public List<VltEdge> getTransitionEdges() {
+        return transitionEdges;
+    }
 
     @XmlElement(name = "NoteEdge")
-    private VltEdge noteEdge;
+    private List<VltEdge> noteEdges = new ArrayList<>(0);
+
+    public List<VltEdge> getNoteEdges() {
+        return noteEdges;
+    }
 
     public boolean validate() {
-        return transitionEdge != null && noteEdge != null;
+        return transitionEdges != null
+                && transitionEdges.size() > 1
+                && noteEdges != null
+                && noteEdges.size() > 0;
     }
 
 }

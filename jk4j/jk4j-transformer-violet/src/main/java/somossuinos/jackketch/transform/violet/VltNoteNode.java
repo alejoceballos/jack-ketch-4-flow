@@ -34,6 +34,10 @@ public class VltNoteNode extends VltNodeItem {
     @XmlElement(name="text")
     private VltText text;
 
+    public VltText getTextContainer() {
+        return text;
+    }
+
     @Override
     public boolean validate() {
         return super.validate() && text != null;

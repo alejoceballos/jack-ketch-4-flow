@@ -49,9 +49,7 @@ public class XmlToVioletTransformer implements Jk4flowTransformer<String, VltWor
             final JAXBContext context = JAXBContext.newInstance(VltWorkflow.class);
             final Unmarshaller unmarshaller = context.createUnmarshaller();
 
-            final VltWorkflow workflow = (VltWorkflow) unmarshaller.unmarshal(reader);
-
-            return workflow;
+            return (VltWorkflow) unmarshaller.unmarshal(reader);
 
         } catch (JAXBException jaxbe) {
             if (reader != null) {

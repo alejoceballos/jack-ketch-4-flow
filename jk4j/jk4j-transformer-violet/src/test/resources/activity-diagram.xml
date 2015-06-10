@@ -348,7 +348,7 @@
             <startArrowHead name="NONE"/>
             <bentStyle name="HV"/>
             <startLabel></startLabel>
-            <middleLabel>v &lt;= 6</middleLabel>
+            <middleLabel>v LEQT 6</middleLabel>
             <endLabel></endLabel>
         </ActivityTransitionEdge>
         <ActivityTransitionEdge id="121">

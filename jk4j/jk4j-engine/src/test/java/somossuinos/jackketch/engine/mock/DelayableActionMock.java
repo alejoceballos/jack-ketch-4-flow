@@ -18,25 +18,24 @@ public class DelayableActionMock {
     private long delayInMs;
     private String id;
 
-    private Date start;
-    private Date end;
-
     private DelayableActionMock(final String id, final long delayInMs) {
         this.delayInMs = delayInMs;
         this.id = id;
     }
 
     public void delayExecution(final WorkflowContext wc) {
+        Date end;
+
         try {
-            this.start = new Date();
+            Date start = new Date();
             Thread.sleep(delayInMs);
-            this.end = new Date();
+            end = new Date();
 
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
-        wc.set(this.id, this.end);
+        wc.set(this.id, end);
     }
 
     public static DelayableActionMock create(final String id, final long delayInMs) {

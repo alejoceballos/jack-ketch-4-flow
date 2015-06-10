@@ -39,7 +39,7 @@ In other words, the main goal is to get something like the diagram below...
             { 
                 id: '#DN:0007', 
                 flowConditions: [ 
-                    { attribute: 'v', condition: 'EQ', value: '6', controlFlow: '#CF:0008' }
+                    { attribute: 'v', condition: 'LEQT', value: '6', controlFlow: '#CF:0008' }
                 ],
                 otherwise: { controlFlow: '#CF:0009' }
             } 

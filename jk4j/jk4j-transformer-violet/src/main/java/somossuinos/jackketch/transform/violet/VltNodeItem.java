@@ -35,6 +35,10 @@ public class VltNodeItem {
     @XmlAttribute(name = "id")
     private String id;
 
+    public String getId() {
+        return id;
+    }
+
     public boolean validate() {
         return !StringUtils.isBlank(id);
     }

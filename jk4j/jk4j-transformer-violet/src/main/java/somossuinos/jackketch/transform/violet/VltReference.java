@@ -10,4 +10,7 @@ public class VltReference {
     @XmlAttribute(name = "reference")
     private String reference;
 
+    public String getReference() {
+        return reference;
+    }
 }

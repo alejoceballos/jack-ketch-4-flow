@@ -35,6 +35,10 @@ public class VltText {
     @XmlElement(name = "text")
     private String text;
 
+    public String getText() {
+        return text;
+    }
+
     public boolean validate() {
         return StringUtils.isNotBlank(text);
     }

@@ -17,15 +17,13 @@ public class ActionNodeTest {
     public ExpectedException thrown = ExpectedException.none();
 
     private WorkflowContext getWorkflowContext() {
-        WorkflowContext wc = new WorkflowContext() {
+        return new WorkflowContext() {
             private Object whatever;
             @Override public Object get(String key) {return this.whatever;}
             @Override public void set(String key, Object value) { this.whatever = value;}
             @Override public Map<String, Object> getMap() { return null;}
             @Override public void clear() {}
         };
-
-        return wc;
     }
 
     private Object getExecutableObject() {
@@ -57,7 +55,7 @@ public class ActionNodeTest {
         thrown.expect(RuntimeException.class);
         thrown.expectMessage("\"id\" must not be empty");
 
-        final ActionNode an = new ActionNode(" ");
+        new ActionNode(" ");
     }
 
     @Test
@@ -65,7 +63,7 @@ public class ActionNodeTest {
         thrown.expect(RuntimeException.class);
         thrown.expectMessage("\"id\" must not be empty");
 
-        final ActionNode an = new ActionNode(null);
+        new ActionNode(null);
     }
 
     @Test
@@ -99,8 +97,6 @@ public class ActionNodeTest {
 
     @Test
     public void test_execute_Without_Object_Fails() {
-        WorkflowContext wc = this.getWorkflowContext();
-
         final Object obj = this.getExecutableObject();
         final Method method = this.getExecutableObjectMethod(obj);
 
