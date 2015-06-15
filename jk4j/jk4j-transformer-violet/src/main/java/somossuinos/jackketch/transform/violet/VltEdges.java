@@ -47,11 +47,14 @@ public class VltEdges {
         return noteEdges;
     }
 
-    public boolean validate() {
-        return transitionEdges != null
-                && transitionEdges.size() > 1
-                && noteEdges != null
-                && noteEdges.size() > 0;
+    public void validate() {
+        if (transitionEdges == null || transitionEdges.size() <= 1) {
+            throw new RuntimeException("At least a scenario start nodes, an activity node and a scenario end node are necessary to a valid workflow diagram. It means that at least two transitions edges should be present.");
+        }
+
+        if (noteEdges == null || noteEdges.size() < 1) {
+            throw new RuntimeException("At least an activity node is necessary to a valid workflow diagram. It means that at least one node edge should be present.");
+        }
     }
 
 }

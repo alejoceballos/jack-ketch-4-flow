@@ -1,4 +1,4 @@
-package somossuinos.jackketch.transform;
+package somossuinos.jackketch.transform.unit;
 
 class ActivityDiagramXml {
 

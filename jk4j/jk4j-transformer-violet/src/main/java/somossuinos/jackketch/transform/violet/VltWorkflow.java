@@ -50,7 +50,12 @@ public class VltWorkflow {
         return edges;
     }
 
-    public boolean validate() {
-        return nodes != null && edges != null;
+    public void validate() {
+        if (nodes == null || edges == null) {
+            throw new RuntimeException("Nor nodes or edges in the diagram.");
+        }
+
+        nodes.validate();
+        edges.validate();
     }
 }

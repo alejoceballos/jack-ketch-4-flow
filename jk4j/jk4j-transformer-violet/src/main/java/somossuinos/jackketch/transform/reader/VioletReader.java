@@ -49,6 +49,10 @@ public class VioletReader implements Jk4flowReader {
             final int START_IX = content.indexOf(START_STRING) + START_STRING.length();
             final int END_IX = content.indexOf(END_STRING);
 
+            if (START_IX < 0 || END_IX < 0) {
+                throw new RuntimeException("Invalid file format! Not a compatible Violet 2.1.0 file version.");
+            }
+
             xml.append(content.substring(START_IX, END_IX));
 
         } catch (IOException e) {

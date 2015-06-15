@@ -42,4 +42,10 @@ public class MetaActionBinding {
         return builder.toString();
     }
 
+    public void validate() {
+        if (StringUtils.isBlank(method)) {
+            throw new RuntimeException("At least a method name must be defined to be used as callback.");
+        }
+    }
+
 }

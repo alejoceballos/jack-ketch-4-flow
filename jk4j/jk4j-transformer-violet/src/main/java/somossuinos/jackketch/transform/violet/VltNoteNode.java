@@ -39,8 +39,12 @@ public class VltNoteNode extends VltNodeItem {
     }
 
     @Override
-    public boolean validate() {
-        return super.validate() && text != null;
+    public void validate() {
+        super.validate();
+
+        if (text != null) {
+            throw new RuntimeException("All notes should have present some text, even if it's not an action bindable one.");
+        }
     }
 
 }

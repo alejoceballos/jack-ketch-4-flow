@@ -75,11 +75,50 @@ public class VltNodes {
         return noteNodes;
     }
 
-    public boolean validate() {
-        return scenarioStartNodes.size() == 1 && // Must have only one initial node
-                scenarioEndNodes.size() == 1 && // Must have only one final node
-                synchronizationBarNodes.size() % 2 == 0 && // Forks and Joins are represented the same way, so must be in pairs
-                noteNodes.size() >= activityNodes.size(); // At least one executor specification note per action
+    public void validate() {
+        if (scenarioStartNodes.size() != 1) {
+            throw new RuntimeException("Scenario START node rule is \"there must be one and only one in the whole diagram\".");
+        }
+
+        if (scenarioEndNodes.size() != 1) {
+            throw new RuntimeException("Scenario END node rule is \"there must be one and only one in the whole diagram\".");
+        }
+
+        if (synchronizationBarNodes.size() % 2 != 0) {
+            throw new RuntimeException("Synchronization bar node represent both Forks and Joins, there must be pairs of them.");
+        }
+
+        if (activityNodes == null || activityNodes.size() < 1) {
+            throw new RuntimeException("For a workflow to make sense, it should have at least one START node, one ACTION node bound to an executable object and one END node.");
+        }
+
+        if (noteNodes.size() < activityNodes.size()) {
+            throw new RuntimeException("Note node holds information about the the bindable object executed by action nodes. There should be at least one executor specification note per action.");
+        }
+
+        for (final VltNodeItem node : scenarioStartNodes) {
+            node.validate();
+        }
+
+        for (final VltNodeItem node : synchronizationBarNodes) {
+            node.validate();
+        }
+
+        for (final VltNodeItem node : activityNodes) {
+            node.validate();
+        }
+
+        for (final VltNodeItem node : decisionNodes) {
+            node.validate();
+        }
+
+        for (final VltNodeItem node : scenarioEndNodes) {
+            node.validate();
+        }
+
+        for (final VltNoteNode node : noteNodes) {
+            node.validate();
+        }
     }
 
 }

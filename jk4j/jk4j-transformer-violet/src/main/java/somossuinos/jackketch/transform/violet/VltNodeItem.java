@@ -39,8 +39,10 @@ public class VltNodeItem {
         return id;
     }
 
-    public boolean validate() {
-        return !StringUtils.isBlank(id);
+    public void validate() {
+        if (StringUtils.isBlank(id)) {
+            throw new RuntimeException("There shouldn't be any node without id.");
+        }
     }
 
 }

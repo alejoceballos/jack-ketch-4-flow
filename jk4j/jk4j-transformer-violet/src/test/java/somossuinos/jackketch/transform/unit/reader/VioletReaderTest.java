@@ -22,28 +22,36 @@
  * SOFTWARE.
  */
 
-package somossuinos.jackketch.transform.reader;
+package somossuinos.jackketch.transform.unit.reader;
 
 import java.io.File;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import somossuinos.jackketch.transform.reader.Jk4flowReader;
+import somossuinos.jackketch.transform.reader.VioletReader;
 
 public class VioletReaderTest {
 
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     @Test
-    public void testRead() {
+    public void testReadInvalidFormat() {
         final Jk4flowReader reader = new VioletReader();
 
-        String text;
+        thrown.expect(RuntimeException.class);
+        thrown.expectMessage("Invalid file format! Not a compatible Violet 2.1.0 file version.");
 
-        try {
-            text = reader.read(new File("src/test/resources/activity-diagram.activity.violet.html"));
+        reader.read(new File("src/test/resources/invalid-format.activity.violet.html"));
+    }
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
+    @Test
+    public void testReadSuccessful() {
+        final Jk4flowReader reader = new VioletReader();
+        final String text = reader.read(new File("src/test/resources/activity-diagram.activity.violet.html"));
         Assert.assertTrue(StringUtils.isNotBlank(text));
     }
 

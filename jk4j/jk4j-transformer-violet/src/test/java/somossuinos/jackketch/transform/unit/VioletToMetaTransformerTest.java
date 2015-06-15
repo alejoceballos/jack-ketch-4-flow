@@ -1,8 +1,11 @@
-package somossuinos.jackketch.transform;
+package somossuinos.jackketch.transform.unit;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import somossuinos.jackketch.transform.Jk4flowTransformer;
+import somossuinos.jackketch.transform.VioletToMetaTransformer;
+import somossuinos.jackketch.transform.XmlToVioletTransformer;
 import somossuinos.jackketch.transform.meta.MetaWorkflow;
 import somossuinos.jackketch.transform.violet.VltWorkflow;
 

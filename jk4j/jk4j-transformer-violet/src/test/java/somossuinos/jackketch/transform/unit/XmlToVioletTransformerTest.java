@@ -1,10 +1,12 @@
-package somossuinos.jackketch.transform;
+package somossuinos.jackketch.transform.unit;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import somossuinos.jackketch.transform.Jk4flowTransformer;
+import somossuinos.jackketch.transform.XmlToVioletTransformer;
 import somossuinos.jackketch.transform.violet.VltWorkflow;
 
 public class XmlToVioletTransformerTest {
@@ -44,17 +46,17 @@ public class XmlToVioletTransformerTest {
 
     @Test
     public void testTransform_Validate_Workflow() {
-        Assert.assertTrue(workflow.validate());
+        workflow.validate();
     }
 
     @Test
     public void testTransform_Validate_Nodes() {
-        Assert.assertTrue(workflow.getNodes().validate());
+        workflow.getNodes();
     }
 
     @Test
     public void testTransform_Validate_Edges() {
-        Assert.assertTrue(workflow.getEdges().validate());
+        workflow.getEdges().validate();
     }
 
     @Test
