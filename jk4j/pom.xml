@@ -21,6 +21,7 @@
         <module>jk4j-engine</module>
         <module>jk4j-transformer</module>
         <module>jk4j-transformer-violet</module>
+        <module>jk4j-transformer-webclient</module>
     </modules>
 
     <!--
