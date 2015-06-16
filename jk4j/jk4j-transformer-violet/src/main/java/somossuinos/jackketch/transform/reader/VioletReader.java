@@ -30,6 +30,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * Cleans all HTML leaving only the XML data to be transformed onto a
+ * workflow object.
+ * <p>
+ * To transform the incoming file into a valid XML structure, the reader
+ * appends on the XML text between "&lt;![CDATA[" and "]]>", appending it to
+ * a valid XML header ("&lt;?xml version="1.0" encoding="UTF-8" standalone="no" ?>").
+ * </p>
+ */
 public class VioletReader implements Jk4flowReader {
 
     private static final String START_STRING = "<![CDATA[";
@@ -37,6 +46,13 @@ public class VioletReader implements Jk4flowReader {
 
     private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>";
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param file The file that holds the diagram data.
+     * @return A clean XML structured string with a valid format possible to
+     * transform into a <b>VltWorkflow</b> object.
+     */
     @Override
     public String read(final File file) {
         final StringBuilder xml = new StringBuilder(XML_HEADER);

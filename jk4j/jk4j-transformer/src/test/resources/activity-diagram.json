@@ -1,0 +1,117 @@
+{
+  "initialNodes": [
+    {
+      "id": "3"
+    }
+  ],
+  "forkNodes": [
+    {
+      "id": "9"
+    }
+  ],
+  "actionNodes": [
+    {
+      "callback": "somossuinos.jackketch.transform.utils.SimpleDiagram::sumOnePlusOne",
+      "id": "13"
+    },
+    {
+      "callback": "somossuinos.jackketch.transform.utils.SimpleDiagram::multiplyOneByOne",
+      "id": "18"
+    },
+    {
+      "callback": "somossuinos.jackketch.transform.utils.SimpleDiagram::sumXPlusY",
+      "id": "27"
+    },
+    {
+      "callback": "somossuinos.jackketch.transform.utils.SimpleDiagram::showOk",
+      "id": "37"
+    },
+    {
+      "callback": "somossuinos.jackketch.transform.utils.SimpleDiagram::showNotOk",
+      "id": "42"
+    }
+  ],
+  "joinNodes": [
+    {
+      "id": "23"
+    }
+  ],
+  "decisionNodes": [
+    {
+      "flowConditions": [
+        {
+          "attribute": "v",
+          "condition": "LEQT",
+          "value": "6",
+          "controlFlow": "116"
+        }
+      ],
+      "otherwise": {
+        "controlFlow": "121"
+      },
+      "id": "32"
+    }
+  ],
+  "finalNodes": [
+    {
+      "id": "47"
+    }
+  ],
+  "controlFlows": [
+    {
+      "id": "81",
+      "from": "3",
+      "to": "9"
+    },
+    {
+      "id": "86",
+      "from": "9",
+      "to": "13"
+    },
+    {
+      "id": "91",
+      "from": "9",
+      "to": "18"
+    },
+    {
+      "id": "96",
+      "from": "13",
+      "to": "23"
+    },
+    {
+      "id": "101",
+      "from": "18",
+      "to": "23"
+    },
+    {
+      "id": "106",
+      "from": "23",
+      "to": "27"
+    },
+    {
+      "id": "111",
+      "from": "27",
+      "to": "32"
+    },
+    {
+      "id": "116",
+      "from": "32",
+      "to": "37"
+    },
+    {
+      "id": "121",
+      "from": "32",
+      "to": "42"
+    },
+    {
+      "id": "126",
+      "from": "37",
+      "to": "47"
+    },
+    {
+      "id": "131",
+      "from": "42",
+      "to": "47"
+    }
+  ]
+}

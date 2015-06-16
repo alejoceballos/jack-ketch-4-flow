@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package somossuinos.jackketch.transform;
+package somossuinos.jackketch.transform.unit;
 
 import com.google.gson.Gson;
 import java.util.ArrayList;
