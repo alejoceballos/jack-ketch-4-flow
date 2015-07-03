@@ -27,7 +27,8 @@
     "ng-flow": "~2.6.x",
     "angular-growl-v2": "~0.7.x",
     "textAngular": "1.3.0-pre14",
-    "font-awesome": "4.2.0"
+    "font-awesome": "4.2.0",
+    "angular-ui-codemirror": "0.3.0"
   },
   "resolutions": {
     "angular": "1.3.x"

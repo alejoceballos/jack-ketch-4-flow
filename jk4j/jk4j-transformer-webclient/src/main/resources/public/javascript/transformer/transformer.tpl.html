@@ -1,0 +1,19 @@
+<div class="app-presentation">
+    <h1><b>Transform</b></h1>
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec aliquam elit sit amet risus tempus condimentum. Nam id aliquam ligula, non tincidunt erat. Vivamus nec luctus lorem, sed elementum tortor. Cras accumsan ligula magna, sed cursus quam pellentesque tempus. Donec consequat lorem ac mauris pellentesque viverra. Suspendisse ultricies est in libero sagittis, sed lacinia mauris malesuada. Integer accumsan malesuada mattis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+    </p>
+</div>
+<div class="row" ng-controller="TransformerController as transformer">
+    <div class="col-md-6 form-group">
+        <label for="fromTxtArea">From (Violet XML):</label>
+        <textarea id="fromTxtArea" rows="20" class="form-control" ng-model="transformer.data.from"></textarea>
+    </div>
+    <div class="col-md-6 form-group">
+        <label for="toTxtArea">To (JSON):</label>
+        <textarea id="toTxtArea" rows="20" class="form-control" ng-model="transformer.data.to" readonly></textarea>
+    </div>
+    <div style="text-align: center">
+        <button type="button" class="btn btn-primary" ng-click="transformer.applyTransformation()">Apply Transformation</button>
+    </div>
+</div>

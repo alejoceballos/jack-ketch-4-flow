@@ -1,0 +1,62 @@
+/*
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+DEFAULTS
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+*/
+html {
+    min-height: 100%;
+    height: 100%;
+}
+
+body {
+    background-color: black;
+    background-image: url('../images/page-background.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position:top center;
+    padding: 0;
+    margin: 0;
+    min-height: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/*
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+MAIN CONTAINERS
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+*/
+.app-view-container {
+    background-color: white;
+    max-width: 1024px;
+    min-width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 60px 20px 0 20px;
+    min-height: 100%;
+}
+
+/*
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ABOUT PAGE CONTAINER
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+*/
+div.app-presentation {
+    color: black;
+    text-decoration: solid;
+}
+
+div.app-presentation > p {
+    font-size: 16px;
+    font-weight: normal;
+}
+
+div.app-presentation > h1 {
+    font-size: 40px;
+    font-weight: 900;
+}
+
+div.app-presentation > h2 {
+    font-size: 30px;
+    font-weight: 500;
+}

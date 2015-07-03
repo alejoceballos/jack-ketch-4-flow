@@ -27,6 +27,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jersey</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>somossuinos.jk4j</groupId>
             <artifactId>jk4j-transformer-violet</artifactId>
             <version>1.0</version>

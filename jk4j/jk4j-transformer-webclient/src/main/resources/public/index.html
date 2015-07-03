@@ -1,27 +1,24 @@
 <!DOCTYPE html>
-<html ng-app="jk4j">
+<html>
 <head>
     <title>Kack Ketch 4 Flow - Transformer Web Client</title>
     <link rel="stylesheet" href="stylesheets/bootstrap.css" />
     <link rel="stylesheet" href="stylesheets/textAngular.css" />
     <link rel="stylesheet" href="stylesheets/font-awesome.css" />
     <link rel="stylesheet" href="stylesheets/angular-growl.css" />
+    <link rel="stylesheet" href="stylesheets/codemirror.css" />
     <link rel="stylesheet" href="stylesheets/app.css" />
 </head>
-<body>
-    <h1>Jack Ketch 4 Flow</h1>
-    <div ng-controller="TransformerController as transformer">
-        <p>
-            <label>From:</label>
-            <textarea ng-bind="transformer.transformation.from"></textarea>
-        </p>
-        <p>
-            <label>To:</label>
-            <textarea ng-bind="transformer.transformation.to"></textarea>
-        </p>
+<body ng-app="jk4j-app">
+    <div ng-include="'javascript/commons/menu-bar.tpl.html'"></div>
+    <div class="app-view-container">
+        <div ng-view></div>
+        <div growl></div>
     </div>
 
     <script type="text/javascript" src="javascript/vendor.js"></script>
     <script type="text/javascript" src="javascript/app.js"></script>
+    <script type="text/javascript" src="javascript/commons/menu-bar.js"></script>
+    <script type="text/javascript" src="javascript/transformer/transformer.js"></script>
 </body>
 </html>

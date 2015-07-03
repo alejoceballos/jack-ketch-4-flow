@@ -18,6 +18,7 @@ module.exports = function(grunt) { 'use strict';
         concat: {
             vendor: {
                 src: [
+                    './bower_components/jquery/jquery.js',
                     './bower_components/angular/angular.js',
                     './bower_components/angular-route/angular-route.js',
                     './bower_components/angular-bootstrap/ui-bootstrap.js',
@@ -34,7 +35,9 @@ module.exports = function(grunt) { 'use strict';
                     './bower_components/textAngular/textAngularSetup.js',
                     './bower_components/angular-local-storage/angular-local-storage.js',
                     './bower_components/angular-growl-v2/angular-growl.js',
-                    './bower_components/angular-animate/angular-animate.js'
+                    './bower_components/angular-animate/angular-animate.js',
+                    './bower_components/codemirror/codemirror.js',
+                    './bower_components/angular-ui-codemirror/ui-codemirror.js'
                 ],
                 dest: './src/main/resources/public/javascript/vendor.js'
             }
@@ -77,6 +80,12 @@ module.exports = function(grunt) { 'use strict';
             angularGrowl: {
                 cwd: './bower_components/angular-growl-v2',
                 src: [ 'angular-growl.css' ],
+                dest: './src/main/resources/public/stylesheets',
+                expand: true
+            },
+            codeMirror: {
+                cwd: './bower_components/codemirror/lib',
+                src: [ 'codemirror.css' ],
                 dest: './src/main/resources/public/stylesheets',
                 expand: true
             }
