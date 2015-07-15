@@ -26,6 +26,7 @@ package somossuinos.jackketch.workflow.executable;
 
 import java.lang.reflect.Method;
 import somossuinos.jackketch.workflow.context.WorkflowContext;
+import somossuinos.jackketch.workflow.exception.Jk4flowWorkflowException;
 import somossuinos.jackketch.workflow.node.NodeType;
 import somossuinos.jackketch.workflow.node.SingleControlFlowNode;
 
@@ -78,11 +79,11 @@ public class ActionNode extends SingleControlFlowNode implements ContextExecutab
     @Override
     public void setMethod(final Method method) {
         if (method == null) {
-            throw new RuntimeException("Method cannot be null");
+            throw new Jk4flowWorkflowException("Method cannot be null");
         }
 
         if (method.getParameterTypes().length != 0) {
-            throw new RuntimeException("The method must not have any parameter");
+            throw new Jk4flowWorkflowException("The method must not have any parameter");
         }
 
         this.method = method;
@@ -124,11 +125,11 @@ public class ActionNode extends SingleControlFlowNode implements ContextExecutab
     @Override
     public Object execute(final WorkflowContext context) {
         if (this.method == null) {
-            throw new RuntimeException("Cannot execute an operation without a method");
+            throw new Jk4flowWorkflowException("Cannot execute an operation without a method");
         }
 
         if (this.object == null) {
-            throw new RuntimeException("Cannot execute an operation without an object");
+            throw new Jk4flowWorkflowException("Cannot execute an operation without an object");
         }
 
         if (this.object instanceof ContextBindableObject) {
@@ -139,7 +140,7 @@ public class ActionNode extends SingleControlFlowNode implements ContextExecutab
             return this.method.invoke(this.object);
 
         } catch (ReflectiveOperationException e) {
-            throw new RuntimeException("Problem invoking context executable method", e);
+            throw new Jk4flowWorkflowException("Problem invoking context executable method", e);
         }
     }
 

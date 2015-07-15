@@ -17,7 +17,7 @@ public class NodeFactoryTest {
     @Test
     public void test_createNode_Without_Node_Type_Fails() {
         thrown.expect(RuntimeException.class);
-        thrown.expectMessage("Must a node type to create a node");
+        thrown.expectMessage("Must have a node type to create a node");
 
         NodeFactory.createNode(ID, null);
     }

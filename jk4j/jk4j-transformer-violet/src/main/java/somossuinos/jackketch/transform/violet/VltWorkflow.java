@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import somossuinos.jackketch.transform.exception.Jk4flowTranformerException;
 
 /**
  * The root document for Violet's Activity Diagram XML
@@ -52,7 +53,7 @@ public class VltWorkflow {
 
     public void validate() {
         if (nodes == null || edges == null) {
-            throw new RuntimeException("Nor nodes or edges in the diagram.");
+            throw new Jk4flowTranformerException("Nor nodes or edges in the diagram.");
         }
 
         nodes.validate();

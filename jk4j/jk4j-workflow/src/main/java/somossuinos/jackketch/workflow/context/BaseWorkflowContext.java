@@ -15,6 +15,9 @@ public class BaseWorkflowContext implements WorkflowContext {
      */
     private Map<String, Object> contextMap = new HashMap<>(0);
 
+    protected BaseWorkflowContext() {
+    }
+
     /**
      * {@inheritDoc}
      */

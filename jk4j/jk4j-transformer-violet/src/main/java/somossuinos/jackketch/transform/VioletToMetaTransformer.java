@@ -28,6 +28,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
+import somossuinos.jackketch.transform.exception.Jk4flowTranformerException;
 import somossuinos.jackketch.transform.meta.MetaActionBinding;
 import somossuinos.jackketch.transform.meta.MetaActionNode;
 import somossuinos.jackketch.transform.meta.MetaBaseNode;
@@ -103,7 +104,7 @@ public class VioletToMetaTransformer implements Jk4flowTransformer<VltWorkflow, 
                 metaWorkflow.getJoinNodes().add(new MetaBaseNode(nodeItem.getId()));
 
             } else {
-                throw new RuntimeException(
+                throw new Jk4flowTranformerException(
                         "SynchronizationBarNodes may be Forks or Joins. No Fork or Join can have " +
                                 nodeOutgoings + " outgoing flows and " +
                                 nodeIncomings + " incoming flows.");
@@ -128,7 +129,7 @@ public class VioletToMetaTransformer implements Jk4flowTransformer<VltWorkflow, 
                 }
             }
 
-            if (binding == null) throw new RuntimeException("An action cannot be unbound to an executable class and method");
+            if (binding == null) throw new Jk4flowTranformerException("An action cannot be unbound to an executable class and method");
 
             metaWorkflow.getActionNodes().add(new MetaActionNode(activityNode.getId(), binding.toBinding()));
         }
@@ -144,7 +145,7 @@ public class VioletToMetaTransformer implements Jk4flowTransformer<VltWorkflow, 
                     final String label = transitionEdge.getMiddleLabel();
 
                     if (StringUtils.isBlank(label) || "otherwise".equalsIgnoreCase(label)) {
-                        if (otherwise != null) throw new RuntimeException("There cannot be two otherwise flows for the same decision. Note: empty named and \"otherwise\" named flows are both considered otherwise flows.");
+                        if (otherwise != null) throw new Jk4flowTranformerException("There cannot be two otherwise flows for the same decision. Note: empty named and \"otherwise\" named flows are both considered otherwise flows.");
                         otherwise = new MetaOtherwiseFlow(transitionEdge.getId());
 
                     } else {
@@ -157,13 +158,13 @@ public class VioletToMetaTransformer implements Jk4flowTransformer<VltWorkflow, 
                                 String[] conditionParts = label.split(conditionSeparator);
 
                                 if (conditionParts.length == 0) {
-                                    throw new RuntimeException("No context attribute and value found in the expression.");
+                                    throw new Jk4flowTranformerException("No context attribute and value found in the expression.");
 
                                 } else if (conditionParts.length == 1) {
-                                    throw new RuntimeException("Only the context attribute or the value was found in the expression. Must be both.");
+                                    throw new Jk4flowTranformerException("Only the context attribute or the value was found in the expression. Must be both.");
 
                                 } else if (conditionParts.length > 2) {
-                                    throw new RuntimeException("More than one condition was found in the expression. There can be only one.");
+                                    throw new Jk4flowTranformerException("More than one condition was found in the expression. There can be only one.");
                                 }
 
                                 fc = new MetaFlowCondition(
@@ -177,7 +178,7 @@ public class VioletToMetaTransformer implements Jk4flowTransformer<VltWorkflow, 
                         }
 
                         if (fc == null) {
-                            throw new RuntimeException("The condition separator must conform " + ConditionType.class + " enumerators. It also must be between the context attribute and the value, separeted by at least one blank space character.");
+                            throw new Jk4flowTranformerException("The condition separator must conform " + ConditionType.class + " enumerators. It also must be between the context attribute and the value, separeted by at least one blank space character.");
                         }
 
                         flowConditions.add(fc);

@@ -11,8 +11,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import somossuinos.jackketch.engine.mock.DelayableActionMock;
 import somossuinos.jackketch.engine.mock.ExecutableActionMock;
+import somossuinos.jackketch.workflow.Jk4flowWorkflow;
 import somossuinos.jackketch.workflow.NodeFactory;
-import somossuinos.jackketch.workflow.Workflow;
 import somossuinos.jackketch.workflow.conditional.ConditionType;
 import somossuinos.jackketch.workflow.conditional.FlowCondition;
 import somossuinos.jackketch.workflow.executable.ContextExecutable;
@@ -22,10 +22,12 @@ import somossuinos.jackketch.workflow.node.Node;
 import somossuinos.jackketch.workflow.node.NodeType;
 import somossuinos.jackketch.workflow.node.SingleControlFlowNode;
 
-public class EngineTest {
+public class Jk4flowEngineTest {
 
     private final static String ID = "#ID";
     private final static String KEY = "KEY";
+
+    private static final Jk4flowEngine ENGINE = new Jk4flowEngine();
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -40,17 +42,11 @@ public class EngineTest {
     }
 
     @Test
-    public void testCreate_Without_Workflow_Parameter_Fails() {
+    public void testRun_Without_Workflow_Parameter_Fails() {
         thrown.expect(RuntimeException.class);
         thrown.expectMessage("Workflow cannot be null");
 
-        final Engine engine = new Engine(null);
-    }
-
-    @Test
-    public void testCreate_Success() {
-        final Workflow wc = Workflow.create(this.getInitialNode());
-        Assert.assertNotNull(new Engine(wc));
+        ENGINE.run(new Jk4flowWorkflow(getInitialNode()));
     }
 
     /*
@@ -79,9 +75,9 @@ public class EngineTest {
         final Node iNode = NodeFactory.createNode("#1", NodeType.INITIAL);
         ((SingleControlFlowNode) iNode).setFlow(aNode);
 
-        final Workflow wf = Workflow.create(iNode);
+        final Jk4flowWorkflow wf = Jk4flowWorkflow.create(iNode);
 
-        (new Engine(wf)).run();
+        ENGINE.run(wf);
 
         Assert.assertEquals(ID, wf.getContext().get(KEY));
     }
@@ -146,9 +142,9 @@ public class EngineTest {
         final Node iNode = NodeFactory.createNode("#1", NodeType.INITIAL);
         ((SingleControlFlowNode) iNode).setFlow(an1);
 
-        final Workflow wf = Workflow.create(iNode);
+        final Jk4flowWorkflow wf = Jk4flowWorkflow.create(iNode);
 
-        (new Engine(wf)).run();
+        ENGINE.run(wf);
 
         Assert.assertEquals(A2_ID, wf.getContext().get(KEY));
     }
@@ -213,9 +209,9 @@ public class EngineTest {
         final Node iNode = NodeFactory.createNode("#1", NodeType.INITIAL);
         ((SingleControlFlowNode) iNode).setFlow(an1);
 
-        final Workflow wf = Workflow.create(iNode);
+        final Jk4flowWorkflow wf = Jk4flowWorkflow.create(iNode);
 
-        (new Engine(wf)).run();
+        ENGINE.run(wf);
 
         Assert.assertEquals(A3_ID, wf.getContext().get(KEY));
     }
@@ -274,9 +270,9 @@ public class EngineTest {
         final Node iNode = NodeFactory.createNode("#1", NodeType.INITIAL);
         ((SingleControlFlowNode) iNode).setFlow(fNode);
 
-        final Workflow wf = Workflow.create(iNode);
+        final Jk4flowWorkflow wf = Jk4flowWorkflow.create(iNode);
 
-        (new Engine(wf)).run();
+        ENGINE.run(wf);
 
         Assert.assertTrue(
                 wf.getContext().get(A1_KEY).equals(A1_ID) &&
@@ -336,9 +332,9 @@ public class EngineTest {
         final Node in = NodeFactory.createNode("#1", NodeType.INITIAL);
         ((SingleControlFlowNode) in).setFlow(fk);
 
-        final Workflow wf = Workflow.create(in);
+        final Jk4flowWorkflow wf = Jk4flowWorkflow.create(in);
 
-        (new Engine(wf)).run();
+        ENGINE.run(wf);
 
         final Date a1Date = (Date) wf.getContext().get(A1_ID);
         final Date a2Date = (Date) wf.getContext().get(A2_ID);

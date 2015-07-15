@@ -27,6 +27,7 @@ package somossuinos.jackketch.transform.violet;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import somossuinos.jackketch.transform.exception.Jk4flowTranformerException;
 
 @XmlAccessorType(XmlAccessType.NONE)
 public class VltNoteNode extends VltNodeItem {
@@ -43,7 +44,7 @@ public class VltNoteNode extends VltNodeItem {
         super.validate();
 
         if (text != null) {
-            throw new RuntimeException("All notes should have present some text, even if it's not an action bindable one.");
+            throw new Jk4flowTranformerException("All notes should have present some text, even if it's not an action bindable one.");
         }
     }
 

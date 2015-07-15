@@ -44,7 +44,7 @@ public class ActionNodeTest {
             method = clz.getMethod("doSomething");
 
         } catch (ReflectiveOperationException e) {
-            throw  new RuntimeException(e);
+            throw new RuntimeException(e);
         }
 
         return method;

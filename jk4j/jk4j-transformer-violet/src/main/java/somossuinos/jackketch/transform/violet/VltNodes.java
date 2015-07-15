@@ -29,6 +29,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import somossuinos.jackketch.transform.exception.Jk4flowTranformerException;
 
 @XmlAccessorType(XmlAccessType.NONE)
 public class VltNodes {
@@ -77,23 +78,23 @@ public class VltNodes {
 
     public void validate() {
         if (scenarioStartNodes.size() != 1) {
-            throw new RuntimeException("Scenario START node rule is \"there must be one and only one in the whole diagram\".");
+            throw new Jk4flowTranformerException("Scenario START node rule is \"there must be one and only one in the whole diagram\".");
         }
 
         if (scenarioEndNodes.size() != 1) {
-            throw new RuntimeException("Scenario END node rule is \"there must be one and only one in the whole diagram\".");
+            throw new Jk4flowTranformerException("Scenario END node rule is \"there must be one and only one in the whole diagram\".");
         }
 
         if (synchronizationBarNodes.size() % 2 != 0) {
-            throw new RuntimeException("Synchronization bar node represent both Forks and Joins, there must be pairs of them.");
+            throw new Jk4flowTranformerException("Synchronization bar node represent both Forks and Joins, there must be pairs of them.");
         }
 
         if (activityNodes == null || activityNodes.size() < 1) {
-            throw new RuntimeException("For a workflow to make sense, it should have at least one START node, one ACTION node bound to an executable object and one END node.");
+            throw new Jk4flowTranformerException("For a workflow to make sense, it should have at least one START node, one ACTION node bound to an executable object and one END node.");
         }
 
         if (noteNodes.size() < activityNodes.size()) {
-            throw new RuntimeException("Note node holds information about the the bindable object executed by action nodes. There should be at least one executor specification note per action.");
+            throw new Jk4flowTranformerException("Note node holds information about the the bindable object executed by action nodes. There should be at least one executor specification note per action.");
         }
 
         for (final VltNodeItem node : scenarioStartNodes) {

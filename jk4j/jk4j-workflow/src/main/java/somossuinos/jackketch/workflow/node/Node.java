@@ -25,6 +25,7 @@
 package somossuinos.jackketch.workflow.node;
 
 import org.apache.commons.lang3.StringUtils;
+import somossuinos.jackketch.workflow.exception.Jk4flowWorkflowException;
 
 /**
  * Abstract Node is the template class for all nodes in the Activity diagram
@@ -44,7 +45,7 @@ public abstract class Node {
      */
     public Node(final String id) {
         if (StringUtils.isBlank(id)) {
-            throw new RuntimeException("\"id\" must not be empty");
+            throw new Jk4flowWorkflowException("\"id\" must not be empty");
         }
 
         this.id = id.trim();

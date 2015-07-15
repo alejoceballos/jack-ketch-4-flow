@@ -29,6 +29,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import somossuinos.jackketch.transform.exception.Jk4flowTranformerException;
 
 /**
  * Cleans all HTML leaving only the XML data to be transformed onto a
@@ -66,13 +67,13 @@ public class VioletReader implements Jk4flowReader {
             final int END_IX = content.indexOf(END_STRING);
 
             if (START_IX < 0 || END_IX < 0) {
-                throw new RuntimeException("Invalid file format! Not a compatible Violet 2.1.0 file version.");
+                throw new Jk4flowTranformerException("Invalid file format! Not a compatible Violet 2.1.0 file version.");
             }
 
             xml.append(content.substring(START_IX, END_IX));
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Jk4flowTranformerException(e);
         }
 
         return xml.toString();

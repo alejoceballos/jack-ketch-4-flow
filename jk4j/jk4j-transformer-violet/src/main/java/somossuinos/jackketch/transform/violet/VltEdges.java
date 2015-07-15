@@ -29,6 +29,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import somossuinos.jackketch.transform.exception.Jk4flowTranformerException;
 
 @XmlAccessorType(XmlAccessType.NONE)
 public class VltEdges {
@@ -49,11 +50,11 @@ public class VltEdges {
 
     public void validate() {
         if (transitionEdges == null || transitionEdges.size() <= 1) {
-            throw new RuntimeException("At least a scenario start nodes, an activity node and a scenario end node are necessary to a valid workflow diagram. It means that at least two transitions edges should be present.");
+            throw new Jk4flowTranformerException("At least a scenario start nodes, an activity node and a scenario end node are necessary to a valid workflow diagram. It means that at least two transitions edges should be present.");
         }
 
         if (noteEdges == null || noteEdges.size() < 1) {
-            throw new RuntimeException("At least an activity node is necessary to a valid workflow diagram. It means that at least one node edge should be present.");
+            throw new Jk4flowTranformerException("At least an activity node is necessary to a valid workflow diagram. It means that at least one node edge should be present.");
         }
     }
 

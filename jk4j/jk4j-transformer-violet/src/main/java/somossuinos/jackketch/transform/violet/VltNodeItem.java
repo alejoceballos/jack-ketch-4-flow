@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import org.apache.commons.lang3.StringUtils;
+import somossuinos.jackketch.transform.exception.Jk4flowTranformerException;
 
 @XmlAccessorType(XmlAccessType.NONE)
 public class VltNodeItem {
@@ -41,7 +42,7 @@ public class VltNodeItem {
 
     public void validate() {
         if (StringUtils.isBlank(id)) {
-            throw new RuntimeException("There shouldn't be any node without id.");
+            throw new Jk4flowTranformerException("There shouldn't be any node without id.");
         }
     }
 

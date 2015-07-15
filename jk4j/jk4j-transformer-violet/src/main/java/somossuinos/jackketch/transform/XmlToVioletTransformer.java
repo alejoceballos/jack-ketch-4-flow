@@ -31,6 +31,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import org.apache.commons.lang3.StringUtils;
+import somossuinos.jackketch.transform.exception.Jk4flowTranformerException;
 import somossuinos.jackketch.transform.violet.VltWorkflow;
 
 public class XmlToVioletTransformer implements Jk4flowTransformer<String, VltWorkflow> {
@@ -38,7 +39,7 @@ public class XmlToVioletTransformer implements Jk4flowTransformer<String, VltWor
     @Override
     public VltWorkflow transform(final String xml) {
         if (StringUtils.isBlank(xml)) {
-            throw new RuntimeException("XML should not be blank");
+            throw new Jk4flowTranformerException("XML should not be blank");
         }
 
 
@@ -57,11 +58,11 @@ public class XmlToVioletTransformer implements Jk4flowTransformer<String, VltWor
                     reader.close();
 
                 } catch (IOException ioe) {
-                    throw new RuntimeException(ioe);
+                    throw new Jk4flowTranformerException(ioe);
                 }
             }
 
-            throw new RuntimeException(jaxbe);
+            throw new Jk4flowTranformerException(jaxbe);
         }
     }
 

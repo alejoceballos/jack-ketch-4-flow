@@ -31,7 +31,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import somossuinos.jackketch.workflow.Workflow;
+import somossuinos.jackketch.engine.exception.Jk4flowEngineException;
+import somossuinos.jackketch.workflow.Jk4flowWorkflow;
+import somossuinos.jackketch.workflow.context.WorkflowContext;
 import somossuinos.jackketch.workflow.executable.ContextExecutable;
 import somossuinos.jackketch.workflow.node.ConditionalControlFlowNode;
 import somossuinos.jackketch.workflow.node.MultipleControlFlowNode;
@@ -39,28 +41,36 @@ import somossuinos.jackketch.workflow.node.Node;
 import somossuinos.jackketch.workflow.node.NodeType;
 import somossuinos.jackketch.workflow.node.SingleControlFlowNode;
 
-public class Engine {
+/**
+ * The engine is reponsible for for running a workflow execution and attaching it (whenever
+ * possible) to an execution context.
+ */
+public class Jk4flowEngine {
 
-    private Workflow workflow;
+    public Jk4flowEngine() { }
 
-    public Engine(final Workflow workflow) {
+    public void run(final Jk4flowWorkflow workflow) {
         if (workflow == null) {
-            throw new RuntimeException("Workflow cannot be null");
+            throw new Jk4flowEngineException("Workflow cannot be null");
         }
 
-        this.workflow = workflow;
+        this.run(workflow, null);
     }
 
-    public void run() {
-        this.handle(this.workflow.getInitialNode());
+    public void run(final Jk4flowWorkflow workflow, final WorkflowContext context) {
+        if (workflow == null) {
+            throw new Jk4flowEngineException("Workflow cannot be null");
+        }
+
+        this.handle(workflow.getInitialNode(), context);
     }
 
-    protected Node handle(final Node node) {
+    private Node handle(final Node node, final WorkflowContext context) {
         Node currentNode = node;
 
         while(!NodeType.FINAL.equals(currentNode.getType())) {
             if (currentNode instanceof ContextExecutable) {
-                ((ContextExecutable) currentNode).execute(this.workflow.getContext());
+                ((ContextExecutable) currentNode).execute(context);
             }
 
             if (currentNode instanceof SingleControlFlowNode) {
@@ -71,17 +81,17 @@ public class Engine {
                 }
 
             } else if (currentNode instanceof ConditionalControlFlowNode) {
-                currentNode = ((ConditionalControlFlowNode) currentNode).getFlow(this.workflow.getContext());
+                currentNode = ((ConditionalControlFlowNode) currentNode).getFlow(context);
 
             } else if (currentNode instanceof MultipleControlFlowNode) {
-                currentNode = this.fork((MultipleControlFlowNode) currentNode);
+                currentNode = this.fork((MultipleControlFlowNode) currentNode, context);
             }
         }
 
         return currentNode;
     }
 
-    private Node fork(final MultipleControlFlowNode fork) {
+    private Node fork(final MultipleControlFlowNode fork, final WorkflowContext context) {
         final ExecutorService pool = Executors.newFixedThreadPool(fork.getFlows().size());
         final List<Callable<Node>> listToBeExecuted = new ArrayList<>(fork.getFlows().size());
 
@@ -90,7 +100,7 @@ public class Engine {
                     new Callable<Node>() {
                         @Override
                         public Node call() throws Exception {
-                            return handle(node);
+                            return handle(node, context);
                         }
                     }
             );
@@ -103,14 +113,14 @@ public class Engine {
                 final Node current = resultList.get(i).get();
 
                 if (!NodeType.JOIN.equals(current.getType())) {
-                    throw new RuntimeException(String.format("Fork executions should end on join nodes, but ended on a %. Node id: %", current.getType().name(), current.getId()));
+                    throw new Jk4flowEngineException(String.format("Fork executions should end on join nodes, but ended on a %. Node id: %", current.getType().name(), current.getId()));
                 }
 
                 if (i > 0) {
                     final Node previous = resultList.get(i - 1).get();
 
                     if (current != previous) {
-                        throw new RuntimeException(String.format("Not all forked flows ended in the same join node. Nodes' id: % and %", previous.getId(), current.getId()));
+                        throw new Jk4flowEngineException(String.format("Not all forked flows ended in the same join node. Nodes' id: % and %", previous.getId(), current.getId()));
                     }
                 }
             }
@@ -118,10 +128,10 @@ public class Engine {
             return resultList.get(0).get();
 
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            throw new Jk4flowEngineException(e);
 
         } catch (ExecutionException e) {
-            throw new RuntimeException(e);
+            throw new Jk4flowEngineException(e);
 
         } finally {
             pool.shutdown();

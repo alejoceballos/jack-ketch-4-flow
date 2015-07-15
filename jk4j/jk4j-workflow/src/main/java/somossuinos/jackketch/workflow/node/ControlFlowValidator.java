@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang3.ArrayUtils;
 import somossuinos.jackketch.workflow.conditional.FlowCondition;
+import somossuinos.jackketch.workflow.exception.Jk4flowWorkflowException;
 
 /**
  * Handles all validations for nodes that are supposed to be set
@@ -53,56 +54,56 @@ public class ControlFlowValidator {
 
     private static void validateOrigin(final Node origin) {
         if (origin == null) {
-            throw new RuntimeException("No origin was passed as argument");
+            throw new Jk4flowWorkflowException("No origin was passed as argument");
         }
     }
 
     public static void validateTarget(final Node target) {
         if (target == null) {
-            throw new RuntimeException("No target was passed as argument");
+            throw new Jk4flowWorkflowException("No target was passed as argument");
         }
     }
 
     private static void validateTarget(final Collection<Node> targets) {
         if (targets == null || targets.size() == 0) {
-            throw new RuntimeException("No targets were passed as argument");
+            throw new Jk4flowWorkflowException("No targets were passed as argument");
         }
 
         if (targets.contains(null)) {
-            throw new RuntimeException("Null targets in target list are not accepted");
+            throw new Jk4flowWorkflowException("Null targets in target list are not accepted");
         }
     }
 
     private static void validateTarget(final Map<FlowCondition, Node> targets) {
         if (targets.containsKey(null)) {
-            throw new RuntimeException("Null conditions in target list are not accepted");
+            throw new Jk4flowWorkflowException("Null conditions in target list are not accepted");
         }
 
         if (targets.containsValue(null)) {
-            throw new RuntimeException("Null targets in target list are not accepted");
+            throw new Jk4flowWorkflowException("Null targets in target list are not accepted");
         }
     }
 
     private static void validateSelfRedirection(final Node origin, final Node target) {
         if (target == origin) {
-            throw new RuntimeException("Origin and target cannot be the same object");
+            throw new Jk4flowWorkflowException("Origin and target cannot be the same object");
         }
     }
 
     private static void validateSelfRedirection(final Node origin, final Collection<Node> targets) {
         if (targets.contains(origin)) {
-            throw new RuntimeException("Origin and targets cannot be the same object");
+            throw new Jk4flowWorkflowException("Origin and targets cannot be the same object");
         }
     }
 
     private static void validateAllowedTypes(final NodeType[] allowedTypes) {
         if (ArrayUtils.isEmpty(allowedTypes)) {
-            throw new RuntimeException("No allowed types were passed as argument");
+            throw new Jk4flowWorkflowException("No allowed types were passed as argument");
         }
 
         // There cannot be null elements
         if (Arrays.asList(allowedTypes).contains(null)) {
-            throw new RuntimeException("Null types in allowed types list are not accepted");
+            throw new Jk4flowWorkflowException("Null types in allowed types list are not accepted");
         }
 
         // Array cannot have repeated elements
@@ -110,7 +111,7 @@ public class ControlFlowValidator {
             Arrays.sort(allowedTypes);
             for(int i = 1; i < allowedTypes.length; i++) {
                 if (Arrays.binarySearch(allowedTypes, i, allowedTypes.length - 1, allowedTypes[i - 1]) >= 0) {
-                    throw new RuntimeException("Repeated types in allowed types list are not accepted");
+                    throw new Jk4flowWorkflowException("Repeated types in allowed types list are not accepted");
                 }
             }
         }
@@ -120,7 +121,7 @@ public class ControlFlowValidator {
         // All elements must be of a valid node type defined by the allowed type set
         final List<NodeType> typesList = Arrays.asList(allowedTypes);
         if (!typesList.contains(target.getType())) {
-            throw new RuntimeException(String.format("Node type %s is not accepted", target.getType().name()));
+            throw new Jk4flowWorkflowException(String.format("Node type %s is not accepted", target.getType().name()));
         }
     }
 
@@ -129,14 +130,14 @@ public class ControlFlowValidator {
         final List<NodeType> typesList = Arrays.asList(allowedTypes);
         for (final Node target: targets) {
             if (!typesList.contains(target.getType())) {
-                throw new RuntimeException(String.format("Node type %s is not accepted in targets list", target.getType().name()));
+                throw new Jk4flowWorkflowException(String.format("Node type %s is not accepted in targets list", target.getType().name()));
             }
         }
     }
 
     private static void validateTargetListSize(final Collection<Node> targets, final int minListSize) {
         if (targets.size() < minListSize) {
-            throw new RuntimeException(String.format("Targets list must have at least %s element(s)", minListSize));
+            throw new Jk4flowWorkflowException(String.format("Targets list must have at least %s element(s)", minListSize));
         }
     }
 
@@ -148,7 +149,7 @@ public class ControlFlowValidator {
         for (int i = 0; i < nodes.size(); i++) {
             for (int j = i + 1; j < nodes.size(); j++) {
                 if (nodes.get(i) == nodes.get(j)) {
-                    throw new RuntimeException(("Targets list must not repeat node instances"));
+                    throw new Jk4flowWorkflowException(("Targets list must not repeat node instances"));
                 }
             }
         }

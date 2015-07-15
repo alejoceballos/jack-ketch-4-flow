@@ -12,6 +12,11 @@ public class WorkflowContextFactoryTest {
     }
 
     @Test
+    public void testCreateBasic() {
+        Assert.assertNotNull(WorkflowContextFactory.create());
+    }
+
+    @Test
     public void testSetAndGet_Workflow() {
         final WorkflowContext wfc = WorkflowContextFactory.create();
         wfc.set("KEY", "VALUE");

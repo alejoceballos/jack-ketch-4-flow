@@ -28,13 +28,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import somossuinos.jackketch.transform.exception.Jk4flowTranformerException;
 import somossuinos.jackketch.transform.meta.MetaActionNode;
 import somossuinos.jackketch.transform.meta.MetaBaseNode;
 import somossuinos.jackketch.transform.meta.MetaControlFlow;
 import somossuinos.jackketch.transform.meta.MetaDecisionNode;
 import somossuinos.jackketch.transform.meta.MetaWorkflow;
 import somossuinos.jackketch.workflow.NodeFactory;
-import somossuinos.jackketch.workflow.Workflow;
+import somossuinos.jackketch.workflow.Jk4flowWorkflow;
 import somossuinos.jackketch.workflow.executable.ContextExecutable;
 import somossuinos.jackketch.workflow.node.ConditionalControlFlowNode;
 import somossuinos.jackketch.workflow.node.MultipleControlFlowNode;
@@ -42,10 +43,10 @@ import somossuinos.jackketch.workflow.node.Node;
 import somossuinos.jackketch.workflow.node.NodeType;
 import somossuinos.jackketch.workflow.node.SingleControlFlowNode;
 
-public class MetaToWorkflowTransformer implements Jk4flowTransformer<MetaWorkflow, Workflow> {
+public class MetaToWorkflowTransformer implements Jk4flowTransformer<MetaWorkflow, Jk4flowWorkflow> {
 
     @Override
-    public Workflow transform(final MetaWorkflow metaWorkflow) {
+    public Jk4flowWorkflow transform(final MetaWorkflow metaWorkflow) {
         final Map<String, Node> nodesById = new HashMap<>(0);
 
         final String initialNodeId = metaWorkflow.getInitialNodes().get(0).getId();
@@ -112,7 +113,7 @@ public class MetaToWorkflowTransformer implements Jk4flowTransformer<MetaWorkflo
                     ((ContextExecutable) from).setMethod(clz.getMethod(binding[1]));
 
                 } catch (ReflectiveOperationException e) {
-                    throw  new RuntimeException(e);
+                    throw  new Jk4flowTranformerException(e);
                 }
             }
 

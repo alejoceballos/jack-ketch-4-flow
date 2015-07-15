@@ -24,9 +24,8 @@
 
 package somossuinos.jackketch.workflow;
 
-import java.util.Map;
 import somossuinos.jackketch.workflow.context.WorkflowContext;
-import somossuinos.jackketch.workflow.context.WorkflowContextFactory;
+import somossuinos.jackketch.workflow.exception.Jk4flowWorkflowException;
 import somossuinos.jackketch.workflow.node.Node;
 import somossuinos.jackketch.workflow.node.NodeType;
 
@@ -40,18 +39,13 @@ import somossuinos.jackketch.workflow.node.NodeType;
  * object.
  * </p>
  */
-public class Workflow {
+public class Jk4flowWorkflow {
 
     /**
      * The {@link Node} that starts the whole workflow process.  Must
      * be of type {@link NodeType#INITIAL}.
      */
     private Node initialNode;
-
-    /**
-     * The {@link WorkflowContext} object of the current workflow execution.
-     */
-    private WorkflowContext context = WorkflowContextFactory.create();
 
     /**
      * Private constructor. Instead of calling new to this class call its static
@@ -63,7 +57,11 @@ public class Workflow {
      *
      * @param initialNode A {@link WorkflowContext} object of type {@link NodeType#INITIAL}.
      */
-    private Workflow(final Node initialNode) {
+    public Jk4flowWorkflow(final Node initialNode) {
+        if (initialNode == null || !NodeType.INITIAL.equals(initialNode.getType())) {
+            throw new Jk4flowWorkflowException("Workflow's Initial Node required");
+        }
+
         this.initialNode = initialNode;
     }
 
@@ -76,40 +74,4 @@ public class Workflow {
         return initialNode;
     }
 
-    /**
-     * Factory method that creates a new s=instance of this calss.
-     *
-     * @param initialNode The starting point of the workflow.
-     * @return A workflow object.
-     */
-    public static Workflow create(final Node initialNode) {
-        if (initialNode == null || !NodeType.INITIAL.equals(initialNode.getType())) {
-            throw new RuntimeException("Workflow's Initial Node required");
-        }
-
-        return new Workflow(initialNode);
-    }
-
-    public WorkflowContext getContext() {
-        return context;
-    }
-
-    public void setContext(final WorkflowContext context) {
-        if (context == null) {
-            this.context.clear();
-
-        } else {
-            this.context = context;
-        }
-    }
-
-    public void setContext(final Map<String, Object> contextMap) {
-        this.context.clear();
-
-        for (final String attribute : contextMap.keySet()) {
-            if (contextMap.get(attribute) != null) {
-                this.context.set(attribute, contextMap.get(attribute));
-            }
-        }
-    }
 }

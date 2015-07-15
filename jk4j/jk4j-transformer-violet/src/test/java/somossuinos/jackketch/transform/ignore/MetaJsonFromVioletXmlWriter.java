@@ -8,6 +8,7 @@ import somossuinos.jackketch.transform.Jk4flowTransformer;
 import somossuinos.jackketch.transform.MetaToJsonTransformer;
 import somossuinos.jackketch.transform.VioletToMetaTransformer;
 import somossuinos.jackketch.transform.XmlToVioletTransformer;
+import somossuinos.jackketch.transform.exception.Jk4flowTranformerException;
 import somossuinos.jackketch.transform.meta.MetaWorkflow;
 import somossuinos.jackketch.transform.reader.Jk4flowReader;
 import somossuinos.jackketch.transform.reader.VioletReader;
@@ -40,7 +41,7 @@ public class MetaJsonFromVioletXmlWriter {
                 writer = new FileWriter(fieToWrite);
 
             } catch (IOException e) {
-                throw new RuntimeException("An exception was raised while creating a FileWriter", e);
+                throw new Jk4flowTranformerException("An exception was raised while creating a FileWriter", e);
             }
 
             final VltWorkflow vltWorkflow = xmlToVioletTransformer.transform(xml);
@@ -51,14 +52,14 @@ public class MetaJsonFromVioletXmlWriter {
                 writer.write(json);
 
             } catch (IOException e) {
-                throw new RuntimeException("An exception was raised while writing to the file", e);
+                throw new Jk4flowTranformerException("An exception was raised while writing to the file", e);
 
             } finally {
                 if (writer != null) {
                     try {
                         writer.close();
                     } catch (IOException e) {
-                        throw new RuntimeException("An exception was raised while trying to close the writer", e);
+                        throw new Jk4flowTranformerException("An exception was raised while trying to close the writer", e);
                     }
                 }
             }

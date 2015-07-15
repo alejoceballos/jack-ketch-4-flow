@@ -24,6 +24,8 @@
 
 package somossuinos.jackketch.transform.meta;
 
+import somossuinos.jackketch.transform.exception.Jk4flowTranformerException;
+
 /**
  * Part of the workflow validation can be done here.
  * <p>
@@ -63,7 +65,7 @@ public class MetaValidator {
         }
 
         if (error) {
-            throw new RuntimeException("Each fork node must have a corresponding join node.");
+            throw new Jk4flowTranformerException("Each fork node must have a corresponding join node.");
         }
     }
 

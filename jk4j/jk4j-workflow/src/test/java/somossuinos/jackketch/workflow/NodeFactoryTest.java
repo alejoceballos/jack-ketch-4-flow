@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import somossuinos.jackketch.workflow.exception.Jk4flowWorkflowException;
 import somossuinos.jackketch.workflow.executable.ActionNode;
 import somossuinos.jackketch.workflow.node.ConditionalControlFlowNode;
 import somossuinos.jackketch.workflow.node.MultipleControlFlowNode;
@@ -20,8 +21,8 @@ public class NodeFactoryTest {
 
     @Test
     public void testCreateNode_Node_Type_Null_Fails() {
-        thrown.expect(RuntimeException.class);
-        thrown.expectMessage("Must a node type to create a node");
+        thrown.expect(Jk4flowWorkflowException.class);
+        thrown.expectMessage("Must have a node type to create a node");
 
         NodeFactory.createNode("", null);
     }

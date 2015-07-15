@@ -36,6 +36,12 @@
             <artifactId>jk4j-transformer-violet</artifactId>
             <version>1.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>somossuinos.jk4j</groupId>
+            <artifactId>jk4j-engine</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <!-- Package as an executable jar -->

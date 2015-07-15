@@ -26,6 +26,7 @@ package somossuinos.jackketch.transform.meta;
 
 import java.util.ArrayList;
 import java.util.List;
+import somossuinos.jackketch.transform.exception.Jk4flowTranformerException;
 
 /**
  * The meta structure of a workflow representation before its transformation to a
@@ -55,8 +56,8 @@ public class MetaWorkflow {
     }
 
     public void setInitialNodes(final List<MetaBaseNode> initialNodes) {
-        if (initialNodes == null || initialNodes.size() == 0) throw new RuntimeException("Workflow must have one initial node");
-        if (initialNodes.size() > 1) throw new RuntimeException("Workflow must have only one initial node");
+        if (initialNodes == null || initialNodes.size() == 0) throw new Jk4flowTranformerException("Workflow must have one initial node");
+        if (initialNodes.size() > 1) throw new Jk4flowTranformerException("Workflow must have only one initial node");
 
         this.initialNodes = initialNodes;
     }
@@ -108,8 +109,8 @@ public class MetaWorkflow {
     }
 
     public void setFinalNodes(final List<MetaBaseNode> finalNodes) {
-        if (finalNodes == null || finalNodes.size() == 0) throw new RuntimeException("Workflow must have one final node");
-        if (finalNodes.size() > 1) throw new RuntimeException("Workflow must have only one final node");
+        if (finalNodes == null || finalNodes.size() == 0) throw new Jk4flowTranformerException("Workflow must have one final node");
+        if (finalNodes.size() > 1) throw new Jk4flowTranformerException("Jk4flowWorkflow must have only one final node");
 
         this.finalNodes = finalNodes;
     }

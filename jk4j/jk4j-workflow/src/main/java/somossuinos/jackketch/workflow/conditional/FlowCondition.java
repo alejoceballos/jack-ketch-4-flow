@@ -25,6 +25,7 @@
 package somossuinos.jackketch.workflow.conditional;
 
 import org.apache.commons.lang3.StringUtils;
+import somossuinos.jackketch.workflow.exception.Jk4flowWorkflowException;
 
 /**
  * Flow condition is used to help deciding what course should a current
@@ -46,19 +47,19 @@ public class FlowCondition {
      */
     public FlowCondition(final String attribute, final ConditionType conditionType, final String value) {
         if (StringUtils.isBlank(attribute)) {
-            throw new RuntimeException("\"attribute\" must not be empty");
+            throw new Jk4flowWorkflowException("\"attribute\" must not be empty");
         }
 
         this.attribute = attribute;
 
         if (conditionType == null) {
-            throw new RuntimeException("conditionType cannot be null");
+            throw new Jk4flowWorkflowException("conditionType cannot be null");
         }
 
         this.conditionType = conditionType;
 
         if (StringUtils.isBlank(value)) {
-            throw new RuntimeException("\"value\" must not be empty");
+            throw new Jk4flowWorkflowException("\"value\" must not be empty");
         }
 
         this.value = value;

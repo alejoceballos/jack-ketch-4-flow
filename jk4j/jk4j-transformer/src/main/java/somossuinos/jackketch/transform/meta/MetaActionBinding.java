@@ -3,6 +3,7 @@ package somossuinos.jackketch.transform.meta;
 import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang3.StringUtils;
 import somossuinos.jackketch.transform.BindingSeparator;
+import somossuinos.jackketch.transform.exception.Jk4flowTranformerException;
 
 public class MetaActionBinding {
 
@@ -44,7 +45,7 @@ public class MetaActionBinding {
 
     public void validate() {
         if (StringUtils.isBlank(method)) {
-            throw new RuntimeException("At least a method name must be defined to be used as callback.");
+            throw new Jk4flowTranformerException("At least a method name must be defined to be used as callback.");
         }
     }
 

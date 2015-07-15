@@ -24,6 +24,7 @@
 
 package somossuinos.jackketch.workflow;
 
+import somossuinos.jackketch.workflow.exception.Jk4flowWorkflowException;
 import somossuinos.jackketch.workflow.executable.ActionNode;
 import somossuinos.jackketch.workflow.node.ConditionalControlFlowNode;
 import somossuinos.jackketch.workflow.node.MultipleControlFlowNode;
@@ -132,7 +133,7 @@ public class NodeFactory {
      */
     public static Node createNode(final String id, final NodeType type) {
         if (type == null) {
-            throw new RuntimeException("Must a node type to create a node");
+            throw new Jk4flowWorkflowException("Must have a node type to create a node");
         }
 
         final Node node;
@@ -218,7 +219,7 @@ public class NodeFactory {
                 break;
 
             default:
-                throw new RuntimeException(String.format("% not implemented yet", type.name()));
+                throw new Jk4flowWorkflowException(String.format("% not implemented yet", type.name()));
         }
 
         return node;
